@@ -1,0 +1,19 @@
+{
+  "name": "siteproxy",
+  "version": "1.0.0",
+  "description": "site proxy, zero configuration from client side. reverse proxy to all internet",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --tls-min-v1.0 index.js",
+    "localstart": "localFlag=true node --tls-min-v1.0 index.js"
+  },
+  "keywords": [],
+  "author": "netptop",
+  "license": "MIT",
+  "dependencies": {
+    "cookiejar": "^2.1.2",
+    "express": "^4.17.1",
+    "http-proxy-middleware": "^0.20.0",
+    "iconv-lite": "^0.5.1"
+  }
+}

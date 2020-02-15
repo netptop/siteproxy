@@ -1,0 +1,124 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+img {
+  max-width: 90%;
+  height: auto;
+}
+.descriptionSeg{
+  top:10px;
+  font-size:20px;
+  font-family:Arial, Helvetica, sans-serif;
+  display:inline-block;
+  margin:10px 0 0 0;
+  opacity:0.86;
+  transition:width 2s ease;
+  flex-direction:row;
+  border-radius:10px 10px 10px 10px;
+}
+#ifgfev{
+  top:30px;
+  font-size:30px;
+  font-family:Arial, Helvetica, sans-serif;
+  display:inline-block;
+  margin:20px 0 0 0;
+  opacity:0.86;
+  transition:width 2s ease;
+  flex-direction:row;
+  border-radius:10px 10px 10px 10px;
+}
+.clearfix{
+  clear:both;
+}
+.header-banner{
+  padding-top:35px;
+  padding-bottom:10px;
+  color:rgb(255, 255, 255);
+  font-family:Helvetica, serif;
+  font-weight:100;
+  background-image:url("../bg-gr-v.png");
+  background-attachment:scroll, scroll;
+  background-position-x:left, center;
+  background-position-y:top, center;
+  background-repeat:repeat-y, no-repeat;
+  background-size:contain, cover;
+}
+.container-width{
+  width:90%;
+  max-width:1150px;
+  margin-top:0px;
+  margin-right:auto;
+  margin-bottom:0px;
+  margin-left:auto;
+}
+.logo-container{
+  float:left;
+  width:50%;
+}
+.logo{
+  border-top-left-radius:5px;
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  border-bottom-left-radius:5px;
+  width:230px;
+  padding-top:10px;
+  padding-right:10px;
+  padding-bottom:10px;
+  padding-left:10px;
+  min-height:30px;
+  text-align:center;
+  line-height:30px;
+  color:rgb(77, 17, 79);
+  font-size:33px;
+  font-weight:700;
+}
+.menu{
+  float:right;
+  width:50%;
+}
+.menu-item{
+  float:right;
+  font-size:15px;
+  color:rgb(238, 238, 238);
+  width:130px;
+  padding-top:10px;
+  padding-right:10px;
+  padding-bottom:10px;
+  padding-left:10px;
+  min-height:50px;
+  text-align:center;
+  line-height:30px;
+  font-weight:400;
+}
+.lead-title{
+  margin-top:20px;
+  margin-right:0px;
+  margin-bottom:30px;
+  margin-left:0px;
+  font-size:32px;
+  text-align:center;
+  left:100px;
+  right:0;
+  float:none;
+  font-weight:700;
+  font-family:Arial, Helvetica, sans-serif;
+  padding:0 0 0 0;
+  margin:100px 0 30px 0;
+}
+.c8356{
+  padding:20px 10px 10px 10px;
+  margin:0 0 0;
+}
+.c9130{
+  padding:10px;
+  left:200px;
+  font-size:20px;
+}
+.c5436{
+  width:180px;
+  display:inline-block;
+  min-height:60px;
+}
