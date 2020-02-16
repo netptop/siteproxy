@@ -34,13 +34,16 @@ const regReplaceMap = {
         'url[(]//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `url(//${serverName}:${port}/http/$1`,
         'http:([\]/[\]/)([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-z0-9A-Z]+?)': `${httpprefix}:$1${serverName}:${port}/http/$2`,
         'http://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/http/$1`,
+		'http%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttp%2f$1`,
     },
     'https': {
         '"//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `"//${serverName}:${port}/https/$1`,
         '\'//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `'//${serverName}:${port}/https/$1`,
         'url[(]//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `url(//${serverName}:${port}/https/$1`,
         'https:([\]/[\]/)([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-z0-9A-Z]+?)': `${httpprefix}:$1${serverName}:${port}/https/$2`,
-        'https://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/https/$1`,
+		'https://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/https/$1`,
+		'https%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttps%2f$1`,
+		'http%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttp%2f$1`,
     }
 }
 const siteSpecificReplace = {

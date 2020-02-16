@@ -12,9 +12,10 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 ```
 
 ## features
-- enter siteproxy's address, and go surf on internet without censorship.
-- no proxy setting from client side is needed. zero configuration from client browser.
+- enter siteproxy's address, and go surf on internet without censorship
+- no proxy setting from client side is needed. zero configuration from client browser
 - easy deployment to now.sh
+- support downloading files
 
 ## Mechanism
 ```
