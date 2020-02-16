@@ -58,12 +58,15 @@ img {
   float:left;
   width:50%;
 }
+.logo-right-container{
+  float:right;
+}
 .logo{
   border-top-left-radius:5px;
   border-top-right-radius:5px;
   border-bottom-right-radius:5px;
   border-bottom-left-radius:5px;
-  width:230px;
+  width:500px;
   padding-top:10px;
   padding-right:10px;
   padding-bottom:10px;
@@ -72,7 +75,7 @@ img {
   text-align:center;
   line-height:30px;
   color:rgb(77, 17, 79);
-  font-size:33px;
+  font-size:22px;
   font-weight:700;
 }
 .menu{
