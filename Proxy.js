@@ -147,7 +147,7 @@ let Proxy = ({cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpe
       // followRedirects: true,
       cookieDomainRewrite,
       secure: false,
-      // changeOrigin: true,
+      changeOrigin: true,
       debug:true,
       onError: (err, req, res) => {
         logSave(`onerror: ${err}`)
