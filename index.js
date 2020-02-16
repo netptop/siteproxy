@@ -28,15 +28,20 @@ const locationReplaceMap302 = { // when we have redirect(302) code received, we 
     },
 }
 const regReplaceMap = {
-  // 'https://(.+?).ytimg.(.+?)/': `http://${serverName}:${port}/https/$1.ytimg.$2/`,
-  // '"(./)error_204?)': `"$1https\/www.youtube.com\/error_204?`,
-  '"//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `"//${serverName}:${port}/https/$1`,
-  '\'//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `'//${serverName}:${port}/https/$1`,
-  'url[(]//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `url(//${serverName}:${port}/https/$1`,
-  'https:([\]/[\]/)([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-z0-9A-Z]+?)': `${httpprefix}:$1${serverName}:${port}/https/$2`,
-  'https://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/https/$1`,
-  'http:([\]/[\]/)([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-z0-9A-Z]+?)': `${httpprefix}:$1${serverName}:${port}/http/$2`,
-  'http://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/http/$1`,
+    'http': {
+        '"//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `"//${serverName}:${port}/http/$1`,
+        '\'//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `'//${serverName}:${port}/http/$1`,
+        'url[(]//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `url(//${serverName}:${port}/http/$1`,
+        'http:([\]/[\]/)([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-z0-9A-Z]+?)': `${httpprefix}:$1${serverName}:${port}/http/$2`,
+        'http://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/http/$1`,
+    },
+    'https': {
+        '"//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `"//${serverName}:${port}/https/$1`,
+        '\'//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `'//${serverName}:${port}/https/$1`,
+        'url[(]//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `url(//${serverName}:${port}/https/$1`,
+        'https:([\]/[\]/)([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-z0-9A-Z]+?)': `${httpprefix}:$1${serverName}:${port}/https/$2`,
+        'https://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/https/$1`,
+    }
 }
 const siteSpecificReplace = {
     'www.google.com': {
