@@ -90,14 +90,22 @@ let Proxy = ({cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpe
         let {host, httpType} = getHostFromReq(req)
         let location = res.getHeaders()['location']
         if (res.statusCode == '302' || res.statusCode == '301') {
-            for(key in locationReplaceMap302) {
-                myRe = new RegExp(key, 'g') // match group
-                location = location.replace(myRe, locationReplaceMap302[key])
+            if (location.startsWith('http://')) {
+                for(let key in locationReplaceMap302['http://']) {
+                    myRe = new RegExp(key, 'g') // match group
+                    location = location.replace(myRe, locationReplaceMap302['http://'][key])
+                }
+            } else
+            if (location.startsWith('https://')) {
+                for(let key in locationReplaceMap302['https://']) {
+                    myRe = new RegExp(key, 'g') // match group
+                    location = location.replace(myRe, locationReplaceMap302['https://'][key])
+                }
             }
             res.setHeader('location', location)
         }
         // console.log(`HandleRespond(), req.url:${req.url}, req.headers:${JSON.stringify(req.headers)}`)
-        for(key in regReplaceMap) {
+        for(let key in regReplaceMap) {
             myRe = new RegExp(key, 'g') // match group
             body = body.replace(myRe, regReplaceMap[key])
         }

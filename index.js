@@ -20,8 +20,12 @@ if (process.env.localFlag === 'true') {
 let {httpprefix, serverName, port, accessCode} = config
 
 const locationReplaceMap302 = { // when we have redirect(302) code received, we need to modify the location header
-  'https://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/https/$1`,
-  'http://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/http/$1`,
+    'https://': {
+        'https://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/https/$1`,
+    },
+    'http://': {
+        'http://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/http/$1`,
+    },
 }
 const regReplaceMap = {
   // 'https://(.+?).ytimg.(.+?)/': `http://${serverName}:${port}/https/$1.ytimg.$2/`,
