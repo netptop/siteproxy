@@ -121,6 +121,7 @@ app.use((req, res, next) => {
 
 app.use(proxy)
 
-app.listen(port)
+let reallistenPort = process.env.PORT || 8011
+app.listen(reallistenPort)
 
-console.log(`listening on port:${port}`)
+console.log(`listening on port:${reallistenPort}`)
