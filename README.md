@@ -33,7 +33,8 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 ```
 1. www.google.com, and search action
 2. zh.wikipedia.org, and search action
-3. other websites.
+3. facebook, login is not verified.
+4. other websites.
 ```
 
 ## installation/deployment
