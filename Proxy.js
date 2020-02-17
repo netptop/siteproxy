@@ -165,7 +165,8 @@ let Proxy = ({cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpe
           if (proxyRes.headers["content-encoding"] === 'gzip') {
             zlib.gunzip(body,function(er,gunzipped){
               logSave(`zlib.gunzip...`)
-              if (proxyRes.headers["content-type"].indexOf('text/') !== -1) {
+              if (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
+                  proxyRes.headers["content-type"].indexOf('javascript') !== -1) {
                 if (!gunzipped) {
                     res.status(404).send()
                     return
@@ -181,7 +182,9 @@ let Proxy = ({cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpe
                 res.end(body)
               }
             });
-          } else if (proxyRes.headers["content-type"] && proxyRes.headers["content-type"].indexOf('text/') !== -1) {
+          } else if (proxyRes.headers["content-type"] &&
+                       (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
+                        proxyRes.headers["content-type"].indexOf('javascript') !== -1)) {
             logSave(`utf-8 text...`)
             body = body.toString('utf-8');
             handleRespond({req, res, body, gbFlag})
