@@ -21,27 +21,27 @@ let {httpprefix, serverName, port, accessCode} = config
 
 const locationReplaceMap302 = { // when we have redirect(302) code received, we need to modify the location header
     'https://': {
-        'https://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/https/$1`,
+        'https://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/https/$1`,
     },
     'http://': {
-        'http://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/http/$1`,
+        'http://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/http/$1`,
     },
 }
 const regReplaceMap = {
     'http': {
-        '"//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `"//${serverName}:${port}/http/$1`,
-        '\'//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `'//${serverName}:${port}/http/$1`,
-        'url[(]//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `url(//${serverName}:${port}/http/$1`,
-        'http:([\]/[\]/)([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-z0-9A-Z]+?)': `${httpprefix}:$1${serverName}:${port}/http/$2`,
-        'http://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/http/$1`,
+        '"//([-a-z0-9A-Z.]+)': `"//${serverName}:${port}/http/$1`,
+        '\'//([-a-z0-9A-Z.]+)': `'//${serverName}:${port}/http/$1`,
+        'url[(]//([-a-z0-9A-Z.]+)': `url(//${serverName}:${port}/http/$1`,
+        'http:([\]/[\]/)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}/http/$2`,
+        'http://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/http/$1`,
         'http%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttp%2f$1`,
     },
     'https': {
-        '"//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `"//${serverName}:${port}/https/$1`,
-        '\'//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `'//${serverName}:${port}/https/$1`,
-        'url[(]//([-a-z0-9]+?\.[a-z]+?\.[a-z]+?)': `url(//${serverName}:${port}/https/$1`,
-        'https:([\]/[\]/)([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-z0-9A-Z]+?)': `${httpprefix}:$1${serverName}:${port}/https/$2`,
-        'https://([-a-z0-9A-Z]+?\.[a-z0-9A-Z]+?\.[-a-zA-Z0-9]+?)': `${httpprefix}://${serverName}:${port}/https/$1`,
+        '"//([-a-z0-9A-Z.]+)': `"//${serverName}:${port}/https/$1`,
+        '\'//([-a-z0-9A-Z.]+)': `'//${serverName}:${port}/https/$1`,
+        'url[(]//([-a-z0-9A-Z.]+)': `url(//${serverName}:${port}/https/$1`,
+        'https:([\]/[\]/)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}/https/$2`,
+        'https://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/https/$1`,
         'https%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttps%2f$1`,
         'http%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttp%2f$1`,
     }
@@ -74,6 +74,13 @@ const siteSpecificReplace = {
         '"/i/sms_login"': '"/https/twitter.com/i/sms_login"',
         '"/login/check"': '"/https/twitter.com/login/check"',
         '"/login"': '"/https/twitter.com/login"',
+    },
+    'web.telegram.org': {
+        '"pluto"': `"${serverName}:${port}/https/pluto"`,
+        '"venus"': `"${serverName}:${port}/https/venus"`,
+        '"aurora"': `"${serverName}:${port}/https/aurora"`,
+        '"vesta"': `"${serverName}:${port}/https/vesta"`,
+        '"flora"': `"${serverName}:${port}/https/flora"`,
     }
 
 }
