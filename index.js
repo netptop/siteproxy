@@ -9,7 +9,7 @@ var Proxy = require('./Proxy')
 
 let config = {
     httpprefix: 'https', port: 443,
-    serverName: 'siteproxylocal.now.sh',
+    serverName: 'siteproxy.now.sh',
 }
 if (process.env.localFlag === 'true') {
     config.httpprefix = 'http'
