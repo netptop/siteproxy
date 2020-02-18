@@ -85,8 +85,10 @@ const siteSpecificReplace = {
     },
     'zh-cn.facebook.com': {
         '"/ajax/bz"': `"/https/zh-cn.facebook.com/ajax/bz"`,
-    }
-
+    },
+    'static.xx.fbcdn.net': {
+        '"/ajax/bz"': `"/https/zh-cn.facebook.com/ajax/bz"`,
+    },
 }
 const pathReplace = ({host, httpType, body}) => {
     let myRe = new RegExp('href="[.]?/([-a-z0-9]+?)', 'g')
