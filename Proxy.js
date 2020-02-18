@@ -184,7 +184,8 @@ let Proxy = ({cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpe
             });
           } else if (proxyRes.headers["content-type"] &&
                        (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
-                        proxyRes.headers["content-type"].indexOf('javascript') !== -1)) {
+                        proxyRes.headers["content-type"].indexOf('javascript') !== -1 ||
+                        proxyRes.headers["content-type"].indexOf('json') !== -1)) {
             logSave(`utf-8 text...`)
             body = body.toString('utf-8');
             handleRespond({req, res, body, gbFlag})
@@ -208,7 +209,11 @@ let Proxy = ({cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpe
         proxyRes.headers['set-cookie'] =  modifiedSetCookieHeaders
         Object.keys(proxyRes.headers).forEach(function (key) {
           if (key === 'content-encoding' ||
-            (key === 'content-length' && proxyRes.headers["content-type"] && proxyRes.headers["content-type"].indexOf('text/') !== -1)) {
+              key === 'x-frame-options' ||
+              (key === 'content-length' && proxyRes.headers["content-type"] &&
+                (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
+                 proxyRes.headers["content-type"].indexOf('javascript') !== -1 ||
+                 proxyRes.headers["content-type"].indexOf('json') !== -1))) {
             logSave(`skip header:${key}`)
             return
           }

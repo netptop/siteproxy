@@ -9,11 +9,12 @@ var Proxy = require('./Proxy')
 
 let config = {
     httpprefix: 'https', port: 443,
-    serverName: 'siteproxy.now.sh',
+    serverName: 'siteproxylocal.now.sh',
 }
 if (process.env.localFlag === 'true') {
     config.httpprefix = 'http'
     config.port = '8011'
+    process.env.PORT = config.port
     config.serverName = '127.0.0.1'
 }
 
@@ -32,7 +33,7 @@ const regReplaceMap = {
         '"//([-a-z0-9A-Z.]+)': `"//${serverName}:${port}/http/$1`,
         '\'//([-a-z0-9A-Z.]+)': `'//${serverName}:${port}/http/$1`,
         'url[(]//([-a-z0-9A-Z.]+)': `url(//${serverName}:${port}/http/$1`,
-        'http:([\]/[\]/)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}/http/$2`,
+        'http:(././)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}/http/$2`,
         'http://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/http/$1`,
         'http%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttp%2f$1`,
     },
@@ -40,7 +41,7 @@ const regReplaceMap = {
         '"//([-a-z0-9A-Z.]+)': `"//${serverName}:${port}/https/$1`,
         '\'//([-a-z0-9A-Z.]+)': `'//${serverName}:${port}/https/$1`,
         'url[(]//([-a-z0-9A-Z.]+)': `url(//${serverName}:${port}/https/$1`,
-        'https:([\]/[\]/)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}/https/$2`,
+        'https:(././)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}/https/$2`,
         'https://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/https/$1`,
         'https%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttps%2f$1`,
         'http%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttp%2f$1`,
@@ -81,6 +82,9 @@ const siteSpecificReplace = {
         '"aurora"': `"${serverName}:${port}/https/aurora"`,
         '"vesta"': `"${serverName}:${port}/https/vesta"`,
         '"flora"': `"${serverName}:${port}/https/flora"`,
+    },
+    'zh-cn.facebook.com': {
+        '"/ajax/bz"': `"/https/zh-cn.facebook.com/ajax/bz"`,
     }
 
 }
