@@ -78,13 +78,14 @@ let getHostFromReq = (req) => { //return target
 }
 
 
-let Proxy = ({cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace}) => {
+let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace}) => {
     let handleRespond = ({req, res, body, gbFlag}) => {
         // logSave("res from proxied server:", body);
         let myRe
         let {host, httpType} = getHostFromReq(req)
         let location = res.getHeaders()['location']
-        if (res.statusCode == '301' || res.statusCode == '302' || res.statusCode == '307' || res.statusCode == '308') {
+        if ((res.statusCode == '301' || res.statusCode == '302' || res.statusCode == '307' || res.statusCode == '308') &&
+            location.indexOf(serverName) === -1) {
             if (location.startsWith('http://')) {
                 for(let key in locationReplaceMap302['http://']) {
                     myRe = new RegExp(key, 'g') // match group
@@ -120,12 +121,17 @@ let Proxy = ({cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpe
             body = pathReplace({host, httpType, body})
         }
 
+        // remove duplicate /https/siteproxylocal.now.sh:443
+        myRe = new RegExp(`/${httpprefix}/${serverName}:${port}`, 'g') // match group
+        body = body.replace(myRe, '')
+
         if (gbFlag) {
           body = iconv.encode(body, 'gbk')
         }
         body = zlib.gzipSync(body)
         res.setHeader('content-encoding', 'gzip');
         logSave(`handleRespond: res.headers:${JSON.stringify(res.getHeaders())}`)
+        // console.log(`1=================${logGet()}`)
         res.end(body);
     }
     let p = proxy({
@@ -170,9 +176,11 @@ let Proxy = ({cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpe
                     return
                 }
                 logSave(`utf-8 text...`)
+                let originBody = gunzipped
                 body = gunzipped.toString('utf-8');
-                if (body.indexOf('content="text/html; charset=gb2312') !== -1) {
-                  body = iconv.decode(gunzipped, 'gbk')
+                if (body.indexOf('content="text/html; charset=gb') !== -1) {
+                  logSave(`gb2312 found...`)
+                  body = iconv.decode(originBody, 'gbk')
                   gbFlag = true
                 }
                 handleRespond({req, res, body, gbFlag})
@@ -185,7 +193,13 @@ let Proxy = ({cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpe
                         proxyRes.headers["content-type"].indexOf('javascript') !== -1 ||
                         proxyRes.headers["content-type"].indexOf('json') !== -1)) {
             logSave(`utf-8 text...`)
+            let originBody = body
             body = body.toString('utf-8');
+            if (body.indexOf('content="text/html; charset=gb') !== -1) {
+              logSave(`gb2312 found...`)
+              body = iconv.decode(originBody, 'gbk')
+              gbFlag = true
+            }
             handleRespond({req, res, body, gbFlag})
           } else {
             res.end(body)

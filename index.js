@@ -105,7 +105,7 @@ const pathReplace = ({host, httpType, body}) => {
 let app = express()
 let cookieDomainRewrite = serverName
 
-let proxy = Proxy({cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace})
+let proxy = Proxy({httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace})
 
 app.use((req, res, next) => {
   console.log(`req.url:${req.url}`)
