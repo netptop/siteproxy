@@ -90,6 +90,9 @@ const pathReplace = ({host, httpType, body}) => {
     myRe = new RegExp(' src=(["\'])/([-a-z0-9]+?)', 'g')
     body = body.replace(myRe, ` src=$1/${httpType}/${host}/$2`)
 
+    myRe = new RegExp(' src=(["\'])//([-a-z0-9]+?)', 'g')
+	body = body.replace(myRe, ` src=$1//${serverName}:${port}/${httpType}/${host}/$2`)
+
     myRe = new RegExp('([: ]url[(]["]?)/([-a-z0-9]+?)', 'g')
     body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
 
