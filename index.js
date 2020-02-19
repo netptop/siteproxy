@@ -29,23 +29,15 @@ const locationReplaceMap302 = { // when we have redirect(302) code received, we 
     },
 }
 const regReplaceMap = {
-    'http': {
-        '"//([-a-z0-9A-Z.]+)': `"//${serverName}:${port}/http/$1`,
-        '\'//([-a-z0-9A-Z.]+)': `'//${serverName}:${port}/http/$1`,
-        'url[(]//([-a-z0-9A-Z.]+)': `url(//${serverName}:${port}/http/$1`,
-        'http:(././)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}/http/$2`,
-        'http://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/http/$1`,
-        'http%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttp%2f$1`,
-    },
-    'https': {
-        '"//([-a-z0-9A-Z.]+)': `"//${serverName}:${port}/https/$1`,
-        '\'//([-a-z0-9A-Z.]+)': `'//${serverName}:${port}/https/$1`,
-        'url[(]//([-a-z0-9A-Z.]+)': `url(//${serverName}:${port}/https/$1`,
-        'https:(././)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}/https/$2`,
-        'https://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/https/$1`,
-        'https%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttps%2f$1`,
-        'http%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttp%2f$1`,
-    }
+    '"//([-a-z0-9A-Z.]+)': `"//${serverName}:${port}/https/$1`, // default use https
+    '\'//([-a-z0-9A-Z.]+)': `'//${serverName}:${port}/https/$1`,// default use https
+    'url[(]//([-a-z0-9A-Z.]+)': `url(//${serverName}:${port}/https/$1`,// default use https
+    'https:(././)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}/https/$2`,
+    'http:(././)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}/http/$2`,
+    'https://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/https/$1`,
+    'http://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/http/$1`,
+    'https%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttps%2f$1`,
+    'http%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttp%2f$1`,
 }
 const siteSpecificReplace = {
     'www.google.com': {
@@ -88,6 +80,7 @@ const siteSpecificReplace = {
     },
     'static.xx.fbcdn.net': {
         '"/ajax/bz"': `"/https/zh-cn.facebook.com/ajax/bz"`,
+        '"/intern/common/': '"/https/static.xx.fbcdn.net/intern/common/',
     },
 }
 const pathReplace = ({host, httpType, body}) => {

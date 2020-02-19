@@ -103,11 +103,9 @@ let Proxy = ({cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpe
             // return
         }
         // logSave(`HandleRespond(), req.url:${req.url}, req.headers:${JSON.stringify(req.headers)}`)
-        if (regReplaceMap[httpType]) {
-            for(let key in regReplaceMap[httpType]) {
-                myRe = new RegExp(key, 'g') // match group
-                body = body.replace(myRe, regReplaceMap[httpType][key])
-            }
+        for(let key in regReplaceMap) {
+            myRe = new RegExp(key, 'g') // match group
+            body = body.replace(myRe, regReplaceMap[key])
         }
         Object.keys(siteSpecificReplace).forEach( (site) => {
             if (req.url.indexOf(site) !== -1 || req.headers['referer'].indexOf(site) !== -1) {
