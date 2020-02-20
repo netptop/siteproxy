@@ -1,5 +1,17 @@
 <meta charset="utf-8"/>
 <link rel="stylesheet" href="/style.css"/>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    $("#addrAccess").click(function(){
+		let v = $("#address").val();
+		v = v.replace(':/', '')
+		// alert(`value=/${v}`)
+		window.location.href = `/${v}`
+    });
+});
+</script>
 <header class="header-banner">
   <kiv class="container-width">
     <div class="logo-container">
@@ -23,6 +35,9 @@
     <br />
     <div class="descriptionSeg">4.请登录telegram，在contacts页面搜索并添加我@netptop，以便在本代理失效后及时获取更新</div>
     <form class="lead-title">
+      <p>指定网址:<input class="lead-title" type="text" id="address" value="https://www.google.com">
+        <input id="addrAccess" class="lead-title" type="button" onclick="onsubmit" value="访问网站"/>
+      </p>
       <input class="lead-title" type="button" onclick="window.location.href='/https/www.google.com'" value="Google搜索"/>
       <input class="lead-title" type="button" onclick="window.location.href='/https/www.bing.com/?mkt=en-us'" value="Bing搜索"/>
       <input class="lead-title" type="button" onclick="window.location.href='/https/search.yahoo.com/'" value="Yahoo搜索"/>
