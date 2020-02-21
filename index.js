@@ -43,7 +43,7 @@ const siteSpecificReplace = {
     'www.google.com': {
         '(s=.)/images/': `$1/https/www.google.com/images/`,
         '(/xjs/_)':`/https/www.google.com$1`,
-        // '/images/branding/googlelogo': `/https/www.google.com/images/branding/googlelogo`,
+        'srcset="/images/branding/googlelogo': `srcset="/https/www.google.com/images/branding/googlelogo`,
    //      '/search\?"': `/https/www.google.com/search?"`,
         '"(/gen_204\?)': `"/https/www.google.com$1`,
         '"(www.gstatic.com)"': `"${httpprefix}://${serverName}:${port}/https/$1"`,
