@@ -4,6 +4,7 @@
   "description": "site proxy, zero configuration from client side. reverse proxy to all internet",
   "main": "index.js",
   "scripts": {
+    "test": "jest",
     "start": "node --tls-min-v1.0 index.js",
     "localstart": "localFlag=true node --tls-min-v1.0 index.js"
   },
@@ -15,5 +16,9 @@
     "express": "^4.17.1",
     "http-proxy-middleware": "^0.20.0",
     "iconv-lite": "^0.5.1"
+  },
+  "devDependencies": {
+    "axios": "^0.19.2",
+    "jest": "^25.1.0"
   }
 }
