@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "localtest": "localFlag=true jest",
     "start": "node --tls-min-v1.0 index.js",
     "localstart": "localFlag=true node --tls-min-v1.0 index.js"
   },
