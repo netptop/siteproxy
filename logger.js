@@ -1,13 +1,17 @@
 let logStr = ''
 
 let logSave = (addStr) => {
-	logStr += `${addStr}\n`
+    if (process.env.localFlag === 'true') {
+        console.log(`${addStr}`)
+    } else {
+        logStr += `${addStr}\n`
+    }
 }
 let logGet = () => {
-	return logStr
+    return logStr
 }
 let logClear = () => {
-	logStr = ''
+    logStr = ''
 }
 
 module.exports = {logSave, logGet, logClear}

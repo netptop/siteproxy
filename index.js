@@ -20,25 +20,61 @@ if (process.env.localFlag === 'true') {
 
 let {httpprefix, serverName, port, accessCode} = config
 
-const locationReplaceMap302 = { // when we have redirect(302) code received, we need to modify the location header
-    'https://': {
-        'https://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/https/$1`,
-    },
-    'http://': {
-        'http://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/http/$1`,
-    },
+const locationReplaceMap302 = ({location, serverName, httpprefix, host, httpType}) => {
+    let myRe
+    if (!location) {
+        return '/'
+    }
+    if (location.startsWith('https://')) {
+        myRe = new RegExp('https://([-a-z0-9A-Z.]+)', 'g')
+        location = location.replace(myRe, `${httpprefix}://${serverName}:${port}/https/$1`)
+    } else
+    if (location.startsWith('http://')) {
+        myRe = new RegExp('http://([-a-z0-9A-Z.]+)', 'g')
+        location = location.replace(myRe, `${httpprefix}://${serverName}:${port}/http/$1`)
+    } else
+    if (location.startsWith('/') && location.indexOf(`/${httpType}/${host}`) === -1) {
+        myRe = new RegExp('/([-a-z0-9A-Z])', 'g')
+        location = location.replace(myRe, `/${httpType}/${host}/$1`)
+    }
+    myRe = new RegExp(`/${httpprefix}/${serverName}:${port}`, 'g') // match group
+    location = location.replace(myRe, '')
+    return location
 }
+
 const regReplaceMap = {
     '"//([-a-z0-9A-Z.]+)': `"//${serverName}:${port}/https/$1`, // default use https
     '\'//([-a-z0-9A-Z.]+)': `'//${serverName}:${port}/https/$1`,// default use https
     'url[(]//([-a-z0-9A-Z.]+)': `url(//${serverName}:${port}/https/$1`,// default use https
-    'https:(././)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}/https/$2`,
-    'http:(././)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}/http/$2`,
+    'https:(././)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}\\/https\\/$2`,
+    'http:(././)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}\\/http\\/$2`,
     'https://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/https/$1`,
     'http://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/http/$1`,
     'https%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttps%2f$1`,
     'http%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttp%2f$1`,
 }
+
+const pathReplace = ({host, httpType, body}) => {
+    let myRe = new RegExp('href="[.]?/([-a-z0-9]+?[.][-a-z0-9]+?)', 'g')
+    body = body.replace(myRe, `href="/${httpType}/${host}/$1`)
+
+    myRe = new RegExp(' src=(["\'])/([-a-z0-9]+?)', 'g')
+    body = body.replace(myRe, ` src=$1/${httpType}/${host}/$2`)
+
+    /*
+    myRe = new RegExp(' src=(["\'])//([-a-z0-9]+?)', 'g')
+    body = body.replace(myRe, ` src=$1//${serverName}:${port}/${httpType}/${host}/$2`)
+    */
+
+    myRe = new RegExp('([:, ]url[(]["\']?)/([-a-z0-9]+?)', 'g')
+    body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
+
+    myRe = new RegExp(' action="/([-a-z0-9A-Z]+?)', 'g')
+    body = body.replace(myRe, ` action="/${httpType}/${host}/$1`)
+
+    return body
+}
+
 const siteSpecificReplace = {
     'www.google.com': {
         '(s=.)/images/': `$1/https/www.google.com/images/`,
@@ -46,14 +82,27 @@ const siteSpecificReplace = {
         'srcset="/images/branding/googlelogo': `srcset="/https/www.google.com/images/branding/googlelogo`,
    //      '/search\?"': `/https/www.google.com/search?"`,
         '"(/gen_204\?)': `"/https/www.google.com$1`,
-        '"(www.gstatic.com)"': `"${httpprefix}://${serverName}:${port}/https/$1"`,
+        '"(www.gstatic.com)"': `"${serverName}:${port}/https/$1"`,
         'J+"://"': `J+"://${serverName}:${port}/https/"`,
+        'continue=.+?"': 'continue="', // fix the gmail login issue.
+        's_mda=/.https:(././).+?/http/': `s_mda=/^http:$1`, // recover Ybs regular expression
+// 		'a = e [|]{2} "/"': `a = e || "/https/www.google.com/"`,
+    },
+    'accounts.google.com': {
+        'Yba=/.+?/http/': `Yba=/^http:\\/\\/`, // recover Ybs regular expression
+        'continue%3Dhttps.+?ManageAccount': 'continue%3D', // fix the gmail login issue.
+        '"signin/v2': '"https/accounts.google.com/signin/v2',
+        'quot;https://[.:-a-z0-9A-Z]+?/https/accounts.google.com/ManageAccount': `quot;`,
     },
     'www.youtube.com': {
-        '/manifest.json': `/https/www.youtube.com/manifest.json`,
+        // '/manifest.json': `/https/www.youtube.com/manifest.json`,
         '("url":")/([-a-z0-9]+?)': `$1/https/www.youtube.com/$2`,
         // ';this...logo.hidden=!0;': ';',
         // '&&this...': '&&this.$&&this.$.',
+    },
+    'search.yahoo.com': {
+        '"./ra./click"': `"\\/https\\/search.yahoo.com\\/ra\\/click"`,
+        '(["\']).?/beacon': `$1${serverName}:${port}\\/https\\/search.yahoo.com\\/beacon`,
     },
     'wikipedia.org': {
     },
@@ -82,24 +131,6 @@ const siteSpecificReplace = {
         '"/ajax/bz"': `"/https/zh-cn.facebook.com/ajax/bz"`,
         '"/intern/common/': '"/https/static.xx.fbcdn.net/intern/common/',
     },
-}
-const pathReplace = ({host, httpType, body}) => {
-    let myRe = new RegExp('href="[.]?/([-a-z0-9]+?)', 'g')
-    body = body.replace(myRe, `href="/${httpType}/${host}/$1`)
-
-    myRe = new RegExp(' src=(["\'])/([-a-z0-9]+?)', 'g')
-    body = body.replace(myRe, ` src=$1/${httpType}/${host}/$2`)
-
-    myRe = new RegExp(' src=(["\'])//([-a-z0-9]+?)', 'g')
-	body = body.replace(myRe, ` src=$1//${serverName}:${port}/${httpType}/${host}/$2`)
-
-    myRe = new RegExp('([: ]url[(]["]?)/([-a-z0-9]+?)', 'g')
-    body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
-
-    myRe = new RegExp(' action="/([-a-z0-9A-Z]+?)', 'g')
-    body = body.replace(myRe, ` action="/${httpType}/${host}/$1`)
-
-    return body
 }
 
 let app = express()

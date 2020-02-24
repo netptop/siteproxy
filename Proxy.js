@@ -72,8 +72,11 @@ let getHostFromReq = (req) => { //return target
       host = host.slice(0, end)
       httpType = 'http'
       logSave(`============= host:${host}, req referer:${req.headers['referer']}`)
+  } else if (req.headers['referer']) { // 'zh.wikipedia.org'
+      host = req.headers['referer']
+      httpType = 'https'
   }
-  logSave(`getHostFromReq, req.url:${req.url}, referer:${req.headers['referer']}`)
+  logSave(`getHostFromReq, req.url:${req.url}, referer:${req.headers['referer']}, host:${host}, httpType:${httpType}`)
   return {host, httpType}
 }
 
@@ -84,23 +87,10 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
         let myRe
         let {host, httpType} = getHostFromReq(req)
         let location = res.getHeaders()['location']
-        if ((res.statusCode == '301' || res.statusCode == '302' || res.statusCode == '307' || res.statusCode == '308') &&
-            location.indexOf(serverName) === -1) {
-            if (location.startsWith('http://')) {
-                for(let key in locationReplaceMap302['http://']) {
-                    myRe = new RegExp(key, 'g') // match group
-                    location = location.replace(myRe, locationReplaceMap302['http://'][key])
-                }
-            } else
-            if (location.startsWith('https://')) {
-                for(let key in locationReplaceMap302['https://']) {
-                    myRe = new RegExp(key, 'g') // match group
-                    location = location.replace(myRe, locationReplaceMap302['https://'][key])
-                }
-            }
+        if (res.statusCode == '301' || res.statusCode == '302' || res.statusCode == '307' || res.statusCode == '308') {
+            location = locationReplaceMap302({location, serverName, httpprefix, host, httpType})
             res.setHeader('location', location)
             let logStr = logGet()
-            // res.status(200).send(`logStr:${logStr}, res.headers:${JSON.stringify(res.getHeaders())}`)
             // return
         }
         // logSave(`HandleRespond(), req.url:${req.url}, req.headers:${JSON.stringify(req.headers)}`)
@@ -108,6 +98,15 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
             myRe = new RegExp(key, 'g') // match group
             body = body.replace(myRe, regReplaceMap[key])
         }
+        logSave(`##### host:${host}`)
+        if (host) {
+            body = pathReplace({host, httpType, body})
+        }
+        // remove duplicate /https/siteproxylocal.now.sh:443
+        myRe = new RegExp(`/${httpprefix}/${serverName}:${port}`, 'g') // match group
+        body = body.replace(myRe, '')
+
+        // put siteSpecificReplace at end
         Object.keys(siteSpecificReplace).forEach( (site) => {
             if (req.url.indexOf(site) !== -1 || req.headers['referer'].indexOf(site) !== -1) {
                 keys = Object.keys(siteSpecificReplace[site])
@@ -117,13 +116,6 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
                 })
             }
         })
-        if (host) {
-            body = pathReplace({host, httpType, body})
-        }
-
-        // remove duplicate /https/siteproxylocal.now.sh:443
-        myRe = new RegExp(`/${httpprefix}/${serverName}:${port}`, 'g') // match group
-        body = body.replace(myRe, '')
 
         if (gbFlag) {
           body = iconv.encode(body, 'gbk')
@@ -154,7 +146,12 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
       changeOrigin: true,
       debug:true,
       onError: (err, req, res) => {
-        logSave(`onerror: ${err}`)
+        console.log(`onerror: ${err}`)
+        try {
+            res.status(404).send(`onError: ${err}`)
+        } catch(e) {
+            console.log(`error of sending 404: ${e}`)
+        }
       },
       selfHandleResponse: true, // so that the onProxyRes takes care of sending the response
       onProxyRes: (proxyRes, req, res) => {
@@ -166,11 +163,24 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
         })
         proxyRes.on('end', function() {
           let gbFlag = false
-          if (proxyRes.headers["content-encoding"] === 'gzip') {
-            zlib.gunzip(body,function(er,gunzipped){
-              logSave(`zlib.gunzip...`)
-              if (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
-                  proxyRes.headers["content-type"].indexOf('javascript') !== -1) {
+          if (proxyRes.headers["content-encoding"] === 'gzip' ||
+              proxyRes.headers["content-encoding"] === 'br') {
+            let gunzipped
+            try {
+                if (proxyRes.headers["content-encoding"] === 'br') {
+                    gunzipped = zlib.brotliDecompressSync(body)
+                    logSave(`zlib.brotli...`)
+                } else { //gzip
+                    gunzipped = zlib.gunzipSync(body)
+                    logSave(`zlib.gunzip...`)
+                }
+            } catch(e) {
+                res.status(404).send(`error:${e}`)
+                return
+            }
+            if (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
+                proxyRes.headers["content-type"].indexOf('javascript') !== -1 ||
+                proxyRes.headers["content-type"].indexOf('json') !== -1) {
                 if (!gunzipped) {
                     res.status(404).send()
                     return
@@ -180,15 +190,15 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
                 body = gunzipped.toString('utf-8');
                 if (body.indexOf('content="text/html; charset=gb') !== -1 ||
                     body.indexOf('content=\'text/html; charset=gb') !== -1) {
-                  logSave(`gb2312 found...`)
-                  body = iconv.decode(originBody, 'gbk')
-                  gbFlag = true
+                    logSave(`gb2312 found...`)
+                    body = iconv.decode(originBody, 'gbk')
+                    gbFlag = true
                 }
                 handleRespond({req, res, body, gbFlag})
-              } else {
+            } else {
+                // console.log(`2========>${logGet()}`)
                 res.end(body)
-              }
-            });
+            }
           } else if (proxyRes.headers["content-type"] &&
                        (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
                         proxyRes.headers["content-type"].indexOf('javascript') !== -1 ||
@@ -204,6 +214,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
             }
             handleRespond({req, res, body, gbFlag})
           } else {
+            // console.log(`3========>${logGet()}`)
             res.end(body)
           }
         })
@@ -223,6 +234,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
         proxyRes.headers['set-cookie'] =  modifiedSetCookieHeaders
         Object.keys(proxyRes.headers).forEach(function (key) {
           if (key === 'content-encoding' ||
+              key === 'content-security-policy' ||
               key === 'x-frame-options' ||
               (key === 'content-length' && proxyRes.headers["content-type"] &&
                 (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
@@ -239,6 +251,10 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
       },
       onProxyReq: (proxyReq, req, res) => {
         let {host, httpType} = getHostFromReq(req)
+        if (host == '' || host.indexOf('.') === -1) {
+            res.status(404).send()
+            return
+        }
         logClear()
         req.headers['host'] = host
         req.headers['referer'] = host
