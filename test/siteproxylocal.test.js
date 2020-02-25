@@ -41,5 +41,5 @@ test('mitbbs img issue', async () => {
     url,
   })
   // console.log(`${response.data}`)
-  expect(response.data.indexOf(`href="/sadsfasdfnews_wenzhang`)).not.toBe(-1)
+  expect(response.data.indexOf(`img src="/https/www.mitbbs.com/img/list.png`)).not.toBe(-1)
 }, 30000);

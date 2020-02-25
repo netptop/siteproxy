@@ -61,7 +61,7 @@ const pathReplace = ({host, httpType, body}) => {
     myRe = new RegExp('href="[.]?/([-a-z0-9_]+?)/', 'g')
     body = body.replace(myRe, `href="/${httpType}/${host}/$1/`)
 
-    myRe = new RegExp(' src=(["\'])/([-a-z0-9]+?)', 'g')
+    myRe = new RegExp(' src=(["\']?)/([-a-z0-9]+?)', 'g')
     body = body.replace(myRe, ` src=$1/${httpType}/${host}/$2`)
 
     /*
@@ -134,6 +134,10 @@ const siteSpecificReplace = {
         '"/ajax/bz"': `"/https/zh-cn.facebook.com/ajax/bz"`,
         '"/intern/common/': '"/https/static.xx.fbcdn.net/intern/common/',
     },
+    'www.mitbbs.com': {
+        'src="img/': `src="/https/www.mitbbs.com/img/`,
+        'alt="img/': `alt="/https/www.mitbbs.com/img/`,
+    }
 }
 
 let app = express()
