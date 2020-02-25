@@ -80,6 +80,6 @@ test('reuters.com /article issue', async () => {
     method: 'get',
     url,
   })
-  console.log(`${response.data}`)
+  // console.log(`${response.data}`)
   expect(response.data.indexOf(`"url":"/article`)).toBe(-1)
 }, 30000);

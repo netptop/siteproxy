@@ -188,8 +188,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
                 logSave(`utf-8 text...`)
                 let originBody = gunzipped
                 body = gunzipped.toString('utf-8');
-                if (body.indexOf('="text/html; charset=gb') !== -1 ||
-                    body.indexOf('=\'text/html; charset=gb') !== -1) {
+                if (body.indexOf(' charset=gb') !== -1) {
                     logSave(`gb2312 found...`)
                     body = iconv.decode(originBody, 'gbk')
                     gbFlag = true
@@ -206,8 +205,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
             logSave(`utf-8 text...`)
             let originBody = body
             body = body.toString('utf-8');
-            if (body.indexOf('="text/html; charset=gb') !== -1 ||
-                body.indexOf('=\'text/html; charset=gb') !== -1) {
+            if (body.indexOf(' charset=gb') !== -1) {
               logSave(`gb2312 found...`)
               body = iconv.decode(originBody, 'gbk')
               gbFlag = true
