@@ -63,3 +63,13 @@ test('boxun /hero issue', async () => {
   // console.log(`${response.data}`)
   expect(response.data.indexOf(`href=/hero`)).toBe(-1)
 }, 30000);
+
+test('google next click issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/www.google.com/search?q=%E6%B5%B7%E5%A4%96%E8%AE%BA%E5%9D%9B&oq=%E6%B5%B7%E5%A4%96%E8%AE%BA%E5%9D%9B`
+  const response = await axios({
+    method: 'get',
+    url,
+  })
+  // console.log(`${response.data}`)
+  expect(response.data.indexOf(`href="/search?q=`)).toBe(-1)
+}, 30000);
