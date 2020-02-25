@@ -137,6 +137,8 @@ const siteSpecificReplace = {
     'www.mitbbs.com': {
         'src="img/': `src="/https/www.mitbbs.com/img/`,
         'alt="img/': `alt="/https/www.mitbbs.com/img/`,
+        'src="[.]/img/': `src="/https/www.mitbbs.com/img/`,
+        'src="[.]{2}/img/': `src="/https/www.mitbbs.com/img/`,
     }
 }
 

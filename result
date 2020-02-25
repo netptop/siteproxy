@@ -1,0 +1,1514 @@
+yarn run v1.22.0
+$ localFlag=true jest
+  console.log test/siteproxylocal.test.js:54
+    <!--<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://127.0.0.1:8011/http/www.w3.org/TR/html4/loose.dtd">-->
+    <!--<html>-->
+    <!--<head>-->
+    <!--<title>δ���ռ�--><!--(--><!--) - ���⻪�˵�һ�Ż�</title>-->
+    <!--<meta http-equiv="Content-Type" content="text/html; charset=gb2312">-->
+    <!--<meta content="���⻪��,����,����,�Ż�,����,��̳,BBS,��ѧ,����,ǩ֤,ʵ������,��������,��������,��ѧ����,������Ϣ,��������" name="Keywords">-->
+    <!--<meta content="δ���ռ�--><!--(--><!--) - ���⻪�˵�һ�Ż���������1996�꣬ӵ����ʮ����ע���û�,Ϊ����ȫ���˵��ۺ�����վ��������������������" name="Description">-->
+    <!--<!--<link  type="text/css" rel="stylesheet" href="/https/www.mitbbs.com/https/www.mitbbs.com/unknownspace-yellow.css" charset="gb2312">-->
+    <!--<link href="/https/www.mitbbs.com/newindex/index.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/https/www.mitbbs.com/js/jquery-1.4.4.js" type="text/javascript"></script>-->
+    <!--<script src="/https/www.mitbbs.com/js/drop.js" type="text/javascript"></script>-->
+    <!--<script src="/https/www.mitbbs.com/js/prototype.js" type="text/javascript"></script>-->
+    <!--<script src="/https/www.mitbbs.com/js/index.js" type="text/javascript"></script>-->
+    <!--<script language="javascript" src="/https/www.mitbbs.com/newindex/index--><!--.js" type="text/javascript"></script>-->
+    <!--<script language="javascript" src="/https/www.mitbbs.com/js/service--><!--.js" type="text/javascript"></script>-->
+    <!--<script src="/https/www.mitbbs.com/im/js/im--><!--.js" type="text/javascript"></script>-->
+    <!--<script language="javascript" src="/https/www.mitbbs.com/mitbbs_flash.js" type="text/javascript"></script>-->
+    <!--<noscript><i>�����������֧��JavaScript���ѽ���JavaScript,��ҳ���ֹ��ܲ�������ʹ��</i></noscript> -->
+    <!--<meta content="MSHTML 6.00.2900.3243" name="GENERATOR">-->
+    <!--</head>-->
+    <!DOCTYPE html>
+    			<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://127.0.0.1:8011/http/www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://127.0.0.1:8011/http/www.w3.org/1999/xhtml">
+    -->
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+    <script src="/https/www.mitbbs.com/js/jquery_min.js" type="text/javascript"></script>
+    <script language="javascript">
+        //    friendform  user_search  search_form site_search googleform site_search_gg searchform_brd board_search
+        function searchByType(){
+            var type=$('#selType').val();
+            var info=$('#schInfo').val();
+            if(info.length<1){
+                alert("������ؼ���");
+                return;
+            }
+            if(type=="site"){
+                $("#site_search").attr('value',info);
+                document.searchform.submit();
+            }else if(type=="board"){
+                $("#board_search").attr('value',info);
+                document.searchform_brd.submit();
+            }else if(type=="news"){
+                if(info.length<2){
+                    alert('����������������');
+                    return;
+                }else{
+                    $("#news_search").attr('value',info);
+                }
+                document.searchform_kws.submit();
+            }else if(type=="friend"){
+                $("#user_search").attr('value',info);
+                document.friendform.submit();
+            }else if(type=="friend_name"){
+                $("#username_search").attr('value',info);
+                document.friendnameform.submit();
+            }
+            return;
+        }
+        function keyEvent(event){
+            // �жϻس����Ƿ���
+            if(!event)
+                event = window.event;//������� window.event
+            if((event.keyCode || event.which) != 13)
+                return true;
+    
+            searchByType();
+        }
+    
+    
+    function getCookieHeader(name) {
+    	var arr = document.cookie.split("; ");
+    	var length = arr.length;
+    	var a;
+    	for (var i=0; i < length; i++) {
+    		a = arr[i].split("=");
+    		if (a[0].toLowerCase() == name.toLowerCase()) {
+    			return a[1];
+    		}
+    	}
+    
+    	return "";
+    }
+    function GetUrl()
+    {
+          str=window.location.pathname;
+          if(str==null)
+          {
+              var url = '/mwap';
+          }
+          else {
+              var arr = new Array();
+              arr = str.split("/");
+              var url = '/mwap';
+              if (arr.length == 1) {
+                  url = '/mwap';
+              }
+              if(arr.length==2) {
+                  if (arr[1] == "mitbbs_bbssec.php") {
+                      url = '/mwap/forum/index.php';
+                  }
+                  else if(arr[1]=="mitbbs_article.php"){
+                      if(!GetQueryString("opflag")) {
+                          var board = GetQueryString("board");
+                          var id = GetQueryString("id");
+                          url = '/mwap/articlesingle.php?board='+board+'&article_id='+id;
+                      }
+                      else{
+                          var board = GetQueryString("board");
+                          var id = GetQueryString("id");
+                          url = '/mwap/articlesingle.php?club='+board+'&article_id='+id;
+                      }
+                  }
+                  else if(arr[1]=="mitbbs_article_t.php"){
+                      if(!GetQueryString("opflag")) {
+                          var board = GetQueryString("board");
+                          var gid = GetQueryString("gid");
+                          url = '/mwap/forum/article.php?board=' + board + '&groupid=' + gid + '&content_type=all';
+                      }
+                      else{
+                          var board = GetQueryString("board");
+                          var gid = GetQueryString("gid");
+                          url = '/mwap/club/article.php?club=' + board + '&groupid=' + gid + '&content_type=all';
+                      }
+                  }
+                  else if(arr[1]=="mitbbs_bbsdoc.php"){
+                      var board = GetQueryString("board");
+                      url = '/mwap/forum/board.php?board=' + board;
+                  }
+                  else if(arr[1]=="mitbbs_bbsboa.php"){
+                      var group = GetQueryString("group");
+                      url = '/mwap/forum/boardlist.php?sectid=' + group + '&boardname=0';
+                  }
+                  else if(arr[1]=="mitbbs_my_article.php"){
+                      url='/mwap/home/articlelist.php';
+                  }
+                  else if(arr[1]=="mitbbs_favorite_boards.php"){
+                      url='/mwap/home/discuss.php';
+                  }
+                  else if(arr[1]=="mitbbs_bbsfriendinfo.php"){
+                      url='/mwap/home/friends.php';
+                  }
+                  else if(arr[1]=="mitbbs_badlist.php"){
+                      url='/mwap/home/blacklist.php';
+                  }
+                  else if(arr[1]=="mitbbs_mailbox.php"){
+                      url='/mwap/home/mails.php';
+                  }
+              }
+              if (arr.length == 3) {
+                  if (arr[1] == "yimin") {
+                      if(arr[2]=="ym_wzy.php"){
+                          var board = GetQueryString("board");
+                          var id = GetQueryString("id");
+                          url = '/mwap/immigration/article.php?reqtype=column&board=' + board + '&groupid=' +id;
+                      }
+                      else{
+                          url = '/mwap/immigration';
+                      }
+                  }
+                  else if (arr[1] == "news") {
+                      if(arr[2]=="mitbbs_news_wenzhang.php")
+                      {
+                          var board = GetQueryString("board");
+                          var id = GetQueryString("id");
+                          alert(board);
+                          url = '/mwap/news/article.php?news='+board+'&groupid='+id;
+                      }
+                      else if(arr[2]=="mitbbs_news_pg.php"){
+                          url = '/mwap/news';
+                      }
+                      else {
+                          url = '/mwap/news';
+                      }
+                  }
+                  else if(arr[1]=="news_pg"){
+                      url = '/mwap/news';
+    
+                  }
+                  else if (arr[1] == "club") {
+    				  go_img
+                      if(arr[2]=="mitbbs_club_bbsdoc.php"){
+                          var club=GetQueryString("club");
+                          url='/mwap/club/club.php?club='+club;
+                      }
+                      else if(arr[2]=="mitbbs_club_myclub.php"){
+                          url='/mwap/home/club.php';
+                      }
+                      else{
+                          url = '/mwap/club';
+                      }
+                  }
+                  else if (arr[1] == "bbsdoc") {
+                      var arr1 = new Array();
+                      arr1 = arr[2].split(".");
+                      url = '/mwap/forum/board.php?board=' + arr1[0];
+                  }
+                  else if (arr[1] == "bbsboa") {
+                      var arr1 = new Array();
+                      arr1 = arr[2].split(".");
+                      arr1[0]++;
+                      url = '/mwap/forum/boardlist.php?sectid=' + arr1[0] + '&boardname=0';
+                  }
+                  else  if(arr[1]=="club_bbsdoc"){
+                      var arr1 = new Array();
+                      arr1 = arr[2].split(".");
+                      url='/mwap/club/club.php?club='+arr1[0];
+                  }
+                  else if(arr[1]=="newindex"){
+                      if(arr[2]=="kjjy.php"){
+                          url='/mwap/home/index.php';
+                      }
+                  }
+                  else if(arr[1]=="share"){
+                      if(arr[2]=="fav_show.php"){
+                          url='/mwap/home/collectlist.php';
+                      }
+                  }
+              }
+              if (arr.length == 4) {
+                  if (arr[1] == "article") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split("_");
+                      url = '/mwap/articlesingle.php?board='+arr[2]+'&article_id='+ arr1[0];
+                  }
+                  else if (arr[1] == "article0") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split("_");
+                      url = '/mwap/articlesingle.php?board='+arr[2]+'&article_id='+ arr1[0];
+                  }
+                  else if (arr[1] == "article1") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split("_");
+                      url = '/mwap/articlesingle.php?board='+arr[2]+'&article_id='+ arr1[0];
+                  }
+                  else if (arr[1] == "article2") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split("_");
+                      url = '/mwap/articlesingle.php?board='+arr[2]+'&article_id='+ arr1[0];
+                  }
+                  else if (arr[1] == "article3") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split("_");
+                      url = '/mwap/articlesingle.php?board='+arr[2]+'&article_id='+ arr1[0];
+                  }
+                  else if (arr[1] == "article_t") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split(".");
+                      url = '/mwap/forum/article.php?board=' + arr[2] + '&groupid=' + arr1[0] + '&content_type=all';
+                  }
+                 else if (arr[1] == "article_t0") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split(".");
+                      url = '/mwap/forum/article.php?board=' + arr[2] + '&groupid=' + arr1[0] + '&content_type=all';
+                  }
+                  else if (arr[1] == "article_t1") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split(".");
+                      url = '/mwap/forum/article.php?board=' + arr[2] + '&groupid=' + arr1[0] + '&content_type=all';
+                  }
+                  else if (arr[1] == "article_t2") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split(".");
+                      url = '/mwap/forum/article.php?board=' + arr[2] + '&groupid=' + arr1[0] + '&content_type=all';
+                  }
+                  else if (arr[1] == "ym_article") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split(".");
+                      url = '/mwap/immigration/article.php?reqtype=column&board=' + arr[2] + '&groupid=' + arr1[0];
+                  }
+                  else  if (arr[1] == "news_wenzhang") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split(".");
+                      url = '/mwap/news/article.php?news=' + arr[2] + '&groupid=' + arr1[0];
+                  }
+                  else  if (arr[1] == "clubarticle_t") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split(".");
+                      url = '/mwap/club/article.php?club=' + arr[2] + '&groupid=' + arr1[0] + '&content_type=all';
+                  }
+                  else  if (arr[1] == "clubarticle_t1") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split(".");
+                      url = '/mwap/club/article.php?club=' + arr[2] + '&groupid=' + arr1[0] + '&content_type=all';
+                  }
+                  else if (arr[1] == "clubarticle_t2") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split(".");
+                      url = '/mwap/club/article.php?club=' + arr[2] + '&groupid=' + arr1[0] + '&content_type=all';
+                  }
+                  else  if (arr[1] == "clubarticle") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split("_");
+                      url = '/mwap/articlesingle.php?club='+arr[2]+'&article_id='+arr1[0];
+                  }
+                  else  if (arr[1] == "clubarticle1") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split("_");
+                      url = '/mwap/articlesingle.php?club='+arr[2]+'&article_id='+arr1[0];
+                  }
+                  else if (arr[1] == "clubarticle2") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split("_");
+                      url = '/mwap/articlesingle.php?club='+arr[2]+'&article_id='+arr1[0];
+                  }
+                  else if (arr[1] == "clubarticle3") {
+                      var arr1 = new Array();
+                      arr1 = arr[3].split("_");
+                      url = '/mwap/articlesingle.php?club='+arr[2]+'&article_id='+arr1[0];
+                  }
+              }
+          }
+            return url;
+        }
+    function GetQueryString(name) //��ȡָ������
+    {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null)
+                return  unescape(r[2]);
+    
+            return null;
+    }
+    function UrlSearch(arr) //��ȡ���в���
+    {
+            var name,value;
+            var str=location.href;
+            var num=str.indexOf("?")
+            if(num==-1)
+                return null;
+            else {
+            str = str.substr(num + 1);
+            arr = str.split("&");
+            for (var i = 0; i < arr.length; i++) {
+                num = arr[i].indexOf("=");
+                if (num > 0) {
+                    name = arr[i].substring(0, num);
+                    value = arr[i].substr(num + 1);
+                    this[name] = value;
+                             }
+                        }
+                    }
+    
+    }
+    function setCookie(name, value, seconds) {
+            seconds = seconds || 0;
+            var expires = "";
+            if (seconds != 0 ) {
+                var date = new Date();
+                date.setTime(date.getTime()+(seconds*1000));
+                expires = "; expires="+date.toGMTString();
+            }
+            document.cookie = name+"="+escape(value)+expires+"; path=/";
+    }
+    function DelCookie(name) {
+            var exp = new Date();
+            exp.setTime(exp.getTime() + (-1 * 24 * 60 * 60));
+            var cval = GetCookieValue(name);
+            document.cookie = name + "=" + cval + "; expires=" + exp.toGMTString();
+    }
+    (function(w){
+     	var ua = w.navigator.userAgent.toLocaleLowerCase();
+        var matchRe = /iphone|android|symbianos/g;
+     	if(matchRe.test(ua) && parseInt(getCookieHeader("force_flag")) != 1){
+    		//if the force_flag is 0,jump to mwap;and then the force_flage is 1,we will jump to web;
+            var url = GetUrl();
+    		w.location.href = url;
+    	}
+     })(window);
+    
+    	</script>
+                    <title>δ���ռ�(mitbbs.com) - ���⻪�˵�һ�Ż�</title>
+                    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+                    <meta content="���⻪��,����,����,�Ż�,����,��̳,BBS,��ѧ,����,ǩ֤,ʵ������,��������,��������,��ѧ����,������Ϣ,��������" name="Keywords">
+                    <meta content="δ���ռ�(mitbbs.com) - ���⻪�˵�һ�Ż���������1996�꣬ӵ����ʮ����ע���û�,Ϊ����ȫ���˵��ۺ�����վ��������������������" name="Description">
+                    <!--<link  type="text/css" rel="stylesheet" href="/https/www.mitbbs.com/https/www.mitbbs.com/unknownspace-yellow.css" charset="gb2312">-->
+                    <link href="/https/www.mitbbs.com/newindex/index.css" rel="stylesheet" type="text/css">
+                    <link type="text/css" rel="stylesheet" href="/https/www.mitbbs.com/header/reset.css">
+                    <link type="text/css" rel="stylesheet" href="/https/www.mitbbs.com/header/newheaderstyle.css">
+                    <script src="/https/www.mitbbs.com/js/jquery-1.4.4.js" type="text/javascript"></script>
+                    <script src="/https/www.mitbbs.com/js/jquery.min.js" type="text/javascript"></script>
+                    <script src="/https/www.mitbbs.com/js/drop.js" type="text/javascript"></script>
+                    <script src="/https/www.mitbbs.com/js/prototype.js" type="text/javascript"></script>
+                    <script src="/https/www.mitbbs.com/js/index.js" type="text/javascript"></script>
+                    <script language="javascript" src="/https/www.mitbbs.com/newindex/index.js" type="text/javascript"></script>
+                    <script language="javascript" src="/https/www.mitbbs.com/js/service.js" type="text/javascript"></script>
+                    <script src="/https/www.mitbbs.com/im/js/im.js" type="text/javascript"></script>
+                    <script language="javascript" src="/https/www.mitbbs.com/mitbbs_flash.js" type="text/javascript"></script>
+                    <noscript><i>�����������֧��JavaScript���ѽ���JavaScript,��ҳ���ֹ��ܲ�������ʹ��</i></noscript>
+                    <meta content="MSHTML 6.00.2900.3243" name="GENERATOR">
+                <link rel="stylesheet" type="text/css" href="/https/www.mitbbs.com/header/headerstyle.css" charset="gb2312">
+            </head>
+            <body>
+            <div class="header_all"><!--ͷ��-->
+                            <div class="topbar_wrap"><!--Ƶ������-->
+                    <div class="topbar_cont">
+                        <div class="topbar_nav">
+                            <ul class="topbar_nav_group" style="line-height:24px;"><!--��Ҫ����ǰƵ��������ע��-->
+    <!--                            δ����̳��δ������δ�����ţ� δ�����ֲ��� δ�������������棬��������δ�����ͣ�δ�������㣬δ����ҳ��δ�����ѣ�δ���˲�-->
+                                <li class="topbar_nav_list"><a class="nav_grey" href="/"> ��ҳ</a></li>
+    <!--                            <li class="topbar_nav_list"><a class="nav_grey" href="/https/www.mitbbs.com/weiyan/index.php">΢��</a></li>-->
+                                <li class="topbar_nav_list"><a class="nav_grey" href="/mitbbs_bbssec.php"> δ����̳</a></li>
+                                <li class="topbar_nav_list"><a class="nav_grey" href="/https/www.mitbbs.com/yimin/ymindex.php">δ������</a></li>
+                                                            <li class="topbar_nav_list"><a class="nav_grey" href="/https/www.mitbbs.com/news/mitbbs_news.php">δ������</a></li>
+                                                            <li class="topbar_nav_list"><a class="nav_grey" href="/https/www.mitbbs.com/club/index.php">δ�����ֲ�</a></li>
+                                <li class="topbar_nav_list" style="display:none"><a class="nav_grey" href="/https/www.mitbbs.com/dianping/user/index.html"> δ������</a></li>
+                                <li class="topbar_nav_list"><a class="nav_grey" href="/https/www.mitbbs.com/newindex/classified.php"> ������</a></li>
+                                <li class="topbar_nav_list"><a class="nav_grey" href="/mitbbs_bbsann.php"> ������</a></li>
+                                <li class="topbar_nav_list"><a class="nav_grey" href="/https/www.mitbbs.com/pc/pcmain.php"> δ������</a></li>
+                                <li class="topbar_nav_list" style="display:none"><a class="nav_grey" href="/https/www.mitbbs.com/virtual_shape/mitbbs_vshape_index.php">δ��������</a></li>
+                                <li class="topbar_nav_list" style="display:none"><a class="nav_grey" href="/https/www.mitbbs.com/yellowpage/index.php">δ����ҳ</a></li>
+                                <li class="topbar_nav_list"><a class="nav_red" href="http://127.0.0.1:8011/http/www.jiaoyou8.com/"> δ������</a></li>
+                                <li class="topbar_nav_list"><a class="nav_red" href="http://127.0.0.1:8011/http/www.rencai8.com/"> δ���˲�</a></li>
+                                <li class="topbar_nav_list"><a class="nav_red" href="/https/www.mitbbs.com/jobfair/mitbbs_job_fair.php"> ��Ƹ��</a></li>
+                            </ul>
+                        </div>
+                        <div class="topbar_login">
+                            <ul class="topbar_login_group" style="line-height:24px;">
+                                <!--δ��¼��ʾ-->
+                    <div class="jf_box"><a href="/https/www.mitbbs.com/mitbbs_gb2big5/flggb2big5.php?status=true&page=/newindex/index.php">����</a></div>                                                <li class="topbar_login_list"><a class="nav_grey" id="tuichu" href="/mitbbs_register1.php">ע��</a></li>
+                                <li class="topbar_login_list"><a class="nav_red" id="userid" href="/mitbbs_login.php">��¼</a></li>
+                                                                        <script src="/https/www.mitbbs.com/js/jquery_min.js" type="text/javascript"></script>
+                                    <script type="text/javascript">
+                                        (function () {
+                                            $.ajax({
+                                                type:"POST",
+                                                url:"/header/getUserInfo.php",
+                                                success: function (ret) {
+                                                    var ret_json = eval("("+ret+")");
+                                                    if(parseInt(ret_json.result) == 0){
+                                                        $("#userid").attr("href","/newindex/kjjy.php").attr("class", "nav_grey").html(ret_json.msg.userid+"�ļ�ҳ");
+                                                        $("#tuichu").attr("href","/newindex/mitbbs_bbslogout.php?index_flag=1").html("�˳�");
+                                                        if (parseInt(ret_json.msg.mail_unread) > 0) {
+                                                            $("#userid").parent().after('<li class="topbar_login_list"><a class="nav_red" href="/mitbbs_mailbox.php?option=new">���ʼ�('+ret_json.msg.mail_num_str+')</a></li>');
+                                                        }
+                                                    }
+                                                },
+                                                error: function () {
+    //                                                alert("ϵͳ�ڲ�����!");
+                                                }
+                                            });
+    
+                                            return false;
+                                        })();
+                                    </script>
+                                                        </ul>
+                        </div>
+                    </div>
+                </div><!--Ƶ������-->
+                    <div class="header width_1000">
+            <div class="brand_box">
+                <div class="index_logo_box">
+                    <img src="/https/www.mitbbs.com/header/img/logo.png">
+                </div>
+                <!--���ر�����ʼ-->
+                    <!--���Ѳ�ѯ-->
+                        <form class="search_form" action="/https/www.mitbbs.com/mitbbs_bbsqry.php?flag=3" method="post" name="friendform" hidden="hidden">
+                            <input class="search_text" type="search" name="userid" id="user_search" placeholder="��ѯ����" onclick="javascript:cleartxt3()">
+                        </form>
+                        <form class="search_form" action="/https/www.mitbbs.com/mitbbs_bbsqry.php?flag=1" method="post" name="friendnameform" hidden="hidden">
+                             <input class="search_text" type="search" name="userid" id="username_search" placeholder="��ѯ����" onclick="javascript:cleartxt3()">
+                         </form>
+                    <!--��վ����-->
+                                                <form name="searchform" action="http://127.0.0.1:8011/http/www.mitbbs.com/mitbbs_search_result.php" id="cse-search-box" target="_blank" hidden="hidden" accept-charset="utf-8">
+                                <input type="hidden" name="cx"  value="partner-pub-9374326915974877:8447678996" />
+                                <input type="hidden" name="cof" value="FORID:10"/>
+                                <input type="hidden" name="ie"  value="GB2312"  />
+                                <input type="search" name="q"   id="site_search" class="search_text" onclick="javascript:cleartxt1()" size="10" placeholder="��վ����" />
+                            </form>
+                                        <!--��������-->
+                        <form class="search_form" action="/https/www.mitbbs.com/mitbbs_bbssel.php" name="searchform_brd" method="post" hidden="hidden">
+                            <input class="search_text"  type="search" name="board"           id="board_search"    onclick="javascript:cleartxt2()" placeholder="��������">
+                        </form>
+                    <!--��������-->
+                        <form class="search_form" action="/https/www.mitbbs.com/news/mitbbs_news_search.php" name="searchform_kws" method="post" hidden="hidden">
+                            <input class="search_text "  type="search" name="search"           id="news_search"    onclick="javascript:cleartxt2()" placeholder="��������">
+                        </form>
+                <!--���ر�������-->
+                <div class="searchWrap">
+                    <div class="searchSelect">
+                        <select id="selType">
+                            <option value="site">ȫվ</option>
+                            <option value="board">����</option>
+                            <option value="news">����</option>
+                            <option value="friend">����</option>
+                            <option value="friend_name">�ǳ�</option>
+                        </select>
+                    </div>
+                    <div class="searchContent">
+                        <input id="schInfo" type="text" autocomplete="off"  onkeypress="return keyEvent(event);"/>
+                    </div>
+                </div>
+                <div class="searchBtn">
+                    <button type="submit" onclick="return searchByType();">��&nbsp;��</button>
+                </div>
+                <div class="appdl_btn">
+                    <a href="/AppDownload/index.php">�ƶ��ͻ�������</a>
+                </div>
+    <!--            <div class="brand_ad">-->
+    <!--                <img src="/https/www.mitbbs.com/header/img/brand_ad.jpeg">-->
+    <!--            </div>-->
+                <div class="brand_ad">
+                                    <script type="text/javascript"><!--
+                        google_ad_client = "ca-pub-9374326915974877";
+                        /* first_page_320_50 */
+                        google_ad_slot = "6001824015";
+                        google_ad_width = 320;
+                        google_ad_height = 50;
+                        //-->
+                    </script>
+                    <script type="text/javascript"
+                            src="http://127.0.0.1:8011/https/pagead2.googlesyndication.com/pagead/show_ads.js">
+                    </script>
+                    <!--                <a href="#">-->
+    <!--                    <img src="/https/www.mitbbs.com/img/m.1325236771_2.i0.gif" height="66" width="320"/>-->
+    <!--                </a>-->
+                </div>
+            </div>
+        </div>
+        <div class="header_tips width_1000">
+            <div class="online_user">
+                <a href="/mitbbs_bbsuser.php" target="_blank">�����û�&nbsp;</a>(<strong>15314</strong>��)&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://127.0.0.1:8011/http/www.jiaoyou8.com/" target="_blank">δ������&nbsp;</a>(<strong>115</strong>��)
+            </div>
+            <div class="ad_contact">
+                �����ϵ:<i>QQ/΢��:&nbsp;1285550953&nbsp;&nbsp;&nbsp;&nbsp;MSN/����:&nbsp;<a href="/https/www.mitbbs.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0b6a6f4b66627f69697825686466">[email&#160;protected]</a></i>
+            </div>
+        </div>
+            </div>
+                    </div><!--ͷ��-->
+    
+        <!--        <li><a href="/https/www.mitbbs.com/ym_article/--><!--/--><!--.html">--><!--</a></li>-->
+    <!--    --><style type="text/css" rel="stylesheet">
+    ul{list-style-type:disc;}
+    </style>
+    
+    <body>
+    <div id="frame_left" style="width:120px;position: fixed;top: 100px;left: 0px;overflow: hidden;display:none">    <img id="frame_left_close" src="/https/www.mitbbs.com/img/ad_close.jpg"     style="display:none;cursor:pointer" onclick='close_ad(this)'>
+    <!--    <img id="frame_left_spread" src="/https/www.mitbbs.com/img/ad_spread.gif" style="display:none" onclick='ad_spread(this)'>-->
+    </div>
+    <div id="frame_right" style="width:120px;position: fixed;top: 100px;right: 0px;overflow: hidden;display:none">    <img id="frame_right_close" src="/https/www.mitbbs.com/img/ad_close.jpg" style="display:none;cursor:pointer" onclick='close_ad(this)'>
+    <!--    <img id="frame_right_spread" src="/https/www.mitbbs.com/img/ad_spread_right.gif" style="display:none;position:fixed;right:0px" onclick='ad_spread(this)'>-->
+    </div>
+    <!--	<header>-->
+    <!--        <script src="/https/www.mitbbs.com/js/jquery_min.js"></script>-->
+    <!--    	<div class="header_in"style="height:auto;"> <!--�����е�Ԫ��ʵ�ֳɿ�״�����ڲ���BUG����Ч�ķ���-->
+    <!--        	<div class="hd_in_top">-->
+    <!--            	<div class="hd_in_top_left">-->
+    <!--                    <a href="/AppDownload/index.php">-->
+    <!--                        <img src="/https/www.mitbbs.com/newindex/images/phone.jpg"/>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--            	<div class="hd_in_top_right">-->
+    <!--                    <a href="/https/www.mitbbs.com/mitbbs_gb2big5/flggb2big5.php?status=false&page=/newindex/index.php">[��������]</a>-->
+    <!--                    <a href="/https/www.mitbbs.com/mitbbs_gb2big5/flggb2big5.php?status=true&page=/newindex/index.php">[��������]</a>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--			<a id="ad_box" target="_blank" style="width:1000px;height:150px;margin:0 auto;display:block;padding-bottom:2px;" href="http://127.0.0.1:8011/http/www.lemall.com/us/campaigns/tvInvitation2.html?ref=mitbbs&cps_id=DAMT_da_0118">-->
+    <!--				<img class="ad_img" src="/https/www.mitbbs.com/newindex/images/ls150.jpg" id="ad_img" style="width:100%;height:100%;">-->
+    <!--			</a>-->
+    <!--        	<div class="hd_in_bottom">-->
+    <!--            	<div class="hd_in_b_top">-->
+    <!--                	<div class="index_search_left"><img src="/https/www.mitbbs.com/img/logo_us.gif" height="53" width="145"/></div>-->
+    <!--                	<div class="index_search">-->
+    <!--                        --><!--                        <form name="cgisearch" action="/https/www.mitbbs.com/newindex/excode.php" method="post" target="_blank">-->
+    <!--                    	<input class="index_search_text" type="text" value=""/>-->
+    <!--                        <input class="index_search_submit" type="submit" value="������վ"/>-->
+    <!--                        </form>-->
+    <!--                        --><!--                    </div>-->
+    <!--                	<div class="index_search_right">-->
+    <!--                        --><!--                        <a href="#">-->
+    <!--                            <img src="/https/www.mitbbs.com/img/m.1325236771_2.i0.gif" height="66" width="320"/>-->
+    <!--                        </a>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            	<div class="hd_in_b_bottom">-->
+    <!--                	<div class="hd_in_b_b_left">-->
+    <!--                    	<a href="/mitbbs_bbsuser.php" target="_blank">�����û�</a>(<span>--><!--</span>��)&nbsp;&nbsp;-->
+    <!--                        <a href="http://127.0.0.1:8011/http/www.jiaoyou8.com/" target="_blank">δ������</a>(<span>--><!--</span>��)-->
+    <!--                    </div>-->
+    <!--                	<div class="hd_in_b_b_center">-->
+    <!--                        <form style="width: 430px" action="/https/www.mitbbs.com/mitbbs_bbssel.php" name="searchform" target="_blank" method="post">-->
+    <!--                    	<span>����������</span>-->
+    <!--                        <input name="board" class="hd_in_b_b_c_text" type="text" value=""/>-->
+    <!--                        <input type="submit" value="GO" onclick="if(searchform.board.value=='') {alert('������Ҫ��ѯ�İ�������'); return false;} else searchform.submit;"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+    <!---->
+    <!--                            --><!--                        <span>ѡ�������</span>-->
+    <!--                        <select onchange="location.replace(this.value)">-->
+    <!--                              <option value="http://127.0.0.1:8011/http/www.mitbbs.com" --><!--����</option>-->
+    <!--                              <option value="http://127.0.0.1:8011/http/www.mitbbs.cn" --><!--�й���½</option>-->
+    <!--                              <option value="http://127.0.0.1:8011/http/www.mitbbs.ca" --><!--���ô�</option>-->
+    <!--                              <option value="http://127.0.0.1:8011/http/www.mitbbs.co.uk/bbsdoc/UnitedKingdom.html" --><!--Ӣ��</option>-->
+    <!--                              <option value="http://127.0.0.1:8011/http/www.mitbbssg.com/bbsdoc/Singapore.html" --><!--�¼���</option>-->
+    <!--                              <option value="http://127.0.0.1:8011/http/www.mitbbsjp.com/bbsdoc/Japan.html" --><!--�ձ�</option>-->
+    <!--                              <option value="http://127.0.0.1:8011/http/www.mitbbsau.com/bbsdoc/Australia.html" --><!--�Ĵ�����</option>-->
+    <!--                              <option value="http://127.0.0.1:8011/http/www.mitbbs.co.nz/bbsdoc/NewZealand.html" --><!--������</option>-->
+    <!--                              <option value="http://127.0.0.1:8011/http/www.mitbbshk.com/bbsdoc/HongKong.html" --><!--�й����</option>-->
+    <!--                              <option value="http://127.0.0.1:8011/http/www.mitbbstw.com/bbsdoc/Taiwan.html" --><!--�й�̨��</option>-->
+    <!--                        </select>-->
+    <!--                        --><!--                        </form>-->
+    <!--                    </div>-->
+    <!--                	<div class="hd_in_b_b_right">-->
+    <!--                    	<div>�����ϵ��</div>-->
+    <!--                        <div class="hd_in_b_b_r_right">-->
+    <!--                            <p style="margin-left: 8px">QQ/΢�ţ�1285550953</p>-->
+    <!--                            <p>MSN/���䣺--><!--</p>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </header>  <!--header����-->
+        <div class="index_add">
+        	<div class="index_add_box01">
+            	<div class="index_add_box01_left add_left">
+                	<ul>
+                        <li><a href="http://127.0.0.1:8011/http/home-customization.com" target="_blank">����ͼ԰��װ�꽨���� </a></li><script data-cfasync="false" src="/https/www.mitbbs.com/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script language="javascript">staticAd(1473,1);</script><li><a href="http://127.0.0.1:8011/http/www.jiaoyou8.com/unknown_friends?refer_id=mitbbs2" target="_blank">δ������-ȫ���˽��� </a></li><script language="javascript">staticAd(36,1);</script><li><a href="/https/www.mitbbs.com/yimin/ymindex.php" target="_blank">�̿���H1-δ������ר�� </a></li><script language="javascript">staticAd(461,1);</script><li><a href="/contact_us.htm" target="_blank">���������ӷ�������</a></li><li><a href="http://127.0.0.1:8011/http/www.hkbaoxian.com" target="_blank">����۱�����ѯ </a></li><script language="javascript">staticAd(983,1);</script>                </ul>
+                </div>
+            	<div class="index_add_box01_center add_left">
+                                        <a href="#">                        <script type="text/javascript"><!--
+                                google_ad_client = "ca-pub-9374326915974877";
+                                /* first_page_728_90 */
+                                google_ad_slot = "8955290412";
+                                google_ad_width = 728;
+                                google_ad_height = 90;
+                                //-->
+                            </script>
+                            <script type="text/javascript"
+                                    src="http://127.0.0.1:8011/https/pagead2.googlesyndication.com/pagead/show_ads.js">
+                            </script>
+                            </a>
+                                <!--            	<a href="#">-->
+    <!--                    <img src="/https/www.mitbbs.com/img/add-center.png" height="90" width="728"/>-->
+    <!--                </a>-->
+                </div>
+            	<div class="index_add_box01_right add_left">
+                	<ul>
+                        <li><a href="/contact_us.htm" target="_blank">���������ӷ�������</a></li><li><a href="http://127.0.0.1:8011/http/www.rencai8.com" target="_blank">δ���˲�,������ְ��ѡ </a></li><script language="javascript">staticAd(361,1);</script><li><a href="/contact_us.htm" target="_blank">���������ӷ�������</a></li><li><a href="/contact_us.htm" target="_blank">���������ӷ�������</a></li><li><a href="/contact_us.htm" target="_blank">���������ӷ�������</a></li><!--                	<li><a href="#">��������������˻�</a></li>-->
+    <!--                	<li><a href="#">δ������-ȫ���˽���</a></li>-->
+    <!--                	<li><a href="#">���������ӷ������</a></li>-->
+    <!--                	<li><a href="#">�й��绰��sinocalling</a></li>-->
+    <!--                	<li><a href="#">���������ӷ������</a></li>-->
+                    </ul>
+                </div>
+            </div>
+        	<div class="index_add_box02">
+                <tr><td align="center"><div id="front_page_below_banner_1_body" style="display: none;"><a href="http://127.0.0.1:8011/http/ohr.sustc.edu.cn/sustczp/zhaopin.jsp" target="_blank" onclick="javascript:staticAd(641,2);" ><img src="/https/www.mitbbs.com/ad_file/N/M.1576457475_2.Q0.gif" width="1000" border="0" alt="�Ϸ��Ƽ���ѧ"></a></div></td></tr><script language="javascript">staticAd(641,1);</script><tr><td align="center"><div id="front_page_below_banner_2_body" style="display: none;"><a href="http://127.0.0.1:8011/http/www.rencai8.com/web/job_content.php?id=28486" target="_blank" onclick="javascript:staticAd(887,2);" ><img src="/https/www.mitbbs.com/ad_file/E/M.1578022899_2.30.gif" width="1000" border="0" alt="�й���ѧ������ѧ"></a></div></td></tr><script language="javascript">staticAd(887,1);</script><tr><td align="center"><div id="front_page_below_banner_3_body" style="display: none;"><a href="http://127.0.0.1:8011/http/www.rencai8.com/web/job_content.php?id=34352" target="_blank" onclick="javascript:staticAd(1325,2);" ><img src="/https/www.mitbbs.com/ad_file/z/M.1582518140_2.G0.gif" width="1000" border="0" alt="֣�ݴ�ѧ"></a></div></td></tr><script language="javascript">staticAd(1325,1);</script><tr><td align="center"><div id="front_page_below_banner_4_body" style="display: none;"><a href="http://127.0.0.1:8011/http/www.rencai8.com/web/job_content.php?id=34332" target="_blank" onclick="javascript:staticAd(1249,2);" ><img src="/https/www.mitbbs.com/ad_file/x/M.1579251441_2.N0.gif" width="1000" border="0" alt="������ѧ"></a></div></td></tr><script language="javascript">staticAd(1249,1);</script><tr><td align="center"><div id="front_page_below_banner_5_body" style="display: none;"><a href="http://127.0.0.1:8011/http/www.rencai8.com/web/job_content.php?id=34334" target="_blank" onclick="javascript:staticAd(1193,2);" ><img src="/https/www.mitbbs.com/ad_file/d/M.1579484105_2.h0.gif" width="1000" border="0" alt="�人��ѧ"></a></div></td></tr><script language="javascript">staticAd(1193,1);</script><tr><td align="center"><div id="front_page_below_banner_6_body" style="display: none;"><a href="http://127.0.0.1:8011/http/www.rencai8.com/web/job_content.php?id=34322" target="_blank" onclick="javascript:staticAd(1343,2);" ><img src="/https/www.mitbbs.com/ad_file/V/M.1577951863_2.s0.gif" width="1000" border="0" alt="������ѧ"></a></div></td></tr><script language="javascript">staticAd(1343,1);</script><tr><td align="center"><div id="front_page_below_banner_7_body" style="display: none;"><a href="http://127.0.0.1:8011/http/www.rencai8.com/web/job_content.php?id=34324" target="_blank" onclick="javascript:staticAd(1411,2);" ><img src="/https/www.mitbbs.com/ad_file/V/M.1578031100_2.S0.gif" width="1000" border="0" alt="������"></a></div></td></tr><script language="javascript">staticAd(1411,1);</script>		<script language="javascript">
+    			var tmpobj_2, curr_pos;
+    			var total_tmp = 7;
+    			var offset_tmp = 3;
+    			var ad_arry = new Array();
+    
+    			//save ad data into ad_arry
+    			for (ii=0; ii<total_tmp; ii++)
+    			{
+    				tmpobj_2  = document.getElementById("front_page_below_banner_" + (ii+1) + "_body");
+    				ad_arry[ii] = tmpobj_2.innerHTML;
+    			}
+    
+    			//rotate ad
+    			for (ii=0; ii<total_tmp; ii++)
+    			{
+    
+    				curr_pos = (ii + offset_tmp) % total_tmp;
+    				tmpobj_2  = document.getElementById("front_page_below_banner_" + (ii+1) + "_body");
+    				tmpobj_2.innerHTML = ad_arry[curr_pos];
+    				tmpobj_2.style.display = "block";
+    			}
+    		</script>
+            </div>
+        </div>  <!--add����----->
+        <div style="height:2px;"></div>
+    	<div class="index_con">
+        	<div class="index_con_left">
+                    <script type="text/javascript">
+    
+    	index_lunbo();
+    	function index_lunbo(){
+            var len = $('.index_con_left_tg li').length;
+            var soleW = 160;
+            var soleH = 400;
+            var num = 0;
+            var timer = 0;
+            var L = 0;
+            var str ='';
+    	
+            //���ú��ӵ�ul li�ĸ�
+            $('.index_con_left_tg ul li').css({
+                height:soleH,
+                width:soleW
+            });
+    
+            //���ú��ӵ�ul��
+            $('.index_con_left_tg ul').css({
+                width:len*soleW
+            });
+    
+            //���ú��ӵĸ�
+            $('.index_con_left_tg').css({
+                height:soleH
+            });
+            //��ʱ��	
+    	    timer = setInterval(fn1,3000);
+    
+            //��������Ƴ�Ч��
+            $('.index_con_left_tg').hover(function(){
+                clearInterval(timer);
+            },function(){
+                timer = setInterval(fn1,3000);
+            });
+    
+            function fn1() {
+                num++;
+                num %= len;
+                L = (num) * soleW;
+                $('.index_con_left_tg ul').animate({
+                    'left': -L
+                },300);
+    			
+                $('.dot').find('span').removeClass('active');
+    			$('.dot').find('span').eq(num).addClass('active');
+    		}
+        };
+    </script>
+    		<div class="wm_ann" style="overflow:hidden;">
+    			<div class="wm_ann_title">
+    				<a href="/https/www.mitbbs.com/hotspots/mitbbs_hot_spot.php">����ר��</a>
+    			</div>
+    			<ul class="wm_ann_con">
+    			<li>
+    								<a href='/hotspots/mitbbs_hot_spot_list.php?id=187'>̨�����2020ѡ��</a>
+    								</li><li>
+    								<a href='/hotspots/mitbbs_hot_spot_list.php?id=185'>�Ĵ����Ǵ����Ű</a>
+    								</li><li>
+    								<a href='/hotspots/mitbbs_hot_spot_list.php?id=183'>����ì�ܼ���</a>
+    								</li><li>
+    								<a href='/hotspots/mitbbs_hot_spot_list.php?id=181'>����ӥ׹�䡱</a>
+    								</li><li>
+    								<a href='/hotspots/mitbbs_hot_spot_list.php?id=177'>���ġ�UBI��</a>
+    								</li>			</ul>
+    			<div class="today_benison_more">
+    				<a href="/https/www.mitbbs.com/hotspots/mitbbs_hot_spot.php" target="_blank">more></a>
+    			</div>
+    		</div>
+    
+            <div class="wm_left_top_wm_ann">
+                        </div>
+                <div class="wm_ann">
+                	<div class="wm_ann_title">δ������</div>
+                                    <ul class="wm_ann_con">
+                        <li><a href="../article_t/MyActivity/12531843.html
+    ">����ʰ����������</a></li>
+                        <li><a href="../article_t/MyActivity/12531809.html
+    ">���Ļ�Ѥ�á�����������</a></li>
+                        <li><a href="../article_t/MyActivity/12531785.html
+    ">�����籭������</a></li>
+                        <!--                	<li><a href="#">���̿��ļ������Ļ���տ�ʼ</a></li>-->
+    <!--                	<li><a href="#">������˵�һ�졿������Ϸ</a></li>-->
+    <!--                	<li><a href="#">����������ʳ��Ӱ</a></li>-->
+                    	<li><a href="/https/www.mitbbs.com/article_t/Announcement/30040367.html" target="_blank">δ���ռ�FAQ</a></li>
+                    </ul>
+                                </div>
+                <div class="wm_left_top_add">
+                    <tr><td height="5"></td></tr><a href="http://127.0.0.1:8011/http/www.rencai8.com/web/job_content.php?id=34272" onclick="javascript:staticAd(1293,2);" > <img src="/https/www.mitbbs.com/ad_file/t/M.1572914431_2.60.gif" width="160" border="0"/></a><script language="javascript">staticAd(1293,1);</script>            </div>
+                <div class="wm_jiaoyou"> <!--����ѡ����---���ٴ�����--->
+                                	<div class="wm_ann_title wm_jiaoyou_title"><a href="http://127.0.0.1:8011/http/www.jiaoyou8.com/">δ������</a></div>
+                    <div class="wm_jiaoyou_con_girl">
+                    <a class="tuijian_girl" href="http://127.0.0.1:8011/http/www.jiaoyou8.com/friends_info?action=user_info&login_id=Yanglelele" target="_blank"><img src="http://127.0.0.1:8011/http/www.jiaoyou8.com/images/male_blank_head_S.jpg" height="85" width="68"/></a><!--                <img src="/https/www.mitbbs.com/img/jiaoyou01.jpg" height="85" width="68"/></a>-->
+                    <ul class="jiaoyou_girl_id">
+                        <li><img src="/https/www.mitbbs.com/img/gril_ico.gif"/><a href="http://127.0.0.1:8011/http/www.jiaoyou8.com/friends_info?action=user_info&login_id=NeenahShen" target="_blank"> NeenahShen</a></li><li><img src="/https/www.mitbbs.com/img/gril_ico.gif"/><a href="http://127.0.0.1:8011/http/www.jiaoyou8.com/friends_info?action=user_info&login_id=IbelieveI38" target="_blank"> IbelieveI38</a></li><li><img src="/https/www.mitbbs.com/img/gril_ico.gif"/><a href="http://127.0.0.1:8011/http/www.jiaoyou8.com/friends_info?action=user_info&login_id=turtlehead55" target="_blank"> turtlehead55</a></li><li><img src="/https/www.mitbbs.com/img/gril_ico.gif"/><a href="http://127.0.0.1:8011/http/www.jiaoyou8.com/friends_info?action=user_info&login_id=PingGu" target="_blank"> PingGu</a></li><li><img src="/https/www.mitbbs.com/img/gril_ico.gif"/><a href="http://127.0.0.1:8011/http/www.jiaoyou8.com/friends_info?action=user_info&login_id=chelseababy" target="_blank"> chelseababy</a></li>                </ul>
+                    	<div class="jiaoyou_girl_more"><a href="http://127.0.0.1:8011/http/www.jiaoyou8.com/friends_search?action=latest_upload_pic&gender=female&offset=0" target="_blank">more></a></div>
+                                    </div>
+                    <div style="height:15px;"></div>
+                    <div class="wm_jiaoyou_con_girl">
+                                    </div>
+                </div>
+                <div class="wm_left_top_add">
+                                </div>
+                            <div class="today_benison">
+                	<div class="today_benison_title"><a href="#">����ף��</a></div>
+                    <ul class="today_benison_con">
+                        <!--                    <li><a href="#">����ף��</a></li>-->
+    <!--                    <li><a href="#">����ף��</a></li>-->
+                    </ul>
+                    <div class="today_benison_more"><a href="/https/www.mitbbs.com/bbsdoc/Blessing.html">more></a></div>
+                </div>
+                <div class="index_con_left_add01">
+    <!--            	<a href="#"><img src="/https/www.mitbbs.com/img/add01.gif"></a>-->
+                                </div>
+                <div class="index_con_left_add01">
+    <!--            	<a href="#"><img src="/https/www.mitbbs.com/img/add02.gif"></a>-->
+                                </div>
+                <div class="index_con_left_add01">
+    <!--            	<a href="#"><img src="/https/www.mitbbs.com/img/add03.gif"></a>-->
+                                </div>
+                <div class="index_con_left_add01">
+                    <!--            	<a href="#"><img src="/https/www.mitbbs.com/img/add03.gif"></a>-->
+                                </div>
+                <div class="wm_report">
+                	<div class="wm_report_title">���ڱ�վ�ı���</div>
+                    <ul class="wm_report_con wm_ann_con">
+                        <li><a href="/https/www.mitbbs.com/in_news/dizhengjuankuan.php" class="a2">�Ĵ��봨�������йر�վ�ı���</a></li>
+                        <li><a href="/https/www.mitbbs.com/in_news/olympics/aoyunshenghuo.php" class="a2">�ɽ�ɽ������ʥ��ý���йر�վ�ı���</a></li>
+                        <li><a href="/https/www.mitbbs.com/in_news/Nanfangdushi.htm" class="a2">�Ϸ����б����ڱ�վ�ı���</a></li>
+                        <li><a href="/https/www.mitbbs.com/in_news/nanjing.htm" class="a2">�Ϸ���ĩ���ڱ�վ�ı���</a></li>
+                        <li><a href="/https/www.mitbbs.com/in_news/mingbao_mitbbs.htm" class="a2">�������ڱ�վ�ı���</a></li>
+                        <li><a href="/https/www.mitbbs.com/in_news/worldjournal.htm" class="a2">�����ձ��йر�վ�ı���(2007-04)</a></li>
+                        <li><a href="/https/www.mitbbs.com/in_news/worldjournal_2.htm" class="a2">�����ձ��йر�վ�ı���(2012-01)</a></li>
+                        <li><a href="/https/www.mitbbs.com/in_news/PeopleDaily.htm" class="a2">�����ձ������<br>�йر�վ�ı���</a></li>
+                        <li><a href="/https/www.mitbbs.com/in_news/wsj.php" class="a2">�������ձ�(wsj)<br>���ڱ�վ�ı���</a></li>
+                    </ul>
+                </div>
+                            <div class="wm_left_top_add">
+                                </div>
+                <div class="wm_report wm_Links">
+                	<div class="wm_report_title">��������</div>
+                    <ul class="wm_report_con wm_ann_con">
+                        <li><a href="http://127.0.0.1:8011/http/GKDH.com" target="_blank" >���쵼��</a></li><!--                	<li><a href="#">���ü�</a></li>-->
+    <!--                	<li><a href="#">�ǵ�������</a></li>-->
+                    </ul>
+                    <div class="wm_Links_more"><a href="/mitbbs_links_more.php?t=1">more></a></div>
+                </div>
+                <div class="index_con_left_add02">
+                	<tr><td height="5"></td></tr><a href="http://127.0.0.1:8011/http/dwz.date/h7q" onclick="javascript:staticAd(1525,2);" > <img src="/https/www.mitbbs.com/ad_file/d/M.1579483876_2.80.gif" width="160" border="0"/></a><script language="javascript">staticAd(1525,1);</script>            </div>
+                <div class="index_con_left_add02">
+                			<tr><td align="center">
+                        <script async
+                                src="//127.0.0.1:8011/https/pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- first_page_160_600 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:160px;height:600px"
+                             data-ad-client="ca-pub-9374326915974877"
+                             data-ad-slot="3874510812"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </td></tr>
+                </div>
+            </div>
+    <!--         δ�����¼�-->
+        	<div class="index_con_center">
+            	<div class="index_con_cen_istop">
+                    <div style="height:23px; width:2px;position:absolute;top:0;left:0; background: url(../img/index_istop_title01.jpg) no-repeat;"></div>
+                	<div class="in_con_cen_istop_title"><span class="istop_title">�ö�����</span>
+                    	<div class="in_con_cen_istop_title_right">
+                        	<a href="/https/www.mitbbs.com/rss/top.xml" target="_blank"><img src="/https/www.mitbbs.com/img/rss.jpg" height="14" width="36"/></a>
+                            <a href="/https/www.mitbbs.com/newindex/zd_index.php"><img src="/https/www.mitbbs.com/img/hg_ico.gif"/></a>
+                        </div>
+                        <div class="index_Front_Page">
+                                                            <h3><a href="/https/www.mitbbs.com/news/mitbbs_news.php" class="new_newhead_headlink">����ͷ����28��ǰ��ҽ���ɱ������ һ��ϸ�ڽҿ�����</a></h3>
+    <!--                                <tr><td class="new_bgdx" align="left" height="13" style="padding:2px 1px 2px 10px;text-indent:27px;line-height:20px; ">--><!--&nbsp;</td></tr>-->
+                                    <p>&nbsp;&nbsp;&nbsp;Ů��ѧ���ڽ�ѧ¥������ʱ������֮������ʬ�屻�ؽ�����ˮ�� ����1992��3�£��������Ͼ�ҽ�ƴ�ѧ������Ů��ѧ�����ɱһ�������Ͼ��䶯һʱ���������㷺��ע��28���ȥ�ˣ��ð��������˽����2��23�������Ͼ��й�?...</p>
+                                <!--                    	<h3><a href="#">����ͷ�����½�������ʦ���:�ֳ�װ�׳�100����(ͼ)</a></h3>-->
+    <!--                        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5��23�����磬�½�������������װѲ����������������ֲ��ר���ж���ʦ�������³ľ����С��й��������ξ�ίԱ����������ί����Ŵ��ͣ�����ίԱ�����ҷ����쵼С���鳤...</p>-->
+                        </div>
+                        <div class="index_other_news">
+                        	<ul class="index_other_news01 height_600">
+                                        <li><a href="/https/www.mitbbs.com/article_t/Military/56018107.html" class="a2">����ɽ���Ժ�����ʡ��ʵ�ء�ʵ�����ǵر��������������ʾ����</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56017793.html" class="a2">�����ȷ�ﲡ����130���װ͵ڵ�5�����ܲ����������ͣ��</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56017503.html" class="a2">ace2������Ǹ��ǳ���Ҫ��֤��</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56017449.html" class="a2">����ʲô�������й����ñ���������</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/NBA/32406805.html" class="a2">Τ����ʽ�����ˣ���˵˵�����е�wade3��</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/NBA/32406807.html" class="a2">һ����������������˹��ְҵ���ľ���һ����д�ı���</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56017369.html" class="a2">�����������е�֢״�����������ģ�</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016933.html" class="a2">�Ҷ����﹤���ߵ�ӡ��</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016775.html" class="a2">��������������弫����ʢ��Ҫ�����������</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016689.html" class="a2">�����������޷���������ȱ��������ÿ�ܹ���һ��</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016639.html" class="a2">��Ⱦ�ͷ����ֻţ�ŷ��Ҫ������</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016555.html" class="a2">����һҽԺ����ƹ�102��סԺ���ˣ�99��ȷ��</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Thoughts/31282065.html" class="a2">�й��Ļ�����������أ��ѣ�</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Prose/31216629.html" class="a2">����ʧȥ���ĺû��ᣬ���ڹ���</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016451.html" class="a2">���Ƕ�����˰����Щ�¶�</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016443.html" class="a2">���������ʱ��ٰ���</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016441.html" class="a2">�׶����ʱ������ʲô�أ�</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016439.html" class="a2">ŷ�˻᲻��������ˣ�</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016437.html" class="a2">���ĵĻ��ǲ�����ѧ����ȥ</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016429.html" class="a2">�ձ��ǽӻ��ǲ��ӣ�</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016343.html" class="a2">����TOS-1A ���̹�ˣ�һ���ּ���ݲ���</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016305.html" class="a2">�����ȫ�򾭼���ɵ�Ӱ���ж��</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Memory/31491405.html" class="a2">����ʱ����ˣ��Ҿͻ���������</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Memory/31491401.html" class="a2">�Ȳ��������һ����</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016163.html" class="a2">�й��������������ٷ綴��ʼ���ԣ�ս���з��ӿ죿</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Memory/31491399.html" class="a2">�������ı����ң����ҳ��ԣ�����ʹ�����</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56016079.html" class="a2">�����������ƻ�����죬����׹��������</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/man/31234561.html" class="a2">���ԵĶ����޵���</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Joke/34177467.html" class="a2">���Ͻ�����һ��ʵ�õĽ�����ʩ���б��޻���</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56015803.html" class="a2">�����¡����һ��ʼ�ͼ����ѡ���������ڴ��ղ�����ˡ����ɡ�</a></li>
+            </ul><ul class="index_other_news01 index_other_news02 height_600">        <li><a href="/https/www.mitbbs.com/article_t/Military/56015797.html" class="a2">�й�����������裬�����������ٵ�һ��������</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56015795.html" class="a2">Ϊ��ӭ�������գ�ӡ�ȵ����ӹ��̵�����û��Ҫ</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Joke/34177411.html" class="a2">Ϊ�˲��ô�Ҿ������������ǲٲ������</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56015779.html" class="a2">���Ϻ����������ζ����������Ĺ����к�����ϰ</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Joke/34177409.html" class="a2">��˵�����������˰���Ը��� ��ô����ô�� &amp;#160;</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56015773.html" class="a2">�Ϸ�����ô���Լ��ľ�����еģ�</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56015765.html" class="a2">�������������ƣ���Щ���Ҹ�ʡʡ��</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56015743.html" class="a2">�ӶԴ���Ϊ����²��ѿ������������������Ѿ���ȥ��</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Heart/31455869.html" class="a2">�¸Ҹ�����˵NO���������Ȩ��</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/GenderEquality/24369.html" class="a2">˵��˵��������ÿ�����</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Dreamer/35049735.html" class="a2">������۲��ǣ�ȷʵ���������򷿵����塣</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Dreamer/35049699.html" class="a2">����Ȧ ���������µģ����ǻ�ò��õ�</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56015517.html" class="a2">Ů�ӻ��ɵ÷�����ҳ��ߣ��������ں���</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56015375.html" class="a2">�����Ϊŷ�����������ع��ң��ӽ�����</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/TVChinese/31843359.html" class="a2">�������硷�����ʵ��û������</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56015145.html" class="a2">�ָ�ǰ���ʦ��Ŭ��ɭ�����������촫��</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Travel/31916249.html" class="a2">ȥ����Ҫ��ע������̫����</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/PhotoGear/35498395.html" class="a2">���ڣ�һ�����������</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56014745.html" class="a2">�·�Ժ������˹�����������������ܿ콫����</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Movie/31648597.html" class="a2">ԭ��������Ҫ�Ͽεİ���</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/Military/56014467.html" class="a2">���ذ������ҷ�������ǰ15���������ڶ��꣬������Ų���</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/USANews/33959067.html" class="a2">���ڿ�ý����ˣ��ܲ�����ֹ�����ӣ���</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/USANews/33959065.html" class="a2">����ѡ����Ҫע�Ṳ�͵�Ͷ���͵�����Ч��</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/USANews/33959033.html" class="a2">�������������ͳ������Ӧ����ô������</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/USANews/33958953.html" class="a2">���ѡ���ǰݵ�</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/USANews/33958883.html" class="a2">����Ų����������Ѳ��������רΪװ��F-35ս����</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/USANews/33958859.html" class="a2">���з������״��Ӧ�Ը߳���������</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/bagua/31608549.html" class="a2">���������˳����й����������ǵ��ڻ�����</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/USANews/33958833.html" class="a2">������˾ȷ�϶��737MAXȼ����������Ǻ��ǻ���</a></li>
+                    <li><a href="/https/www.mitbbs.com/article_t/bagua/31608509.html" class="a2">������ǰ�������ܣ�ֻ��˵���ڵ�С���ⲻ�����</a></li>
+            </ul><ul class="index_other_news01"><li style="background-image:url('/https/www.mitbbs.com/img/toparticle_bg_k.png')"><a href="http://127.0.0.1:8011/http/www.cardbenefit.com/search-credit-cards/?cardChoice=creditRating&ccRating=good-credit&introid=wfpropel&show=75&src=mb" target="_blank" onclick="javascript:staticAd(531,2);" class="a2">Wells Fargo����3%, ��$200, �����!</a></li><script language='javascript'>staticAd(531,1);</script></ul><ul class="index_other_news01 index_other_news02"><li style="background-image:url('/https/www.mitbbs.com/img/toparticle_bg_k.png')"><a href="http://127.0.0.1:8011/http/www.rencai8.com" target="_blank" onclick="javascript:staticAd(921,2);" class="a2">���㺣��ǰ�ȿ������</a></li><script language='javascript'>staticAd(921,1);</script>                        </ul>
+                            <div style="height:3px; width:553px; clear:both;"></div>
+                        </div>
+                    </div>
+                <!--add by baibing at 20140808 for new css-->
+                <div style="height:2px; clear:both;"></div>
+                <!--add by baibing at 20140808 for new css-->
+                </div>
+                <div class="index_con_add01">
+                                                </div>
+                <div class="index_hotspace">
+                    <div class="index_hotspace_title">
+                            <strong>��ǰ���Ű���</strong>
+                            <a href="/https/www.mitbbs.com/newindex/tb_index.php"></a>
+                    </div>
+                        <div class="index_hotspace_table">
+                            <ul class="index_hotspace_con01">                            <a href="/https/www.mitbbs.com/bbsdoc/PopNews.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:60px;overflow:hidden;height:30px;float:left;word-break:break-all;">��������</span>(4310)</li></a>
+                                                            <a href="/https/www.mitbbs.com/bbsdoc/ImmigrationNews.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:60px;overflow:hidden;height:30px;float:left;word-break:break-all;">��������</span>(3616)</li></a>
+                                                            <a href="/https/www.mitbbs.com/bbsdoc/Military.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:60px;overflow:hidden;height:30px;float:left;word-break:break-all;">�������</span>(3431)</li></a>
+                                                            <a href="/https/www.mitbbs.com/bbsdoc/JobHunting.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:60px;overflow:hidden;height:30px;float:left;word-break:break-all;">���ֹ���</span>(3104)</li></a>
+                                                            <a href="/https/www.mitbbs.com/bbsdoc/Money.html" style="color:#5c4501"><li class="table01_li01" style="border-right:0px;"><span style="max-width:60px;overflow:hidden;height:30px;float:left;word-break:break-all;">��������</span>(3051)</li></a>
+                                </ul><ul class="index_hotspace_con02">                            <a href="/https/www.mitbbs.com/bbsdoc/LeisureTime.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:60px;overflow:hidden;height:30px;float:left;word-break:break-all;">�������迴��Ӱ</span>(2930)</li></a>
+                                                            <a href="/https/www.mitbbs.com/bbsdoc/ScitechNews.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:60px;overflow:hidden;height:30px;float:left;word-break:break-all;">�Ƽ�����</span>(2869)</li></a>
+                                                            <a href="/https/www.mitbbs.com/bbsdoc/Faculty.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:60px;overflow:hidden;height:30px;float:left;word-break:break-all;">������</span>(2761)</li></a>
+                                                            <a href="/https/www.mitbbs.com/bbsdoc/PhotoGear.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:60px;overflow:hidden;height:30px;float:left;word-break:break-all;">��Ӱ����</span>(2740)</li></a>
+                                                            <a href="/https/www.mitbbs.com/bbsdoc/SanFrancisco.html" style="color:#5c4501"><li class="table01_li01" style="border-right:0px;"><span style="max-width:60px;overflow:hidden;height:30px;float:left;word-break:break-all;">�����е���</span>(2710)</li></a>
+                                </ul>                  </div></div>
+                    <div class="index_con_add01">  <!--���λ-->
+                        <tr><td height="5"></td></tr><a href="http://127.0.0.1:8011/http/home-customization.com" onclick="javascript:staticAd(1471,2);" > <img src="/https/www.mitbbs.com/ad_file/b/M.1557970145_2.u0.gif" width="560" border="0"/></a><script language="javascript">staticAd(1471,1);</script>                </div>
+                    <div class="index_hotspace">
+                    <div class="index_hotspace_title">
+                            <strong>��ǰ���ž��ֲ�</strong>
+                        </div>
+                        <div class="index_hotspace_table">
+                              <ul class="index_hotspace_con01">                              <a href="/https/www.mitbbs.com/club_bbsdoc/Stockholm_Syndrome.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:72px;overflow:hidden;height:30px;float:left;word-break:break-all;">˹�¸��Ħ�ۺ�</span></li></a>
+                                                                <a href="/https/www.mitbbs.com/club_bbsdoc/NiubilityTalent.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:72px;overflow:hidden;height:30px;float:left;word-break:break-all;">�̿�������ֲ�</span></li></a>
+                                                                <a href="/https/www.mitbbs.com/club_bbsdoc/HVAC_AC_HEATING.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:72px;overflow:hidden;height:30px;float:left;word-break:break-all;">��ů�� _�ȱ�</span></li></a>
+                                                                <a href="/https/www.mitbbs.com/club_bbsdoc/Scientific_topics.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:72px;overflow:hidden;height:30px;float:left;word-break:break-all;">��ѧ԰��</span></li></a>
+                                                                <a href="/https/www.mitbbs.com/club_bbsdoc/wen587.html" style="color:#5c4501"><li class="table01_li01" style="border-right:0px;"><span style="max-width:72px;overflow:hidden;height:30px;float:left;word-break:break-all;">�������</span></li></a>
+                                  </ul><ul class="index_hotspace_con02">                              <a href="/https/www.mitbbs.com/club_bbsdoc/Tesla_Model_3.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:72px;overflow:hidden;height:30px;float:left;word-break:break-all;">��˹������</span></li></a>
+                                                                <a href="/https/www.mitbbs.com/club_bbsdoc/In_the_middle.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:72px;overflow:hidden;height:30px;float:left;word-break:break-all;">����̸</span></li></a>
+                                                                <a href="/https/www.mitbbs.com/club_bbsdoc/pingxie.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:72px;overflow:hidden;height:30px;float:left;word-break:break-all;">��а�ҵ�������</span></li></a>
+                                                                <a href="/https/www.mitbbs.com/club_bbsdoc/YouTuber.html" style="color:#5c4501"><li class="table01_li01" ><span style="max-width:72px;overflow:hidden;height:30px;float:left;word-break:break-all;">�͹�רվ</span></li></a>
+                                                                <a href="/https/www.mitbbs.com/club_bbsdoc/LBJ.html" style="color:#5c4501"><li class="table01_li01" style="border-right:0px;"><span style="max-width:72px;overflow:hidden;height:30px;float:left;word-break:break-all;">��ղ��˿��</span></li></a>
+                                  </ul>                  </div></div><!--�ñ���������--��ʽ�����õĺ���-----IE�е�5�����ϱ߾������޷����������--pass-->
+                <div class="index_con_add01">
+    <!--            	<a href="#"><img src="/https/www.mitbbs.com/img/m.1398067957_2.q0.gif" height="50" width="590"/></a>-->
+                    <tr><td height="5"></td></tr><a href="/AppDownload/index.php" onclick="javascript:staticAd(965,2);" > <img src="/https/www.mitbbs.com/ad_file/M.1408501673_2.T0.gif" width="560" border="0"/></a><script language="javascript">staticAd(965,1);</script>            </div> 
+                <div class="index_ten_big">
+                	<div class="index_ten_big_left">
+                    	<div class="index_ten_big_left_title">
+                        	<span class="ten_big_left_tit_left"></span>
+                            <div class="ten_big_left_tit_center">
+                            	<strong>ʮ�����Ż���</strong>
+                                <a class="tit_center_lookback" href="/https/www.mitbbs.com/newindex/rm_index.php"></a>
+                                <a class="tit_center_rss" href="/https/www.mitbbs.com/rss/top.xml"></a>
+                            </div>
+                        	<span class="ten_big_left_tit_right"><a href="#"></a></span>
+                        </div>
+                        <div class="index_ten_big_left_con">
+                        	<ol>
+                             <li><a href="/https/www.mitbbs.com/article_t/Military/56025345.html">���бȽϲҵ��ǣ� ���ӻῼ��������û��</a></li><li><a href="/https/www.mitbbs.com/article_t/USANews/33959647.html">�����Ӹ����ɹ�����Ӧ�ø�л�������ɵ�̰</a></li><li><a href="/https/www.mitbbs.com/article_t/Automobile/36173541.html">��־Rx350 �����ײ Nissan Rogue ����6</a></li><li><a href="/https/www.mitbbs.com/article_t/PhotoGear/35498439.html">����ĩ��������Ŀ�΢���Ľ���</a></li><li><a href="/https/www.mitbbs.com/article_t/Faculty/31988693.html">��λ</a></li><li><a href="/https/www.mitbbs.com/article_t/Joke/34177567.html">�ҷ����˷��/��ϣ�� ������/ͻ�ʵĹ�ͨ</a></li><li><a href="/https/www.mitbbs.com/article_t/Texas/32121613.html">���Ѵ�Ҳ�Ҫȥfirestone�������Ū����</a></li><li><a href="/https/www.mitbbs.com/article_t/Immigration/34042115.html">EB1A approved ����һ�����</a></li><li><a href="/https/www.mitbbs.com/article_t/JobHunting/33502381.html">�� vs ����</a></li><li><a href="/https/www.mitbbs.com/article_t/History/32348381.html">�ҷ����˷��/��ϣ�� ������/ͻ�ʵĹ�ͨ</a></li>                        </ol>
+                        </div>
+                    </div>
+                	<div class="index_ten_big_right">
+                    	<div class="index_ten_big_left_title">
+                        	<span class="ten_big_left_tit_left"></span>
+                            <div class="ten_big_left_tit_center">
+                            	<strong>ʮ���Ƽ�����</strong>
+                                <a class="tit_center_lookback02" href="/https/www.mitbbs.com/newindex/tj-yellow.php"></a>
+                                <a class="tit_center_rss" href="/https/www.mitbbs.com/rss/top.xml" target="_blank"></a>
+                            </div>
+                        	<span class="ten_big_left_tit_right"><a href="#"></a></span>
+                        </div>
+                        <div class="index_ten_big_left_con">
+                        	<ol>
+                                <li><a href="/https/www.mitbbs.com/article_t/Military/56021551.html">������Ա����Ⱦ�¹ڷ���ϸ�ڣ���ʹ����к</a></li><li><a href="/https/www.mitbbs.com/article_t/Military/56021599.html">�����ƻ�������� ��ֺܱ��ҡ�</a></li><li><a href="/https/www.mitbbs.com/article_t/Military/56021631.html">��������Ԥ����߼� �������й���ѧ����</a></li><li><a href="/https/www.mitbbs.com/article_t/Military/56021695.html">28��ǰ��ҽ��һŮ�����ɱ������</a></li><li><a href="/https/www.mitbbs.com/article_t/Military/56021793.html">Ӣ�����޹�����������ʯ��������ϸ�ڣ���</a></li><li><a href="/https/www.mitbbs.com/article_t/Military/56021799.html">����漱�������漱</a></li><li><a href="/https/www.mitbbs.com/article_t/Military/56021823.html">���й����ߣ�ӡ�����ڲ��ϸ�������</a></li><li><a href="/https/www.mitbbs.com/article_t/Military/56021849.html">102����99��ȷ�</a></li><li><a href="/https/www.mitbbs.com/article_t/Military/56021877.html">�ձ�������������</a></li><li><a href="/https/www.mitbbs.com/article_t/bagua/31608561.html">ʲô������ºա�������Σ�</a></li>                        </ol>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="index_con_add01">
+                <a href="/https/www.mitbbs.com/yimin/ymindex.php" onclick="javascript:staticAd(1317,2);" > <img src="/https/www.mitbbs.com/ad_file/I/M.1554353668_2.w0.gif" width="560" border="0"/></a><script language="javascript">staticAd(1317,1);</script>            </div>
+    <!--            ���ô���Ϣδ����-->
+                            <div class="index_migrant">
+                	<div class="index_migrant_left">
+                    	<div class="index_migrant_left_title">
+                        	<span class="migrant_left_tit_left"></span>
+                            <div class="migrant_left_tit_center">
+                            	<a style="float:left;" href="/https/www.mitbbs.com/yimin/ymindex.php"><strong>δ������</strong></a>
+                                <a class="tit_center_lookback" href="/https/www.mitbbs.com/yimin/ymindex.php"></a>
+                            </div>
+                        	<span class="ten_big_left_tit_right"><a href="/https/www.mitbbs.com/yimin/ymindex.php"></a></span>
+                        </div>
+                        <div class="index_migrant_con">
+                        	<ul class="lawyer_name">
+    <!--                            <li><a href="/https/www.mitbbs.com/yimin/ymindex.php">л��Ȩ��ʦ</a></li>-->
+                                <li><a href="/https/www.mitbbs.com/yimin/ymindex.php">��������ʦ</a></li>
+                                <li><a href="/https/www.mitbbs.com/yimin/ymindex.php">������ʦ</a></li>
+                                <li><a href="/https/www.mitbbs.com/yimin/ymindex.php">��������ʦ</a></li>
+    <!--                            <li><a href="/https/www.mitbbs.com/yimin/ymindex.php">�����ʦ</a></li>-->
+    <!--                            <li><a href="/https/www.mitbbs.com/yimin/ymindex.php">YZ��ʦ</a></li>-->
+    <!--                            <li><a href="/https/www.mitbbs.com/yimin/ymindex.php">Annie����ʦ</a></li>-->
+                                <li><a href="/https/www.mitbbs.com/yimin/ymindex.php">����������ʦ</a></li>
+    <!--                            <li><a href="/https/www.mitbbs.com/yimin/ymindex.php">���±���ʦ</a></li>-->
+    <!--                            <li><a href="/https/www.mitbbs.com/yimin/ymindex.php">�뾻��ʦ</a></li>-->
+    							<!--<li><a href="/https/www.mitbbs.com/yimin/ymindex.php">��ʯ��ʦ</a></li>-->
+                            </ul>
+    						<div class="index_lawyer_title">
+    							<strong class="index_lawyer_title_left">���±���</strong>
+    							<strong class="index_lawyer_title_right">��Դ���</strong>
+                            </div>
+                            <ul class="index_migrant_left_con01"><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">3���й���½����EB-2ǰ��һ���� EB-3ǰ����������</a></li><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">���ڹ����������¹潫��2��24����ʵʩ</a></li><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">H-1Bע�ᵹ��ʱ��10��������������Ƶ�ؼ���</a></li><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">��������AAO �ɹ��Ʒ�NSC�����NIW�о����</a></li><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">��ҵ�繤��ʦEB1A����С����</a></li><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">����ʱ�ڣ��ڹ��̿�����ļ����Ҹ�</a></li><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">12/30-1/17 �����յ�17 EB1A, 146 NIW, 4 O1A ��</a></li><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">��������Է���������(F-1, J-1, H-1B, O-1)��Ӱ</a></li></ul><ul class="index_migrant_left_con02"><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">hooyou</a></li><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">hooyou</a></li><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">jingchenglaw</a></li><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">WeGreened</a></li><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">jingchenglaw</a></li><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">LiuLaw</a></li><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">WeGreened</a></li><li><a href="/https/www.mitbbs.com/yimin/ymindex.php">LiuLaw</a></li></ul>                    </div>
+                    </div>
+                    <div class="index_sponsor_links">
+                    	<div class="index_sponsor_links_title"><strong>��������</strong></div>
+                        <div class="index_sponsor_links_add">
+                            <tr><td height="5"></td></tr><a href="http://127.0.0.1:8011/http/www.jiaoyou8.com" onclick="javascript:staticAd(585,2);" > <img src="/https/www.mitbbs.com/ad_file/M.1313599156_2.n0.gif" width="160" border="0"/></a><script language="javascript">staticAd(585,1);</script><tr><td height="5"></td></tr><a href="http://127.0.0.1:8011/http/www.perspectiveedu.com" onclick="javascript:staticAd(587,2);" > <img src="/https/www.mitbbs.com/ad_file/M.1313599191_2.o0.gif" width="160" border="0"/></a><script language="javascript">staticAd(587,1);</script>                        <a href="/contact_us.htm">���������ӷ������</a>
+                        <div>	
+                    </div>
+                </div>          
+                   </div>
+               </div>
+                			<div class="index_con_add01">		
+    							
+    			</div>
+               	<div style="height:2px; clear:both;"></div>
+                <div class="index_recruit">
+                	<div class="index_recruit_title">
+                    	<span class="index_recruit_title_left"></span>
+                        <div class="index_recruit_title_center">
+                        	<ul class="index_PremierAssociate_nav">
+                            	<li class="PremierAssociate_nav01" fenlei="rencai"  onmouseover='sendajax(this)'><a href="http://127.0.0.1:8011/http/www.rencai8.com/">δ�������˲���</a></li>
+                            	<li class="PremierAssociate_nav02" fenlei="chuzu"   onmouseover='sendajax(this)'><a href="/https/www.mitbbs.com/bbsdoc/HouseRental.html">���ݳ���/����</a></li>
+                            	<li class="PremierAssociate_nav03" fenlei="zhaopin" onmouseover='sendajax(this)'><a href="/https/www.mitbbs.com/bbsdoc/JobMarket.html">��Ƹ/��ְ</a></li>
+                            	<li class="PremierAssociate_nav04" fenlei="ershou"  onmouseover='sendajax(this)'><a href="/https/www.mitbbs.com/bbsdoc/FleaMarket.html">�����г�</a></li>
+                            	<li class="PremierAssociate_nav05" fenlei="gengduo"><a href="http://127.0.0.1:8011/http/www.rencai8.com" target="_blank"></a></li>
+                            </ul>
+                        </div>
+                    	<span class="index_recruit_title_right"></span>
+                    </div>
+                    <div class="index_recruit_list">
+                    	<ul>
+                        </ul>
+                    </div>
+                </div>
+                <div class="index_con_add01">
+                    <!--            	<img src="/https/www.mitbbs.com/img/m.1397647406_2.j0.gif" height="50" width="590"/>-->
+                </div>
+                <div class="index_bbs">
+                	<div class="index_bbs_title"><strong>��̳����</strong></div>
+                                    <div class="index_bbs_con">
+                    <div class="index_bbs_con_title"><ul><li class="bbs_con_title_tesuli01"><a href="/https/www.mitbbs.com/bbsboa/0.html">��������</a></li> <li><a href="/https/www.mitbbs.com/bbsdoc/USANews.html">��������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/History.html">ʷ������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/ChinaNews.html">�й�����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/PopNews.html"> ��������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/ScitechNews.html"> �Ƽ�����</a></li><li class="bbs_con_title_tesuli02"><a href="/https/www.mitbbs.com/bbsboa/0.html"><img src="/https/www.mitbbs.com/img/more.jpg"></img></a></li></ul></div><div class="index_bbs_con_title_title">
+                                                            <div class="bbs_con_t_t01">���±���</div>
+                                                            <div class="bbs_con_t_t02">����</div>
+                                                            <div class="bbs_con_t_t03">�����Դ</div>
+                                                            </div><div class="bbs_con_con"><ul class="bbs_con_t_t01_con01"><li><a href="/https/www.mitbbs.com/article_t/Military/56025345.html">���бȽϲҵ��ǣ� ���ӻῼ��������û��</a></li><li><a href="/https/www.mitbbs.com/article_t/Military/56028653.html">�����ȫ��������˷��ײ����µļ���</a></li><li><a href="/https/www.mitbbs.com/article_t/USANews/33959647.html">�����Ӹ����ɹ�����Ӧ�ø�л�������ɵ�̰�����޴�</a></li><li><a href="/https/www.mitbbs.com/article_t/USANews/33959621.html">���������ȫ����ж����׶�԰</a></li><li><a href="/https/www.mitbbs.com/article_t/History/32348381.html">�ҷ����˷��/��ϣ�� ������/ͻ�ʵĹ�֮ͨ�� (ת��)</a></li><li><a href="/https/www.mitbbs.com/article_t/ChinaNews2/53943.html">���Ӳ����ϰ࣬���ѳ�Ů�����¹ڷ���...</a></li><li><a href="/https/www.mitbbs.com/article_t/ChinaNews2/53935.html">��һ�����ӣ���������������������˹���</a></li><li><a href="/https/www.mitbbs.com/article_t/WorldNews/31498441.html">û���й��οͣ�̩������ҵ���ش�</a></li><li><a href="/https/www.mitbbs.com/article_t/ChinaNews/32654157.html">�������¼۸�һ��Ϊ�δ󲿷��˲�ȥ���¹����ֻ�</a></li><li><a href="/https/www.mitbbs.com/article_t/PopNews/31290887.html">���Ծ��ͻ�3.5Сʱ��������ġ���ľ���� ��Ц�������ѵ�</a></li></ul><ul class="bbs_con_t_t01_con02"><li><a href="/https/www.mitbbs.com/user_info/ts78/ts78">ts78</a></li><li><a href="/https/www.mitbbs.com/user_info/FYYY/FYYY">FYYY</a></li><li><a href="/https/www.mitbbs.com/user_info/sweetsister/sweetsister">sweetsister</a></li><li><a href="/https/www.mitbbs.com/user_info/TravisBickle/TravisBickle">TravisBickle</a></li><li><a href="/https/www.mitbbs.com/user_info/vuse/vuse">vuse</a></li><li><a href="/https/www.mitbbs.com/user_info/wuyan147/wuyan147">wuyan147</a></li><li><a href="/https/www.mitbbs.com/user_info/jojome/jojome">jojome</a></li><li><a href="/https/www.mitbbs.com/user_info/kuanfu/kuanfu">kuanfu</a></li><li><a href="/https/www.mitbbs.com/user_info/lucas88662/lucas88662">lucas88662</a></li><li><a href="/https/www.mitbbs.com/user_info/anews/anews">anews</a></li></ul><ul class="bbs_con_t_t01_con03"><li><a href="/https/www.mitbbs.com/bbsdoc/Military.html">�������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Military.html">�������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/USANews.html">��������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/USANews.html">��������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/History.html">ʷ������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/ChinaNews2.html">�й�����2</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/ChinaNews2.html">�й�����2</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/WorldNews.html">ȫ��t��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/ChinaNews.html">�й�����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/PopNews.html">��������</a></li></ul></div><div style="height:3px; clear:both;"></div><div class="index_bbs_con_title index_bbs_con_title01"><ul><li class="bbs_con_title_tesuli01"><a href="/https/www.mitbbs.com/bbsboa/1.html">��������</a></li> <li><a href="/https/www.mitbbs.com/bbsdoc/Faculty.html">������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Automobile.html">�����ϵĴ���</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/CellularPlan.html">�ֻ��ƻ�</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/FleaMarket.html">�����г�</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Stock.html">�ɺ�Ū��</a></li><li class="bbs_con_title_tesuli02"><a href="/https/www.mitbbs.com/bbsboa/1.html"><img src="/https/www.mitbbs.com/img/more.jpg"></img></a></li></ul></div><div class="index_bbs_con_title_title">
+                                                            <div class="bbs_con_t_t01">���±���</div>
+                                                            <div class="bbs_con_t_t02">����</div>
+                                                            <div class="bbs_con_t_t03">�����Դ</div>
+                                                            </div><div class="bbs_con_con"><ul class="bbs_con_t_t01_con01"><li><a href="/https/www.mitbbs.com/article_t/Automobile/36173445.html">tesla ά�޷�����ô��ô��</a></li><li><a href="/https/www.mitbbs.com/article_t/Automobile/36173541.html">��־Rx350 �����ײ Nissan Rogue ����6��ȫ���� (ת��)</a></li><li><a href="/https/www.mitbbs.com/article_t/Faculty/31988693.html">��λ</a></li><li><a href="/https/www.mitbbs.com/article_t/Faculty/31988619.html">zz�ս�������ѧ�������˾�����</a></li><li><a href="/https/www.mitbbs.com/article_t/Stock/37784019.html">��һ������ֻ</a></li><li><a href="/https/www.mitbbs.com/article_t/Immigration/34042115.html">EB1A approved ����һ�����</a></li><li><a href="/https/www.mitbbs.com/article_t/Immigration/34042133.html">����CP��485</a></li><li><a href="/https/www.mitbbs.com/article_t/Stock/37784103.html">��˹���ĸߡ���ֵ����ĺ�����</a></li><li><a href="/https/www.mitbbs.com/article_t/JobHunting/33502381.html">�� vs ����</a></li><li><a href="/https/www.mitbbs.com/article_t/Returnee/13664331.html">���ظ�ʹ�õĿ��֣��б�Ҫ������</a></li></ul><ul class="bbs_con_t_t01_con02"><li><a href="/https/www.mitbbs.com/user_info/jmljml/jmljml">jmljml</a></li><li><a href="/https/www.mitbbs.com/user_info/CrushHaters/CrushHaters">CrushHaters</a></li><li><a href="/https/www.mitbbs.com/user_info/xiyuan/xiyuan">xiyuan</a></li><li><a href="/https/www.mitbbs.com/user_info/ananpig/ananpig">ananpig</a></li><li><a href="/https/www.mitbbs.com/user_info/baniony/baniony">baniony</a></li><li><a href="/https/www.mitbbs.com/user_info/irrul3/irrul3">irrul3</a></li><li><a href="/https/www.mitbbs.com/user_info/nightelfssw/nightelfssw">nightelfssw</a></li><li><a href="/https/www.mitbbs.com/user_info/ming5678/ming5678">ming5678</a></li><li><a href="/https/www.mitbbs.com/user_info/pker/pker">pker</a></li><li><a href="/https/www.mitbbs.com/user_info/lianxinzhe/lianxinzhe">lianxinzhe</a></li></ul><ul class="bbs_con_t_t01_con03"><li><a href="/https/www.mitbbs.com/bbsdoc/Automobile.html">�����ϵĴ���</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Automobile.html">�����ϵĴ���</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Faculty.html">������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Faculty.html">������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Stock.html">�ɺ�Ū��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Immigration.html">�������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Immigration.html">�������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Stock.html">�ɺ�Ū��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/JobHunting.html">���ֹ���</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Returnee.html">����</a></li></ul></div><div style="height:3px; clear:both;"></div><div class="index_bbs_con_title index_bbs_con_title02"><ul><li class="bbs_con_title_tesuli01"><a href="/https/www.mitbbs.com/bbsboa/2.html">��������</a></li> <li><a href="/https/www.mitbbs.com/bbsdoc/Texas.html">�¿���˹��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Boston.html">��ʿ�ٵ���</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Chinese.html">���⻪��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/SanDiego.html">ʥ����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/LosAngeles.html">��ɼ������</a></li><li class="bbs_con_title_tesuli02"><a href="/https/www.mitbbs.com/bbsboa/2.html"><img src="/https/www.mitbbs.com/img/more.jpg"></img></a></li></ul></div><div class="index_bbs_con_title_title">
+                                                            <div class="bbs_con_t_t01">���±���</div>
+                                                            <div class="bbs_con_t_t02">����</div>
+                                                            <div class="bbs_con_t_t03">�����Դ</div>
+                                                            </div><div class="bbs_con_con"><ul class="bbs_con_t_t01_con01"><li><a href="/https/www.mitbbs.com/article_t/Texas/32121613.html">���Ѵ�Ҳ�Ҫȥfirestone�������Ū�������� ��������ǰȥ��?</a></li><li><a href="/https/www.mitbbs.com/article_t/Japan/31358833.html">�ձ�����Ҫȡ�����˻��˰�</a></li><li><a href="/https/www.mitbbs.com/article_t/NewYork/32903871.html">ŦԼ��ƻ������壨2/24---3/1��</a></li><li><a href="/https/www.mitbbs.com/article_t/SanFrancisco/34646837.html">������ӡ�Ƚ�����I alone can fuck coronavirus. (ת��)</a></li><li><a href="/https/www.mitbbs.com/article_t/Mainland/30669917.html">�人�����ȡ�� ��ط��߽���</a></li><li><a href="/https/www.mitbbs.com/article_t/SanFrancisco/34646685.html">��stop signͣ�ˣ�û������������ײ�ˡ��Է��϶������ˡ� (ת��</a></li><li><a href="/https/www.mitbbs.com/article_t/Mississippi/31333579.html">��־Rx350 �����ײ Nissan Rogue ����6��ȫ���� (ת��)</a></li><li><a href="/https/www.mitbbs.com/article_t/Mainland/30669915.html">2020���й�ʵ�徭�õļ����ص�</a></li><li><a href="/https/www.mitbbs.com/article_t/Boston/31889619.html">����Ҫ�򽡿�������ô��</a></li><li><a href="/https/www.mitbbs.com/article_t/HongKong/31167085.html">�����ֻ�����ŭ�������ɡ����ı�����</a></li></ul><ul class="bbs_con_t_t01_con02"><li><a href="/https/www.mitbbs.com/user_info/maxwe11/maxwe11">maxwe11</a></li><li><a href="/https/www.mitbbs.com/user_info/sunshine776/sunshine776">sunshine776</a></li><li><a href="/https/www.mitbbs.com/user_info/GZBOY/GZBOY">GZBOY</a></li><li><a href="/https/www.mitbbs.com/user_info/StephenKing/StephenKing">StephenKing</a></li><li><a href="/https/www.mitbbs.com/user_info/jojoa/jojoa">jojoa</a></li><li><a href="/https/www.mitbbs.com/user_info/ggggggg/ggggggg">ggggggg</a></li><li><a href="/https/www.mitbbs.com/user_info/felixsybian/felixsybian">felixsybian</a></li><li><a href="/https/www.mitbbs.com/user_info/ppday/ppday">ppday</a></li><li><a href="/https/www.mitbbs.com/user_info/wrinkle/wrinkle">wrinkle</a></li><li><a href="/https/www.mitbbs.com/user_info/alex3728/alex3728">alex3728</a></li></ul><ul class="bbs_con_t_t01_con03"><li><a href="/https/www.mitbbs.com/bbsdoc/Texas.html">�¿���˹��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Japan.html">�ձ�</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/NewYork.html">ŦԼ����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/SanFrancisco.html">�����е���</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Mainland.html">�й���½</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/SanFrancisco.html">�����е���</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Mississippi.html">��������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Mainland.html">�й���½</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Boston.html">��ʿ�ٵ���</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/HongKong.html">����֮��</a></li></ul></div><div style="height:3px; clear:both;"></div><div class="index_bbs_con_title index_bbs_con_title03"><ul><li class="bbs_con_title_tesuli01"><a href="/https/www.mitbbs.com/bbsboa/3.html">��������</a></li> <li><a href="/https/www.mitbbs.com/bbsdoc/Travel.html"> �ĺ�Ϊ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Football.html">�����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Basketball.html">����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Game.html">  ��������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Tennis.html">����</a></li><li class="bbs_con_title_tesuli02"><a href="/https/www.mitbbs.com/bbsboa/3.html"><img src="/https/www.mitbbs.com/img/more.jpg"></img></a></li></ul></div><div class="index_bbs_con_title_title">
+                                                            <div class="bbs_con_t_t01">���±���</div>
+                                                            <div class="bbs_con_t_t02">����</div>
+                                                            <div class="bbs_con_t_t03">�����Դ</div>
+                                                            </div><div class="bbs_con_con"><ul class="bbs_con_t_t01_con01"><li><a href="/https/www.mitbbs.com/article_t/Pingpong/31721241.html">����ѡ��</a></li><li><a href="/https/www.mitbbs.com/article_t/Tennis/32435015.html">�ı���һ��û�к��˵�·������������ᵽ�ı�Ŀ���</a></li><li><a href="/https/www.mitbbs.com/article_t/Soccer/34354383.html">��Ů��Ӧ�ü���������˪�����ܽ����˻᡿</a></li><li><a href="/https/www.mitbbs.com/article_t/NBA/32406805.html">Τ����ʽ�����ˣ���˵˵�����е�wade3��</a></li><li><a href="/https/www.mitbbs.com/article_t/Travel/31916249.html">ȥ����Ҫ��ע������̫����</a></li><li><a href="/https/www.mitbbs.com/article_t/Travel/31916247.html">������ô�����п��֣�</a></li><li><a href="/https/www.mitbbs.com/article_t/NBA/32406967.html">����73ʤ��ʿ����¹�������¼����������η</a></li><li><a href="/https/www.mitbbs.com/article_t/NCAA/32443359.html">2020 preseason college football FPI Ranking</a></li><li><a href="/https/www.mitbbs.com/article_t/SportsNews/31278837.html">�й�Ů����һ����һ�� ���������Ů�������Գ�������</a></li><li><a href="/https/www.mitbbs.com/article_t/SportsNews/31278845.html">��нǧ��Ĺ���ӳ������50���Ԯ�人����������������</a></li></ul><ul class="bbs_con_t_t01_con02"><li><a href="/https/www.mitbbs.com/user_info/rim855/rim855">rim855</a></li><li><a href="/https/www.mitbbs.com/user_info/szww/szww">szww</a></li><li><a href="/https/www.mitbbs.com/user_info/zlight/zlight">zlight</a></li><li><a href="/https/www.mitbbs.com/user_info/CRfans7/CRfans7">CRfans7</a></li><li><a href="/https/www.mitbbs.com/user_info/TRYTOBE007/TRYTOBE007">TRYTOBE007</a></li><li><a href="/https/www.mitbbs.com/user_info/V2018/V2018">V2018</a></li><li><a href="/https/www.mitbbs.com/user_info/james23/james23">james23</a></li><li><a href="/https/www.mitbbs.com/user_info/fcaub/fcaub">fcaub</a></li><li><a href="/https/www.mitbbs.com/user_info/anews/anews">anews</a></li><li><a href="/https/www.mitbbs.com/user_info/anews/anews">anews</a></li></ul><ul class="bbs_con_t_t01_con03"><li><a href="/https/www.mitbbs.com/bbsdoc/Pingpong.html">ƹ����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Tennis.html">����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Soccer.html">���ɣ�����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/NBA.html">NBA</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Travel.html">�ĺ�Ϊ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Travel.html">�ĺ�Ϊ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/NBA.html">NBA</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/NCAA.html">��ѧ����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/SportsNews.html">��������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/SportsNews.html">��������</a></li></ul></div><div style="height:3px; clear:both;"></div><div class="index_bbs_con_title index_bbs_con_title04"><ul><li class="bbs_con_title_tesuli01"><a href="/https/www.mitbbs.com/bbsboa/4.html">��������</a></li> <li><a href="/https/www.mitbbs.com/bbsdoc/Travel.html"> �ĺ�Ϊ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Movie.html">����Ӱ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/gardening.html">�黨�ǲ�</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Game.html">  ��������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/LeisureTime.html"> �������迴��Ӱ</a></li><li class="bbs_con_title_tesuli02"><a href="/https/www.mitbbs.com/bbsboa/4.html"><img src="/https/www.mitbbs.com/img/more.jpg"></img></a></li></ul></div><div class="index_bbs_con_title_title">
+                                                            <div class="bbs_con_t_t01">���±���</div>
+                                                            <div class="bbs_con_t_t02">����</div>
+                                                            <div class="bbs_con_t_t03">�����Դ</div>
+                                                            </div><div class="bbs_con_con"><ul class="bbs_con_t_t01_con01"><li><a href="/https/www.mitbbs.com/article_t/PhotoGear/35498439.html">����ĩ��������Ŀ�΢���Ľ���</a></li><li><a href="/https/www.mitbbs.com/article_t/PhotoGear/35498395.html">���ڣ�һ�����������</a></li><li><a href="/https/www.mitbbs.com/article_t/CouchPotato/31240561.html">��֪��������Ϊ��������������ô��</a></li><li><a href="/https/www.mitbbs.com/article_t/bagua/31608561.html">ʲô������ºա�������Σ�</a></li><li><a href="/https/www.mitbbs.com/article_t/bagua/31608505.html">���Ѽǵķ�˿�ǣ����˵Ķ�����˰�</a></li><li><a href="/https/www.mitbbs.com/article_t/Travel/31916249.html">ȥ����Ҫ��ע������̫����</a></li><li><a href="/https/www.mitbbs.com/article_t/Travel/31916247.html">������ô�����п��֣�</a></li><li><a href="/https/www.mitbbs.com/article_t/Movie/31648597.html">ԭ��������Ҫ�Ͽεİ���</a></li><li><a href="/https/www.mitbbs.com/article_t/TVChinese/31843385.html">Ϊʲô��ޱ�ܹ���ɽ���𣬷���������ȴ��������</a></li><li><a href="/https/www.mitbbs.com/article_t/PopNews/31290887.html">���Ծ��ͻ�3.5Сʱ��������ġ���ľ���� ��Ц�������ѵ�</a></li></ul><ul class="bbs_con_t_t01_con02"><li><a href="/https/www.mitbbs.com/user_info/Smeagol/Smeagol">Smeagol</a></li><li><a href="/https/www.mitbbs.com/user_info/edid/edid">edid</a></li><li><a href="/https/www.mitbbs.com/user_info/inipvpkok/inipvpkok">inipvpkok</a></li><li><a href="/https/www.mitbbs.com/user_info/Amandapy/Amandapy">Amandapy</a></li><li><a href="/https/www.mitbbs.com/user_info/lucas88662/lucas88662">lucas88662</a></li><li><a href="/https/www.mitbbs.com/user_info/TRYTOBE007/TRYTOBE007">TRYTOBE007</a></li><li><a href="/https/www.mitbbs.com/user_info/V2018/V2018">V2018</a></li><li><a href="/https/www.mitbbs.com/user_info/Tonyeverypep/Tonyeverypep">Tonyeverypep</a></li><li><a href="/https/www.mitbbs.com/user_info/qqdouzhuan/qqdouzhuan">qqdouzhuan</a></li><li><a href="/https/www.mitbbs.com/user_info/anews/anews">anews</a></li></ul><ul class="bbs_con_t_t01_con03"><li><a href="/https/www.mitbbs.com/bbsdoc/PhotoGear.html">��Ӱ����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/PhotoGear.html">��Ӱ����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/CouchPotato.html">��������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/bagua.html">���ְ���</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/bagua.html">���ְ���</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Travel.html">�ĺ�Ϊ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Travel.html">�ĺ�Ϊ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Movie.html">����Ӱ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/TVChinese.html">���ĵ���</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/PopNews.html">��������</a></li></ul></div><div style="height:3px; clear:both;"></div><div class="index_bbs_con_title index_bbs_con_title05"><ul><li class="bbs_con_title_tesuli01"><a href="/https/www.mitbbs.com/bbsboa/5.html">�������</a></li> <li><a href="/https/www.mitbbs.com/bbsdoc/Dreamer.html">���ﻨ��֪����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Sex.html"> ����ʶ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Midlife.html">�˵�����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Sex2.html"> ����ʶ2</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Piebridge.html">ȵ��</a></li><li class="bbs_con_title_tesuli02"><a href="/https/www.mitbbs.com/bbsboa/5.html"><img src="/https/www.mitbbs.com/img/more.jpg"></img></a></li></ul></div><div class="index_bbs_con_title_title">
+                                                            <div class="bbs_con_t_t01">���±���</div>
+                                                            <div class="bbs_con_t_t02">����</div>
+                                                            <div class="bbs_con_t_t03">�����Դ</div>
+                                                            </div><div class="bbs_con_con"><ul class="bbs_con_t_t01_con01"><li><a href="/https/www.mitbbs.com/article_t/Joke/34177589.html">����δ��֮�գ�Ů����Ϊʲô����</a></li><li><a href="/https/www.mitbbs.com/article_t/Joke/34177567.html">�ҷ����˷��/��ϣ�� ������/ͻ�ʵĹ�֮ͨ�� (ת��)</a></li><li><a href="/https/www.mitbbs.com/article_t/Rainbow/32130129.html">gayȦ��ĳЩ�ˣ������</a></li><li><a href="/https/www.mitbbs.com/article_t/man/31234567.html">�Ҿ����ܳɹ��Ķ�����������</a></li><li><a href="/https/www.mitbbs.com/article_t/Girl/31298265.html">�ĸ�30���Ů���أ�����Ľ̩�յģ�</a></li><li><a href="/https/www.mitbbs.com/article_t/Girl/31298257.html">Ů��һ��Ҫ��һ�׺�ȹд�棨ͼ��</a></li><li><a href="/https/www.mitbbs.com/article_t/Midlife/369923.html">���ɵĿ���</a></li><li><a href="/https/www.mitbbs.com/article_t/Midlife/369111.html">���꣬��Ǯզ�ã�</a></li><li><a href="/https/www.mitbbs.com/article_t/Whisper/31285199.html">��������Լ���</a></li><li><a href="/https/www.mitbbs.com/article_t/Memory/31491413.html">����ĳ����������ң���֪����</a></li></ul><ul class="bbs_con_t_t01_con02"><li><a href="/https/www.mitbbs.com/user_info/antyM/antyM">antyM</a></li><li><a href="/https/www.mitbbs.com/user_info/Huangchong/Huangchong">Huangchong</a></li><li><a href="/https/www.mitbbs.com/user_info/Giltobe/Giltobe">Giltobe</a></li><li><a href="/https/www.mitbbs.com/user_info/nicegir/nicegir">nicegir</a></li><li><a href="/https/www.mitbbs.com/user_info/Toy0102/Toy0102">Toy0102</a></li><li><a href="/https/www.mitbbs.com/user_info/nigS/nigS">nigS</a></li><li><a href="/https/www.mitbbs.com/user_info/dreamstop/dreamstop">dreamstop</a></li><li><a href="/https/www.mitbbs.com/user_info/wangmaggie12/wangmaggie12">wangmaggie12</a></li><li><a href="/https/www.mitbbs.com/user_info/girlhot/girlhot">girlhot</a></li><li><a href="/https/www.mitbbs.com/user_info/sunnywow/sunnywow">sunnywow</a></li></ul><ul class="bbs_con_t_t01_con03"><li><a href="/https/www.mitbbs.com/bbsdoc/Joke.html">��Ƥ���˶�</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Joke.html">��Ƥ���˶�</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Rainbow.html">ͬ־��ͬ־</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/man.html">����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Girl.html">��ޢ�껪</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Girl.html">��ޢ�껪</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Midlife.html">�˵�����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Midlife.html">�˵�����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Whisper.html">�������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Memory.html">��������</a></li></ul></div><div style="height:3px; clear:both;"></div><div class="index_bbs_con_title index_bbs_con_title06"><ul><li class="bbs_con_title_tesuli01"><a href="/https/www.mitbbs.com/bbsboa/6.html">��ѧ����</a></li> <li><a href="/https/www.mitbbs.com/bbsdoc/Sex2.html"> ����ʶ2</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/LeisureTime.html"> �������迴��Ӱ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/paladin.html"≯���۽𣬻���һ�� (����)</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Prose.html">ɢ��.ԭ����ѧ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Thoughts.html">˼����</a></li><li class="bbs_con_title_tesuli02"><a href="/https/www.mitbbs.com/bbsboa/6.html"><img src="/https/www.mitbbs.com/img/more.jpg"></img></a></li></ul></div><div class="index_bbs_con_title_title">
+                                                            <div class="bbs_con_t_t01">���±���</div>
+                                                            <div class="bbs_con_t_t02">����</div>
+                                                            <div class="bbs_con_t_t03">�����Դ</div>
+                                                            </div><div class="bbs_con_con"><ul class="bbs_con_t_t01_con01"><li><a href="/https/www.mitbbs.com/article_t/LeisureTime/2130627.html">������δ�</a></li><li><a href="/https/www.mitbbs.com/article_t/Prose/31216639.html">����˥�϶���Ĭ����</a></li><li><a href="/https/www.mitbbs.com/article_t/LeisureTime/2130625.html">��ϵ�人 ������F�������Լ�ڴ����������MV�����棩</a></li><li><a href="/https/www.mitbbs.com/article_t/Prose/31216629.html">����ʧȥ���ĺû��ᣬ���ڹ���</a></li><li><a href="/https/www.mitbbs.com/article_t/Thoughts/31282073.html">��ͥ��г��Ӱ��</a></li><li><a href="/https/www.mitbbs.com/article_t/Wisdom/31707225.html">��������֮��ѧ</a></li><li><a href="/https/www.mitbbs.com/article_t/Belief/31365899.html">��   ��ţ�ISBN978-988-13762-1-3</a></li><li><a href="/https/www.mitbbs.com/article_t/LoveNLust/498259.html">�������ݳ�Ů�������ǣ��������ݴ��ɳɹ���Ϯ</a></li><li><a href="/https/www.mitbbs.com/article_t/Wisdom/31707223.html">���������ԡ���ʦ���˽������</a></li></ul><ul class="bbs_con_t_t01_con02"><li><a href="/https/www.mitbbs.com/user_info/YiHhhh/YiHhhh">YiHhhh</a></li><li><a href="/https/www.mitbbs.com/user_info/duhddg/duhddg">duhddg</a></li><li><a href="/https/www.mitbbs.com/user_info/lami44/lami44">lami44</a></li><li><a href="/https/www.mitbbs.com/user_info/girlhot/girlhot">girlhot</a></li><li><a href="/https/www.mitbbs.com/user_info/KL357/KL357">KL357</a></li><li><a href="/https/www.mitbbs.com/user_info/Shixiang/Shixiang">Shixiang</a></li><li><a href="/https/www.mitbbs.com/user_info/geyimin1969/geyimin1969">geyimin1969</a></li><li><a href="/https/www.mitbbs.com/user_info/sunnywow/sunnywow">sunnywow</a></li><li><a href="/https/www.mitbbs.com/user_info/Dygtx/Dygtx">Dygtx</a></li></ul><ul class="bbs_con_t_t01_con03"><li><a href="/https/www.mitbbs.com/bbsdoc/LeisureTime.html">�������迴��Ӱ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Prose.html">ɢ��.ԭ����ѧ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/LeisureTime.html">�������迴��Ӱ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Prose.html">ɢ��.ԭ����ѧ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Thoughts.html">˼����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Wisdom.html">�����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Belief.html">�ڽ�����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/LoveNLust.html">����Ӱɫ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Wisdom.html">�����</a></li></ul></div><div style="height:3px; clear:both;"></div><div class="index_bbs_con_title index_bbs_con_title07"><ul><li class="bbs_con_title_tesuli01"><a href="/https/www.mitbbs.com/bbsboa/7.html">У������</a></li> <li><a href="/https/www.mitbbs.com/bbsdoc/PKU.html">������ѧ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/THU.html">�廪��ѧ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/NKU.html">�Ͽ���ѧ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/NJU.html">�Ͼ���ѧ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/USTC.html">�й���ѧ������ѧ</a></li><li class="bbs_con_title_tesuli02"><a href="/https/www.mitbbs.com/bbsboa/7.html"><img src="/https/www.mitbbs.com/img/more.jpg"></img></a></li></ul></div><div class="index_bbs_con_title_title">
+                                                            <div class="bbs_con_t_t01">���±���</div>
+                                                            <div class="bbs_con_t_t02">����</div>
+                                                            <div class="bbs_con_t_t03">�����Դ</div>
+                                                            </div><div class="bbs_con_con"><ul class="bbs_con_t_t01_con01"></ul><ul class="bbs_con_t_t01_con02"></ul><ul class="bbs_con_t_t01_con03"></ul></div><div style="height:3px; clear:both;"></div><div class="index_bbs_con_title index_bbs_con_title08"><ul><li class="bbs_con_title_tesuli01"><a href="/https/www.mitbbs.com/bbsboa/8.html">��������</a></li> <li><a href="/https/www.mitbbs.com/bbsdoc/Beijing.html">�Ұ������찲��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Hubei.html">��ͷ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Shanxi.html">��ϵ����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Shaanxi.html">����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/HuNan.html">������ˮ</a></li><li class="bbs_con_title_tesuli02"><a href="/https/www.mitbbs.com/bbsboa/8.html"><img src="/https/www.mitbbs.com/img/more.jpg"></img></a></li></ul></div><div class="index_bbs_con_title_title">
+                                                            <div class="bbs_con_t_t01">���±���</div>
+                                                            <div class="bbs_con_t_t02">����</div>
+                                                            <div class="bbs_con_t_t03">�����Դ</div>
+                                                            </div><div class="bbs_con_con"><ul class="bbs_con_t_t01_con01"><li><a href="/https/www.mitbbs.com/article_t/Hubei/31544285.html">˵��ûapp��������������ճ�</a></li><li><a href="/https/www.mitbbs.com/article_t/Hubei/31544269.html">֧���人����ҽԺ���ˣ����Ǹ��������϶���</a></li><li><a href="/https/www.mitbbs.com/article_t/Cantonese/31153891.html">�㶫�˲������ֳ����</a></li></ul><ul class="bbs_con_t_t01_con02"><li><a href="/https/www.mitbbs.com/user_info/moonlion/moonlion">moonlion</a></li><li><a href="/https/www.mitbbs.com/user_info/V2018/V2018">V2018</a></li><li><a href="/https/www.mitbbs.com/user_info/shiroKeith/shiroKeith">shiroKeith</a></li></ul><ul class="bbs_con_t_t01_con03"><li><a href="/https/www.mitbbs.com/bbsdoc/Hubei.html">��ͷ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Hubei.html">��ͷ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Cantonese.html">һ������</a></li></ul></div><div style="height:3px; clear:both;"></div><div class="index_bbs_con_title index_bbs_con_title09"><ul><li class="bbs_con_title_tesuli01"><a href="/https/www.mitbbs.com/bbsboa/9.html">��������</a></li> <li><a href="/https/www.mitbbs.com/bbsdoc/Programming.html">��������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Hardware.html">�����Ӳ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Apple.html">����ƻ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Game.html">  ��������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/ScitechNews.html"> �Ƽ�����</a></li><li class="bbs_con_title_tesuli02"><a href="/https/www.mitbbs.com/bbsboa/9.html"><img src="/https/www.mitbbs.com/img/more.jpg"></img></a></li></ul></div><div class="index_bbs_con_title_title">
+                                                            <div class="bbs_con_t_t01">���±���</div>
+                                                            <div class="bbs_con_t_t02">����</div>
+                                                            <div class="bbs_con_t_t03">�����Դ</div>
+                                                            </div><div class="bbs_con_con"><ul class="bbs_con_t_t01_con01"><li><a href="/https/www.mitbbs.com/article_t/Programming/31566045.html">������Զ��Ƕ��̵߳���������c++ semaphore �� ����Ҫ��̬�ı�</a></li><li><a href="/https/www.mitbbs.com/article_t/Apple/31831663.html">ƻ����Ʒ����AirPods��iPod touch����</a></li><li><a href="/https/www.mitbbs.com/article_t/Apple/31831665.html">һ��СС��оƬ���ڸǲ�סƻ���Ĵ�Ұ��</a></li><li><a href="/https/www.mitbbs.com/article_t/Programming/31566013.html">The virus source had been confirmed by...</a></li><li><a href="/https/www.mitbbs.com/article_t/ScitechNews/31287789.html">͵��&quot;��һ��&quot;����ɫ����վ����������������</a></li><li><a href="/https/www.mitbbs.com/article_t/ScitechNews/31287797.html">�ٴ�����������ҩ���¹ڷ��ף�δ����֢״����</a></li><li><a href="/https/www.mitbbs.com/article_t/Hardware/31986407.html">�򰮵����Ƽ��ѵ���������֪������㲻��Ӳ����</a></li><li><a href="/https/www.mitbbs.com/article_t/PDA/33137599.html">�������ͨ�����������õڶ���router��</a></li></ul><ul class="bbs_con_t_t01_con02"><li><a href="/https/www.mitbbs.com/user_info/gobigred/gobigred">gobigred</a></li><li><a href="/https/www.mitbbs.com/user_info/huihui345/huihui345">huihui345</a></li><li><a href="/https/www.mitbbs.com/user_info/fenger456/fenger456">fenger456</a></li><li><a href="/https/www.mitbbs.com/user_info/chebyshev/chebyshev">chebyshev</a></li><li><a href="/https/www.mitbbs.com/user_info/anews/anews">anews</a></li><li><a href="/https/www.mitbbs.com/user_info/anews/anews">anews</a></li><li><a href="/https/www.mitbbs.com/user_info/wsn2017/wsn2017">wsn2017</a></li><li><a href="/https/www.mitbbs.com/user_info/fzjpx/fzjpx">fzjpx</a></li></ul><ul class="bbs_con_t_t01_con03"><li><a href="/https/www.mitbbs.com/bbsdoc/Programming.html">��������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Apple.html">����ƻ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Apple.html">����ƻ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Programming.html">��������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/ScitechNews.html">�Ƽ�����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/ScitechNews.html">�Ƽ�����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Hardware.html">�����Ӳ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/PDA.html">���б�</a></li></ul></div><div style="height:3px; clear:both;"></div><div class="index_bbs_con_title index_bbs_con_title10"><ul><li class="bbs_con_title_tesuli01"><a href="/https/www.mitbbs.com/bbsboa/10.html">ѧ��ѧ��</a></li> <li><a href="/https/www.mitbbs.com/bbsdoc/Pharmaceutical.html">��ҩ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/MedicalCareer.html">ҽѧְҵ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/China.html">�й��о�</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/ME.html">��е����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Chemistry.html">��ѧ</a></li><li class="bbs_con_title_tesuli02"><a href="/https/www.mitbbs.com/bbsboa/10.html"><img src="/https/www.mitbbs.com/img/more.jpg"></img></a></li></ul></div><div class="index_bbs_con_title_title">
+                                                            <div class="bbs_con_t_t01">���±���</div>
+                                                            <div class="bbs_con_t_t02">����</div>
+                                                            <div class="bbs_con_t_t03">�����Դ</div>
+                                                            </div><div class="bbs_con_con"><ul class="bbs_con_t_t01_con01"><li><a href="/https/www.mitbbs.com/article_t/China/30833849.html">�й��ƶ���Խ�ԣ����պ����߹����Ͼ��ܿ���</a></li><li><a href="/https/www.mitbbs.com/article_t/MedicalCareer/31610883.html">�������2020���һƪStep 1 ����~240�ľ���ͽ�ѵ</a></li><li><a href="/https/www.mitbbs.com/article_t/China/30833861.html">2020���й������»����ɱ���</a></li><li><a href="/https/www.mitbbs.com/article_t/Pharmaceutical/31206147.html">ҩ�� Industry Postdoc ��ѯ</a></li><li><a href="/https/www.mitbbs.com/article_t/Biology/32105109.html">����������ʲô�й�ϵ��</a></li><li><a href="/https/www.mitbbs.com/article_t/Computation/31169747.html">ICSI&#039;2020: Final Call for Papers (Feb.29)</a></li><li><a href="/https/www.mitbbs.com/article_t/Computation/31169745.html">DMBD&#039;2020: Final Call for Papers</a></li><li><a href="/https/www.mitbbs.com/article_t/MedicalCareer/31610877.html">�����ҽѧ��������������ҽִ�տ���������</a></li></ul><ul class="bbs_con_t_t01_con02"><li><a href="/https/www.mitbbs.com/user_info/trusthug/trusthug">trusthug</a></li><li><a href="/https/www.mitbbs.com/user_info/Jingxia/Jingxia">Jingxia</a></li><li><a href="/https/www.mitbbs.com/user_info/cheapstar/cheapstar">cheapstar</a></li><li><a href="/https/www.mitbbs.com/user_info/shijiazhuang/shijiazhuang">shijiazhuang</a></li><li><a href="/https/www.mitbbs.com/user_info/codexxx/codexxx">codexxx</a></li><li><a href="/https/www.mitbbs.com/user_info/Cilpku/Cilpku">Cilpku</a></li><li><a href="/https/www.mitbbs.com/user_info/Cilpku/Cilpku">Cilpku</a></li><li><a href="/https/www.mitbbs.com/user_info/ilikelab/ilikelab">ilikelab</a></li></ul><ul class="bbs_con_t_t01_con03"><li><a href="/https/www.mitbbs.com/bbsdoc/China.html">�й��о�</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/MedicalCareer.html">ҽѧְҵ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/China.html">�й��о�</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Pharmaceutical.html">��ҩ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Biology.html">����ѧ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Computation.html">��ѧ����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Computation.html">��ѧ����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/MedicalCareer.html">ҽѧְҵ</a></li></ul></div><div style="height:3px; clear:both;"></div><div class="index_bbs_con_title index_bbs_con_title12"><ul><li class="bbs_con_title_tesuli01"><a href="/https/www.mitbbs.com/bbsboa/12.html">��վϵͳ</a></li> <li><a href="/https/www.mitbbs.com/bbsdoc/Notice.html">ϵͳ֪ͨ</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Recommend.html">�Ƽ�����</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/Complain.html">Ͷ��</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/WBCenter.html">α������</a></li><li><a href="/https/www.mitbbs.com/bbsdoc/sysop.html">վ���Ĺ�����</a></li><li class="bbs_con_title_tesuli02"><a href="/https/www.mitbbs.com/bbsboa/12.html"><img src="/https/www.mitbbs.com/img/more.jpg"></img></a></li></ul></div><div class="index_bbs_con_title_title">
+                                                            <div class="bbs_con_t_t01">���±���</div>
+                                                            <div class="bbs_con_t_t02">����</div>
+                                                            <div class="bbs_con_t_t03">�����Դ</div>
+                                                            </div><div class="bbs_con_con"><ul class="bbs_con_t_t01_con01"></ul><ul class="bbs_con_t_t01_con02"></ul><ul class="bbs_con_t_t01_con03"></ul></div><div style="height:3px; clear:both;"></div>                </div>
+                </div>
+           </div>
+            <div class="index_con_right">
+                <div class="index_con_right_add01">
+                    <tr><td height="5"></td></tr><tr><td align="center"><div id="right_ad_below_login1_body" style="display: none;"><a href="http://127.0.0.1:8011/http/www.rencai8.com/web/job_content.php?id=34326" target="_blank" onclick="javascript:staticAd(1519,2);" ><img src="/https/www.mitbbs.com/ad_file/C/M.1579157343_2.F0.gif" width="270" border="0" alt="����ʦ����ѧ"></a></div></td></tr><script language="javascript">staticAd(1519,1);</script><tr><td height="5"></td></tr><tr><td align="center"><div id="right_ad_below_login2_body" style="display: none;"><a href="http://127.0.0.1:8011/http/www.rencai8.com/web/job_content.php?id=34306" target="_blank" onclick="javascript:staticAd(963,2);" ><img src="/https/www.mitbbs.com/ad_file/b/M.1574825286_2.w0.gif" width="270" border="0" alt="ͬ�ô�ѧ�ߵ��о�Ժ"></a></div></td></tr><script language="javascript">staticAd(963,1);</script><tr><td height="5"></td></tr><tr><td align="center"><div id="right_ad_below_login3_body" style="display: none;"><a href="http://127.0.0.1:8011/http/www.rencai8.com/web/job_content.php?id=34104" target="_blank" onclick="javascript:staticAd(1217,2);" ><img src="/https/www.mitbbs.com/ad_file/v/M.1547781223_2.M0.gif" width="270" border="0" alt="�п�Ժ�Ϻ��ߵ��о�Ժ"></a></div></td></tr><script language="javascript">staticAd(1217,1);</script>		<script language="javascript">
+    			var tmpobj_2, curr_pos;
+    			var total_tmp = 3;
+    			var offset_tmp = 1;
+    			var ad_arry = new Array();
+    
+    			//save ad data into ad_arry
+    			for (ii=0; ii<total_tmp; ii++)
+    			{
+    				tmpobj_2  = document.getElementById("right_ad_below_login" + (ii+1) + "_body");
+    				ad_arry[ii] = tmpobj_2.innerHTML;
+    			}
+    
+    			//rotate ad
+    			for (ii=0; ii<total_tmp; ii++)
+    			{
+    
+    				curr_pos = (ii + offset_tmp) % total_tmp;
+    				tmpobj_2  = document.getElementById("right_ad_below_login" + (ii+1) + "_body");
+    				tmpobj_2.innerHTML = ad_arry[curr_pos];
+    				tmpobj_2.style.display = "block";
+    			}
+    		</script>
+    <!--            	<a href="#"><img src="/https/www.mitbbs.com/img/index_rightadd01.gif"/></a>-->
+    <!--            	<a href="#"><img src="/https/www.mitbbs.com/img/index_rightadd02.gif"/></a>-->
+    <!--            	<a href="#"><img src="/https/www.mitbbs.com/img/index_rightadd03.gif"/></a>-->
+    <!--            	<a href="#"><img src="/https/www.mitbbs.com/img/index_rightadd04.gif"/></a>-->
+                	
+                </div>
+                             <div class="index_right_newsbroth">
+                 <div class="index_right_newsbroth_title"><a class="newsbroth_title_left" href="/https/www.mitbbs.com/news/mitbbs_news.php"> ���Ŵ��ӻ�</a><span class="newsbroth_title_right">(����)2020��2��24��19:31</span></div><ul class="index_right_newsbroth_con">                    <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952277.html">��ҽ��Ů�����������ƣ��ӷ�����28�꣡</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952259.html">���찮�����ε�һ�Σ��·�������ȫ��������ס</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952261.html">29��ѳְŮҽ���ɷ�ҽԺ����������ECMO��������</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952263.html">���ȷ�����С��Ƶ�˾��󿪣���������������������ò���Ȼ</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952265.html">73����佯��Ϊ�����Ϊ�Լ��Ĳ����Դǣ����ڲ���</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952267.html">����Ψһ�ú��ŵ�׷��Ů�ǣ�������ֻ�����ģ�����˲�䱬ȫ��</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952269.html">�ε�����������û��������Ŀ�д�类ָ�����س�����</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952271.html">���輧���ֻ�䣿�Ϲ���ʧ��13�����ò�����룡</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952275.html">�����谸�����󣺷����ö�12������Ա�����ع⣡</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952255.html">28��ǰ��ɱŮ��ѧ���ӷ�ģ�⻭�����Ǳ���Ũü����</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952209.html">���人ɩ��&quot;����&quot;����Ϊ ������ǣ�����Ŭ���Ľ�</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952207.html">29��ȥ��Ůҽ���ɷ�:��Ѷ������� �������ĸ����</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952211.html">65����Ϸ�����ػ���Ĥ�׾�������������ɷ���죬һ����ɱδ��</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952213.html">����ϱ�����õ�������������Ⱦ������̫��Ȼ˵�´�Ҫ������ͬ��</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952215.html">102����99��ȷ�����һҽԺ����Ʒ����ۼ���Ⱦ</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952217.html">��־ӱ��̩��������Ϊ�α����Ͼܾ�������������Ƭ��������</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952219.html">��������ͬ��4��, ���ֺ������ѧ, ���39���Ե���һ�ˣ�</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952221.html">���͵��ĵ�һ�����ݱ顱��������Ȧ�����������ǡ�˫�֡���</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952223.html">�������Ű�֥���벻���л���渴�ϣ��Ű�֥�����̻ش����˳���</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952225.html">ʲô���¹ڲ����������죿��ý����������˵���֪������</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952231.html">98������ѧ̩�����¹ڷ��ײ�Σ ��Ů���ļ�ѰѪ��</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952233.html">�Ʊ�׷˼��ϸ���ع⣡Ԥ��ʱ��3Сʱ����λ���޽������¾���</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952235.html">�����谸��ʽ���������������г�����������</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952239.html">����ɽ����һ������Ϣ���������֮��</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952241.html">�����������ع⣿��С������ҹ̽���ͬ�ؾƵ꣡</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952243.html">�º�ǰ����溽���飿���������������Ϸ���Ҫ�Լ�װ��</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952247.html">���ο�³��Ӣ����լ�����ˣ�����������ݵأ�</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952249.html">һ��6���人����4�˸�������14���ȷ�� 143�˸���</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952251.html">񼾸ͯ��ҹֱ����Ӧ���飡��ɫ���̫���ۣ�</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952253.html">񼾸ͯ17�����ù������飿��5�����������ݳ��գ�</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952197.html">���͵Ķ����������ӣ��ɷ�������ǰ���ѣ���24������ճ�Ӱ��</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952199.html">��Ŀ����֪�����ڴ��޺������ձ������������ǳۣ�����Ӣ��</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952201.html">�ε����ִ����ӵ����ڡ��ھӼҡ������ˣ���θ����Ǵ��˹�</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952203.html">63�������������Ͻ�Ŀ��ȫ������ʶ��ժ�����ȫ������</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952205.html">�Ŵ�ȫ��������գ���ĸ�������缺����63�길�����ı���</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952193.html">л�Ȼ���̥�ˣ����ش���ǰ��С��¡����ζʮ�㣡</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952185.html">���ٷҶ��Ӱ������ع⣡����������������Ž���</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952187.html">ԭ̨���һ�������˽�������滬����ۼ���ҽ��</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952189.html">������78�긻���Ϲ����ع⣡��Ϊ�����30���ꣿ</a></li>
+                                        <li><a href="/https/www.mitbbs.com/news_wenzhang/Headline/31952191.html">����շ򸾲���Ƥ����˾������Э�����ʳɼٹ�棡</a></li>
+                    </ul><div class="index_right_newsbroth_con_more"><a href="/https/www.mitbbs.com/news/mitbbs_news.php">>>����</a></div>            <div class="index_con_right_add01">
+                                    </div>
+                <div class="index_right_ma_news">
+                    <div class="right_ma_news_title">
+                        <a href="/https/www.mitbbs.com/news_pg/zhongguo.html">��������</a>
+                    </div>
+                    <div class="right_ma_news_box01">
+                      <dl class="right_ma_news_box01_top"><dt class="ma_news_top_img"> <a href="/https/www.mitbbs.com/news_wenzhang/MiscNews/31300415.html"><img src="/https/www.mitbbs.com/column_pic/newscenter/m/M.1582523115_2.Q0_pic1_1" height="62" width="80"/></a></dt><dd class="ma_news_top_mintitle"><a href="/https/www.mitbbs.com/news_wenzhang/MiscNews/31300415.html">��ɣ��������֤��������</a></dd><dd class="ma_news_top_mincon">��Ӣ������ֿ�����ά�����ܴ�ʼ�˰�ɣ���ڶ�϶��פ... <a href="/https/www.mitbbs.com/news_wenzhang/MiscNews/31300415.html">[��ϸ]</a></dd></dl>                    <div style="height:3px; clear:both;"></div>
+                        <ul class="ma_news_con">
+                        <li><a href="/https/www.mitbbs.com/news_wenzhang/MiscNews/31300425.html">���׶���ҹ����ɫ�е���Ϯ�����Է����ơ����ʥս��֯��</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/MiscNews/31300421.html">��������������������������ͽ���������뷢�ۣ�</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/MiscNews/31300423.html">�������𽢽����״ν���ں��������ѿ�ʼ������ټ��ӣ�</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/MiscNews/31300419.html">���������̷�ӡ����ý������ó��Э�����������ų���</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/MiscNews/31300417.html">��Ϸ�����������ս����ʵ���ݣ�̹����װ�׳�����������</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/MiscNews/31300413.html">����11������ȷ����Ƴ��־�Ӫ�ڸ�Ⱦ��</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/MiscNews/31300411.html">���ڻ����ݾ�����������ѡ��ɣ��˹�����������ʤѡ��</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/MiscNews/31300407.html">�й��з����״��������ĸ����ѧ�һ�800�򽱽�</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/MiscNews/31300409.html">ӢŷԤ����顰�����족������ŷʱ��������ŷ���Žᣡ</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/MiscNews/31300405.html">ӡ����ˤ��һ���׸�-29K���ػ���2��ˤ��3�ܣ�</a></li>                    </ul>
+                        <div class="ma_news_more">
+                            <a href="/https/www.mitbbs.com/news_pg/zhongguo.html">>>����</a>
+                        </div>
+                  </div>
+                  </div>
+                <div class="index_con_right_add01">
+                            </div>
+                <div class="index_right_ma_news">
+                <div class="right_ma_news_title">
+                    <a href="/https/www.mitbbs.com/news_pg/haiwai.html">��������</a>
+                </div>
+                <div class="right_ma_news_box01">
+                <dl class="right_ma_news_box01_top"><dt class="ma_news_top_img"> <a href="/https/www.mitbbs.com/news_wenzhang/OverseasFocus/31299473.html"><img src="/https/www.mitbbs.com/column_pic/newscenter/Y/M.1582523293_2.s0_pic1_1" height="62" width="80"/></a></dt><dd class="ma_news_top_mintitle"><a href="/https/www.mitbbs.com/news_wenzhang/OverseasFocus/31299473.html">���������������ǣ�</a></dd><dd class="ma_news_top_mincon">����ʱ��2��22�գ�������¹ڲ�����ȷ������������ͷ... <a href="/https/www.mitbbs.com/news_wenzhang/OverseasFocus/31299473.html">[��ϸ]</a></dd></dl>                <div style="height:3px; clear:both;"></div>
+                    <ul class="ma_news_con">
+                        <li><a href="/https/www.mitbbs.com/news_wenzhang/OverseasFocus/31299483.html">Ӣ��С�㲻����Ƭ���أ���ί����������̣�</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/OverseasFocus/31299481.html">Ů������ְ���ǹ����н����·������¼���9ǧһ�Σ�</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/OverseasFocus/31299479.html">��25��Ů�Ӱ��Ӥ�����ÿ�»���ǧ����ʪ��</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/OverseasFocus/31299477.html">������Ů������񫻨��30�������Ƴ���ɫ��ʧ����</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/OverseasFocus/31299475.html">����ĸ������������ĩ���������ӣ�������Ҳ������������</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/OverseasFocus/31299469.html">������Ůĸ�׽���Ů������ͯ�꣺11��ʱ�������Ǹ��ư͡�</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/OverseasFocus/31299471.html">�����������һ���¹ڷ��׻���������ȫ����</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/OverseasFocus/31299465.html">�й�ע���Ƿ����ⲩ�ʹ����գ���פ����ʹ�����������</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/OverseasFocus/31299467.html">��������ʿ���Ļ��棿����÷���뻷����Ů����Ӣ����ͷ��</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/OverseasFocus/31299463.html">Ů����ֹ����ʹ�ûʼ��̱꣡���˳��ڹ���Ů���ܲ��ˣ�</a></li>                </ul>
+                    <div class="ma_news_more">
+                        <a href="/https/www.mitbbs.com/news_pg/haiwai.html">>>����</a>
+                    </div>
+                </div>
+                </div>
+                <div class="index_con_right_add01">
+                    </div>
+                <div class="index_right_ma_news">
+                <div class="right_ma_news_title">
+                    <a href="/https/www.mitbbs.com/news_pg/tiyu.html">��������</a>
+                </div>
+                <div class="right_ma_news_box01">
+                <dl class="right_ma_news_box01_top"><dt class="ma_news_top_img"> <a href="/https/www.mitbbs.com/news_wenzhang/SportsNews/31278833.html"><img src="/https/www.mitbbs.com/column_pic/newscenter/n/M.1582528216_2.O0_pic1_1" height="62" width="80"/></a></dt><dd class="ma_news_top_mintitle"><a href="/https/www.mitbbs.com/news_wenzhang/SportsNews/31278833.html">��41���Ů����Ů��</a></dd><dd class="ma_news_top_mincon">���й�Ů�ŵ���ʷ�ϣ�����Ҳ��ȱ����Ů���ֵĳ��֣���... <a href="/https/www.mitbbs.com/news_wenzhang/SportsNews/31278833.html">[��ϸ]</a></dd></dl>                <div style="height:3px; clear:both;"></div>
+                    <ul class="ma_news_con">
+                        <li><a href="/https/www.mitbbs.com/news_wenzhang/SportsNews/31278835.html">Τ�������������䳡 �糾�����������δ�� Τ��̸���Ʊ�</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/SportsNews/31278837.html">�й�Ů����һ����һ�� ���������Ů�������Գ�������</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/SportsNews/31278839.html">������λ������ף�й�Ů����Ա ����̹�ԣ�������ɱ����</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/SportsNews/31278841.html">�������̳�������� һ��Աȷ���¹ڷ��� ���ٱ�������ͣ</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/SportsNews/31278843.html">2�α���ƽ�˻��ɱ����MVP Ů����ǿ�����������</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/SportsNews/31278845.html">��нǧ��Ĺ���ӳ������50���Ԯ�人����������������</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/SportsNews/31278847.html">�й�Ů����һ�����Ů�����𣬾�������Ů��������һ��</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/SportsNews/31278849.html">�Ʊ�׷˼�ᱱ��ʱ��25���賿2�㿪ʼ �����μ�������8��</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/SportsNews/31278851.html">����ھ����̫�� ���ű��Ǻ�4-0��ɨ ��������ָ���ؼ�</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/SportsNews/31278853.html">����ˮƽ�ϲ�ȥ��ԭ�� ����С��Ա������ �������߲�����</a></li>                </ul>
+                    <div class="ma_news_more">
+                        <a href="/https/www.mitbbs.com/news_pg/tiyu.html">>>����</a>
+                    </div>
+                </div>
+                </div>
+            <div class="index_con_right_add01">
+                        </div>
+            <div class="index_right_ma_news">
+                <div class="right_ma_news_title">
+                    <a href="/https/www.mitbbs.com/news_pg/yule.html">��������</a>
+                </div>
+                <div class="right_ma_news_box01">
+                    <dl class="right_ma_news_box01_top"><dt class="ma_news_top_img"> <a href="/https/www.mitbbs.com/news_wenzhang/PopNews/31290867.html"><img src="/https/www.mitbbs.com/column_pic/newscenter/a/M.1582524717_2.B0_pic1_1" height="62" width="80"/></a></dt><dd class="ma_news_top_mintitle"><a href="/https/www.mitbbs.com/news_wenzhang/PopNews/31290867.html">����ӵ������ӱ��������</a></dd><dd class="ma_news_top_mincon">��Ů������ӱ������ָ����ݳ����ع���װ�硶���Ǵ�... <a href="/https/www.mitbbs.com/news_wenzhang/PopNews/31290867.html">[��ϸ]</a></dd></dl>                <div style="height:3px; clear:both;"></div>
+                    <ul class="ma_news_con">
+                        <li><a href="/https/www.mitbbs.com/news_wenzhang/PopNews/31290869.html">�����鰲���Խ������� ˭ע��һ��baby�ķ�Ӧ Ҳ̫��ʵ��</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/PopNews/31290871.html">ľ���ϣ�����ٷ�������ɫ��Ӱ������30�꣬��ײ������</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/PopNews/31290873.html">�����ԩ��ѩ ��һ����ٱ��ߵĹ��������������ֱ���Ц</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/PopNews/31290875.html">û���ⱻ��̭����������Ŀ���� ����֣�л���Ƣ���ͺ���</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/PopNews/31290877.html">34����ƽ��߳���������Ӱ ��ҹ�ƾִ������� ��·�˲��</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/PopNews/31290879.html">50��������Ů��������һҹ�����۷���ְ 18��󺱼�¶��</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/PopNews/31290881.html">Ҫ������Ϊ��Ա�Ʋ����治֪�����ӻ��Ĺ���ôţһ����Ӱ</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/PopNews/31290883.html">�������ݽ�������жױ ���������Ů ���ѣ������������</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/PopNews/31290885.html">���������Сͯ�ǣ�������־ӱ����С����20�����������</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/PopNews/31290887.html">���Ծ��ͻ�3.5Сʱ��������ġ���ľ���� ��Ц�������ѵ�</a></li>                </ul>
+                    <div class="ma_news_more">
+                        <a href="/https/www.mitbbs.com/news_pg/yule.html">>>����</a>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="index_con_right_add01">
+                        </div>
+            <div class="index_right_ma_news">
+                <div class="right_ma_news_title">
+                    <a href="/https/www.mitbbs.com/news_pg/keji.html">�Ƽ�����</a>
+                </div>
+                <div class="right_ma_news_box01">
+                    <dl class="right_ma_news_box01_top"><dt class="ma_news_top_img"> <a href="/https/www.mitbbs.com/news_wenzhang/ScitechNews/31287785.html"><img src="/https/www.mitbbs.com/column_pic/newscenter/x/M.1582529311_2.d0_pic1_1" height="62" width="80"/></a></dt><dd class="ma_news_top_mintitle"><a href="/https/www.mitbbs.com/news_wenzhang/ScitechNews/31287785.html">ƻ�����������ȴ�ɳ�����</a></dd><dd class="ma_news_top_mincon">����ý����������һ�������顶AppStoreConfidential��... <a href="/https/www.mitbbs.com/news_wenzhang/ScitechNews/31287785.html">[��ϸ]</a></dd></dl>                <div style="height:3px; clear:both;"></div>
+                    <ul class="ma_news_con">
+                        <li><a href="/https/www.mitbbs.com/news_wenzhang/ScitechNews/31287787.html">��ѭ��ʹ�õ�KN95������������ ���ַ�ʽ��ʱ����</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/ScitechNews/31287789.html">͵��&quot;��һ��&quot;����ɫ����վ����������������</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/ScitechNews/31287791.html">ʮ��ǰ������Ԥ���¹����飿�����˲��˸��׳���</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/ScitechNews/31287793.html">�����̱��ͷ�ۣ�������������&quot;αƷ��&quot;ӿ������ѷ</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/ScitechNews/31287795.html">����Ա����Ⱦ�¹ڷ���ϸ�� 82�����нӴ��߼��и���</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/ScitechNews/31287797.html">�ٴ�����������ҩ���¹ڷ��ף�δ����֢״����</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/ScitechNews/31287799.html">��ʱ�꣡������֤ʵ���Ŵ�21�ڣ��ױ��ʽ��ѵ���</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/ScitechNews/31287801.html">��˹��Model 3��Զ��ģʽ����������560����</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/ScitechNews/31287803.html">��С������룺������������2ǧ�� ͻȻɱ��ҽ����ҵ</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/ScitechNews/31287805.html">��������5����̣����۵���������ʤ ���������̼ҷ���</a></li>                </ul>
+                    <div class="ma_news_more">
+                        <a href="/https/www.mitbbs.com/news_pg/keji.html">>>����</a>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="index_con_right_add01">
+                        </div>
+            <div class="index_right_ma_news">
+                <div class="right_ma_news_title">
+                    <a href="/https/www.mitbbs.com/news_pg/caijing.html">�ƾ�����</a>
+                </div>
+                <div class="right_ma_news_box01">
+                    <dl class="right_ma_news_box01_top"><dt class="ma_news_top_img"> <a href="/https/www.mitbbs.com/news_wenzhang/BusinessNews/31280611.html"><img src="/https/www.mitbbs.com/column_pic/newscenter/P/M.1582533391_2.R0_pic1_1" height="62" width="80"/></a></dt><dd class="ma_news_top_mintitle"><a href="/https/www.mitbbs.com/news_wenzhang/BusinessNews/31280611.html">��3000����ҵ�������֣�</a></dd><dd class="ma_news_top_mincon">���鷢�������������Ծ��ǽ�ȱ�ķ�����Ʒ��������ԭ��... <a href="/https/www.mitbbs.com/news_wenzhang/BusinessNews/31280611.html">[��ϸ]</a></dd></dl>                <div style="height:3px; clear:both;"></div>
+                    <ul class="ma_news_con">
+                        <li><a href="/https/www.mitbbs.com/news_wenzhang/BusinessNews/31280609.html">�ձ�������6�����ή�������������ս��������</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/BusinessNews/31280607.html">͵�ġ���һ�󰸡�������Ƶ��վ���������������ۣ�</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/BusinessNews/31280605.html">������д��ڵ���ʧ��600�ڣ��°���ᱬ��������</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/BusinessNews/31280603.html">��ֵ��ˮ8���ڣ���ʯ�͵����ͷ�����㡱����</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/BusinessNews/31280601.html">�������ܣ��й�����Ϊ������������ȴ����2�ھ�ծ��</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/BusinessNews/31280599.html">ŷ��Ҫ���ֻ�ͳһ���ӿڣ����ƻ����ζ��ʲô��</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/BusinessNews/31280597.html">ӡ�ȹٷ������������¼���3000�ֻƽ�����160���</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/BusinessNews/31280595.html">��ý��Ӣŷ��ó̸�С����󡱣�ŷ���������磿</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/BusinessNews/31280591.html">89��ͷ����¹ɶ�һ���ţ�825����Ԫ�Ƹ��Ѱ��ţ�</a></li><li><a href="/https/www.mitbbs.com/news_wenzhang/BusinessNews/31280593.html">�����һ̨3D��ӡ�������ࣺ��۸ߴ�130��Ӣ����</a></li>                </ul>
+                    <div class="ma_news_more">
+                        <a href="/https/www.mitbbs.com/news_pg/caijing.html">>>����</a>
+                    </div>
+                </div>
+            </div>
+    		<!--        <div class="index_con_right_add01">
+                        </div>
+            <div class="index_right_ma_news">
+                <div class="right_ma_news_title">
+                    <a href="/https/www.mitbbs.com/news_pg/meitu.html">��ͼƵ��</a>
+                </div>
+                <div class="right_ma_news_box01">
+                                    <div class="ma_news_more">
+                        <a href="/https/www.mitbbs.com/news_pg/meitu.html">>>����</a>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="index_con_right_add01">
+                        </div>
+            <div class="index_right_ma_news">
+                <div class="right_ma_news_title">
+                    <a href="/https/www.mitbbs.com/news_pg/xiaohua.html">Ц��Ƶ��</a>
+                </div>
+                <div class="right_ma_news_box01">
+                                    <div class="ma_news_more">
+                        <a href="/https/www.mitbbs.com/news_pg/xiaohua.html">>>����</a>
+                    </div>
+                </div>
+            </div>-->
+    
+            <div class="index_con_right_add01">
+                        </div>
+                         </div>
+             <div class="immigrant_news">
+                        <div class="immigrant_news_title"><a href="/https/www.mitbbs.com/yimin/ym_news.php">��������</a></div>
+                        <div class="immigrant_news_con">
+                                                    <div class="immigrant_news_con_usa">
+                                <p>����</p>
+                                <ul class="immigrant_news_con_usa_con">
+                                    <li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230337.html">2020��3�������������ڱ�������EB-5���Ծ��5���£�</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230327.html">����ְҵ���������ڸ��� Ͷ����������Ծ��</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230323.html">����֥�Ӹ绪�����ϻ�����֯Ϊ�˿��ղ��ṩ����</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230313.html">�����������ڱ�֮��A����Bȫ������</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230301.html">�������˹滮���������ʦ���Է�����Ҫע����Щ��</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230283.html">ŦԼ����⸶�н���¹��ⷴ�� ���ٰ䲼��ʱ����</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230285.html">�й�פ����ʹ�����ѣ���ע����������������г�</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230287.html">ŦԼ����Ȩ�֣����������鱻���� û֤��Ҳ��Ͷ��</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230279.html">�����ɽ�ɽ���죺�����ܰ�ȫ ����������</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230247.html">��ҥ������Ͷ������û����ͣ����Ϣϵ�����</a></li>                            </ul>
+                            </div>
+                            <div class="immigrant_news_con_usa">
+                                <p>���ô�</p>
+                                <ul class="immigrant_news_con_usa_con">
+                                    <li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230333.html">���ô�NBʡ��ҵ������������������ֹ�����⣡</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230319.html">���ô�����EE������ô����ô�죿</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230309.html">2019����ô����������Դ�������ݳ�¯��</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230297.html">���ô��ʡ�������ַ�ʽ���ף�Ͷ��������򵥣�</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230277.html">���ô�����EE������ô����ô�죿</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230267.html">����ʱ�ڣ����ô�������Ƴ����������ʩ��</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230251.html">���ô�ƫԶ�ͱ������������Ե���Ŀ��⣡</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230203.html">�ΰ������̻�Ǩ�� ���ô��¸绪��������ע����</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230193.html">���ô󷢲�2020���ȱְҵ��������ҵ�����������ƣ�</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230183.html">��Ҫ������ô���Щ��������Ҫ�˽⣡</a></li>                            </ul>
+                            </div>
+                            <div class="immigrant_news_con_usa">
+                                <p>��������</p>
+                                <ul class="immigrant_news_con_usa_con">
+                                   <li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230341.html">Ӣ�����������߹���������������������ޣ�</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230343.html">���������н������ӳ� ���������Ƿ�����й���ѧ��</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230335.html">���������ǩ֤����ЩҪ��һ��Ϊ��ȫ������</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230329.html">Ӣ���Ƴ��������������� ���Ƶͼ����Ͷ�������</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230321.html">Ӣ��ǩ֤������ô�죿�ؼ�ʱ���������ʩ��֤��</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230311.html">����Ͷ��������������ע�⣺ѡ��ά�ݲ�����߷�����</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230315.html">�й�פӢ��ʹ�����ѣ�Ӣ���������ڳ��뾳����ָ��</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230303.html">פ��ʹ�ݷ�����ʱ�������ǩ֤��������ָ��</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230305.html">ϣ��������û�õ����ƽ�ǩ֤����Ͷ����ŭ��ϣ����</a></li><li><a href="/https/www.mitbbs.com/ym_article/ImmigrationNews/31230293.html">������2020��һ�»ƽ����ǩ֤���ݹ�����</a></li>                            </ul>
+                                <div class="immigrant_other_more"><a href="/https/www.mitbbs.com/yimin/ym_news.php">>>����</a></div>
+                            </div>
+                             </div>
+             </div>
+                <div class="index_con_right_add01">
+                                </div>
+                            <div class="index_blog">
+                    <div class="index_blog_title">
+                        �����Ƽ�����
+                    </div>
+                   <div class="index_blog_box"> 
+                       <ul>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_20183_765385.html">�������ǿգ�9��</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_4544_766001.html">�ҵ�һ�� ( 02/15/2020 ������)</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_20183_765619.html">�������ǿգ�10��</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_20153_766061.html">���ߡ�·ǰ�У�Ϊ���˱�н</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_4544_765285.html">���� ���������ġ�</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_17539_765259.html">�����ҵĵ�ʦ���װ�����</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_4544_764359.html">�������� ��ԭ����</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_4544_762539.html">�����е�����ͼ</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_20163_756885.html">��-ʮ�������й�������Ӱ�Ӿ磩��ƪ����ͯ��С˵</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_18799_756511.html">[2019ɹ�鵥]</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_19399_754135.html">Ī�����������������</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_19399_752983.html">�����ƻ���Ů��</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_20073_749059.html">������ѵ��賿���㣬����֪����(3)</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_19629_748619.html">�Ĵ�Գ����Ͷ�ʲ������</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_5409_746221.html">δ������С�����ʧ�ܵĸ�������</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_14801_737957.html">�й�������״�Ŀ���</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_7611_730315.html">��ʷ����ѧ����</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_19941_723065.html">2019-06-12 С��</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_19827_722931.html">�廪ѧ����ʫ�����ݽ�����ȫ�����й�ʫ������̫����!</a></li>
+                                                      <li><a href="/https/www.mitbbs.com/pc/pccon_11757_721105.html">��֪�����������������д��</a></li>
+                                              </ul>
+                       <div class="blog_other_more"><a href="/https/www.mitbbs.com/pc/pcmain.php">>>����</a></div>
+                   </div>
+                </div>
+    
+            <div style="height:10px; clear:both;"></div>
+        <script>
+            $(document).ready(function(){
+                sendajax($(".PremierAssociate_nav01"));
+                $(".min_nav01_01_class").css("display","none");
+                $(".min_nav01_01_01_class").css("display","none");
+            })
+            function forwards(url)
+            {
+                if(url == "")
+                    return;
+                window.parent.location.href=url;
+            }
+            function spread(obj){
+                if($(obj).attr("display") == "0"){
+                  $(obj).next().children().removeAttr("style");
+                  $(obj).children("img").attr("src","../img/icon_elves044.png");
+                  $(obj).attr("display","1");
+                }else{
+                    $(obj).next().children().css("display","none");
+                    $(obj).children("img").attr("src","../img/icon_elves033.png");
+                    $(obj).attr("display","0");
+                }
+            }
+            function spread_1(obj){
+                if($(obj).attr("display") == "0"){
+                    $(obj).children(".min_nav01_01_01_class").removeAttr("style");
+                    $(obj).children(".min_nav01_01_01_class_1").children("img").attr("src","../img/icon_elves044.png");
+                    $(obj).attr("display","1");
+                }else{
+                    $(obj).children(".min_nav01_01_01_class").css("display","none");
+                    $(obj).children(".min_nav01_01_01_class_1").children("img").attr("src","../img/icon_elves033.png");
+                    $(obj).attr("display","0");
+                }
+            }
+        </script>
+        </div>
+        <div class="foot_top_add">
+            <center>
+            				<tr><td align="center">				<script type="text/javascript"><!--
+    				google_ad_client = "ca-pub-9374326915974877";
+    				/* first_page_728_90 */
+    				google_ad_slot = "8955290412";
+    				google_ad_width = 728;
+    				google_ad_height = 90;
+    				//-->
+    				</script>
+    				<script type="text/javascript"
+    				src="http://127.0.0.1:8011/https/pagead2.googlesyndication.com/pagead/show_ads.js">
+    				</script>
+    				</td></tr>
+                </center>
+        </div>
+        <footer class="index_foot">
+            <div class="index_foot_in">
+                                <p><a href="/https/www.mitbbs.com/https/www.mitbbs.com/sitemap.php" target=_blank>Site Map</a> - <a href="/contact_us.htm">Contact Us</a> - <a href="/https/www.mitbbs.com/https/www.mitbbs.com/tos.htm">Terms and Conditions</a> - <a href="/privacy_policy.htm">Privacy Policy</a></p>
+                            <p><strong>��Ȩ���� - δ���ռ�(mitbbs.com) - since 1996</strong></p>
+                        </div>
+        </footer>
+    	<script>
+        window.onload = function(){
+                    var oDiv = document.getElementById('ad_box');
+            var oImg = document.getElementById('ad_img');
+            var arr =['/ad_file/','/ad_file/'];
+            setTimeout(function(){
+                oDiv.style.height = '45px';
+                oImg.src =arr[0];
+            },10000);
+    		oDiv.onmouseenter = function(){
+    			this.style.height ='150px';
+    			oImg.src =arr[1];
+            };
+            oDiv.onmouseleave = function(){
+                this.style.height ='45px';
+    			oImg.src =arr[0];
+            };
+        }
+    </script>
+    
+    </body>
+    
+    
+        
+    <script type="text/javascript">
+    var  foreign=0;
+    //��ca,������Ϊcom
+    if(top.location.hostname=='www.mitbbs.ca'||top.location.hostname=='mitbbs.ca'){
+    	var gaJsHost = (("https:" == document.location.protocol) ? "http://127.0.0.1:8011/https/ssl." : "http://127.0.0.1:8011/http/www.");
+    	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));	
+    	foreign=2;
+    }else{
+    	var gaJsHost = (("https:" == document.location.protocol) ? "http://127.0.0.1:8011/https/ssl." : "http://127.0.0.1:8011/http/www.");
+    	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    	foreign=1;
+    }
+    
+    </script>
+    <script type="text/javascript">
+    if (foreign!=0){
+    	try {		
+    		if(foreign==1){			
+    			var pageTracker = _gat._getTracker("UA-7425977-1");
+    			pageTracker._trackPageview();
+    		}else if(foreign==2){			
+    			var pageTracker = _gat._getTracker("UA-7425977-2");
+    			pageTracker._trackPageview();
+    		}		
+    	} catch(err) {
+    		
+    	}
+    }// end if 
+    
+    </script>
+    
+    <script type="text/javascript">
+        function close_ad(obj){
+                $(obj).css("display","none");
+    //            $(obj).next().css("display","block");
+                $(obj).parent().children("a").css("display","none");
+        }
+    //    function ad_spread(obj){
+    //        $(obj).css("display","none");
+    //        $(obj).prev().css("display","block");
+    //        $(obj).parent().children("a").css("display","block");
+    //    }
+        $(document).ready(function(){
+    
+              if(parseInt($(window).width()) > 1240){
+                  $("#frame_left").css("display","block");
+                  $("#frame_right").css("display","block");
+              }
+              if(($("#frame_left").css("display") == "block") && ($("#frame_left").children('a').length)){
+                  $("#frame_left_close").css("display","block");
+              }
+              if(($("#frame_right").css("display") == "block") && ($("#frame_right").children('a').length)){
+                  $("#frame_right_close").css("display","block");
+              }
+           }
+    
+        )
+    </script>
+    </html>
+    
+
+Done in 4.26s.

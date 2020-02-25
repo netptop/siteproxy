@@ -43,3 +43,14 @@ test('mitbbs img issue', async () => {
   // console.log(`${response.data}`)
   expect(response.data.indexOf(`img src="/https/www.mitbbs.com/img/list.png`)).not.toBe(-1)
 }, 30000);
+
+
+test('mitbbs home page img src issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/www.mitbbs.com/`
+  const response = await axios({
+    method: 'get',
+    url,
+  })
+  console.log(`${response.data}`)
+  expect(response.data.indexOf(`img src="../img`)).toBe(-1)
+}, 30000);
