@@ -73,3 +73,13 @@ test('google next click issue', async () => {
   // console.log(`${response.data}`)
   expect(response.data.indexOf(`href="/search?q=`)).toBe(-1)
 }, 30000);
+
+test('reuters.com /article issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/cn.reuters.com/`
+  const response = await axios({
+    method: 'get',
+    url,
+  })
+  console.log(`${response.data}`)
+  expect(response.data.indexOf(`"url":"/article`)).toBe(-1)
+}, 30000);

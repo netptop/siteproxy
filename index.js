@@ -68,6 +68,12 @@ const pathReplace = ({host, httpType, body}) => {
     myRe = new RegExp('([:, ]url[(]["\']?)/([-a-z0-9]+?)', 'g')
     body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
 
+    myRe = new RegExp('("url":")/([-a-z0-9_]+?)', 'g')
+    body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
+
+    myRe = new RegExp('("path":")/([-a-z0-9_]+?)', 'g')
+    body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
+
     myRe = new RegExp(' action="/([-a-z0-9A-Z]+?)', 'g')
     body = body.replace(myRe, ` action="/${httpType}/${host}/$1`)
 
@@ -95,7 +101,7 @@ const siteSpecificReplace = {
     },
     'www.youtube.com': {
         // '/manifest.json': `/https/www.youtube.com/manifest.json`,
-        '("url":")/([-a-z0-9]+?)': `$1/https/www.youtube.com/$2`,
+        // '("url":")/([-a-z0-9]+?)': `$1/https/www.youtube.com/$2`,
         // ';this...logo.hidden=!0;': ';',
         // '&&this...': '&&this.$&&this.$.',
     },
