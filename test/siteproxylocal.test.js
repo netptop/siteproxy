@@ -51,6 +51,15 @@ test('mitbbs home page img src issue', async () => {
     method: 'get',
     url,
   })
-  console.log(`${response.data}`)
   expect(response.data.indexOf(`img src="../img`)).toBe(-1)
+}, 30000);
+
+test('boxun /hero issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/blog.boxun.com`
+  const response = await axios({
+    method: 'get',
+    url,
+  })
+  // console.log(`${response.data}`)
+  expect(response.data.indexOf(`href=/hero`)).toBe(-1)
 }, 30000);
