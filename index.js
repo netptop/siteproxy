@@ -34,8 +34,7 @@ const locationReplaceMap302 = ({location, serverName, httpprefix, host, httpType
         location = location.replace(myRe, `${httpprefix}://${serverName}:${port}/http/$1`)
     } else
     if (location.startsWith('/') && location.indexOf(`/${httpType}/${host}`) === -1) {
-        myRe = new RegExp('/([-a-z0-9A-Z])', 'g')
-        location = location.replace(myRe, `/${httpType}/${host}/$1`)
+        location = `/${httpType}/${host}${location}`
     }
     myRe = new RegExp(`/${httpprefix}/${serverName}:${port}`, 'g') // match group
     location = location.replace(myRe, '')
