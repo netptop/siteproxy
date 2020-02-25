@@ -11,6 +11,10 @@ let config = {
     httpprefix: 'https', port: 443,
     serverName: 'siteproxy.now.sh',
 }
+if (process.env.herokuAddr) {
+    config.serverName = process.env.herokuAddr
+}
+console.log(`config.serverName:${config.serverName}`)
 if (process.env.localFlag === 'true') {
     config.httpprefix = 'http'
     config.port = '8011'
