@@ -89,8 +89,8 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
         let location = res.getHeaders()['location']
         if (res.statusCode == '301' || res.statusCode == '302' || res.statusCode == '307' || res.statusCode == '308') {
             location = locationReplaceMap302({location, serverName, httpprefix, host, httpType})
+            logSave(`after replacement, location=${location}`)
             res.setHeader('location', location)
-            let logStr = logGet()
             // return
         }
         // logSave(`HandleRespond(), req.url:${req.url}, req.headers:${JSON.stringify(req.headers)}`)
@@ -200,10 +200,12 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
                 // console.log(`2========>${logGet()}`)
                 res.end(body)
             }
-          } else if (proxyRes.headers["content-type"] &&
+
+          } else if (proxyRes.statusCode === 301 || proxyRes.statusCode === 302 || proxyRes.statusCode === 307 || proxyRes.statusCode === 308 ||
+                     (proxyRes.headers["content-type"] &&
                        (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
                         proxyRes.headers["content-type"].indexOf('javascript') !== -1 ||
-                        proxyRes.headers["content-type"].indexOf('json') !== -1)) {
+                        proxyRes.headers["content-type"].indexOf('json') !== -1))) {
             logSave(`utf-8 text...`)
             let originBody = body
             body = body.toString('utf-8');

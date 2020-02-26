@@ -83,3 +83,15 @@ test('reuters.com /article issue', async () => {
   // console.log(`${response.data}`)
   expect(response.data.indexOf(`"url":"/article`)).toBe(-1)
 }, 30000);
+
+test('worldjournal.com redirect location', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/http/www.worldjournal.com`
+  const response = await axios({
+    method: 'get',
+    maxRedirects: 0,
+    validateStatus: null, // important for status 302
+    url,
+  })
+  console.log(`${JSON.stringify(response.headers)}`)
+  expect(response.headers['location'].indexOf(`/https/www.worldjournal.com`)).not.toBe(-1)
+}, 30000);
