@@ -262,6 +262,9 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
         logClear()
         req.headers['host'] = host
         req.headers['referer'] = host
+        if ('origin' in req.headers) {
+          req.headers['origin'] = host
+        }
         let newpath = req.url.replace(`/${httpType}/${host}`, '') || '/'
         logSave(`httpType:${httpType}, host:${host}, req.url:${req.url}, req.headers:${JSON.stringify(req.headers)}`)
         Object.keys(req.headers).forEach(function (key) {

@@ -109,3 +109,17 @@ test('remove integrity', async () => {
   // console.log(`${response.data}`)
   expect(response.data.indexOf(` integrity="`)).toBe(-1)
 }, 30000);
+
+test('google.com regex match issue.', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/www.google.com/xjs/_/js/k=xjs.s.en_US.WX2ru19zjfM.O/ck=xjs.s.6ta1yGmmv4s.L.W.O/am=AAAAAEsAdt0BAv43QQAAsMcAAIAAN8HGAmGQUBDEqglAIA/d=1/exm=Fkg7bd,HcFEGb,IvlUe,MC8mtf,OF7gzc,RMhBfe,T4BAC,TJw5qb,TbaHGc,Y33vzc,cdos,csi,d,hsm,iDPoPb,jsa,mvYTse,tg8oTe,uz938c,vWNDde,ws9Tlc,yQ43ff/ed=1/dg=2/br=1/ct=zgms/rs=ACT90oFic3J6EOqrrX-rohmG1E0OJYTO1g/m=RqxLvf,aa,abd,async,dvl,fEVMic,foot,ifl,lu,m,mUpTid,mu,sb_wiz,sf,sonic,spch,wft,xz7cCd?xjs=s1`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  console.log(`${response.data}`)
+  expect(response.data.indexOf(`href="/https/www.google.com/g);`)).toBe(-1)
+}, 30000);

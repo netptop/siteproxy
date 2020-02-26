@@ -96,7 +96,10 @@ const siteSpecificReplace = {
         'J+"://"': `J+"://${serverName}:${port}/https/"`,
         'continue=.+?"': 'continue="', // fix the gmail login issue.
         's_mda=/.https:(././).+?/http/': `s_mda=/^http:$1`, // recover Ybs regular expression
-// 		'a = e [|]{2} "/"': `a = e || "/https/www.google.com/"`,
+        'href="/https/www.google.com/g(.;)': 'href="/g$1',
+    },
+    'www.gstatic.com': {
+        'href="/https/www.gstatic.com/g(.;)': 'href="/g$1',
     },
     'accounts.google.com': {
         'Yba=/.+?/http/': `Yba=/^http:\\/\\/`, // recover Ybs regular expression
