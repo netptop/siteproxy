@@ -92,6 +92,20 @@ test('worldjournal.com redirect location', async () => {
     validateStatus: null, // important for status 302
     url,
   })
-  console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${JSON.stringify(response.headers)}`)
   expect(response.headers['location'].indexOf(`/https/www.worldjournal.com`)).not.toBe(-1)
+}, 30000);
+
+test('remove integrity', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/github.com`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${response.data}`)
+  expect(response.data.indexOf(` integrity="`)).toBe(-1)
 }, 30000);

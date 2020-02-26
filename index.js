@@ -55,6 +55,7 @@ const regReplaceMap = {
     'http://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/http/$1`,
     'https%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttps%2f$1`,
     'http%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttp%2f$1`,
+    ' integrity=".+?"': '', // remove integrity
 }
 
 const pathReplace = ({host, httpType, body}) => {
