@@ -59,7 +59,7 @@ const regReplaceMap = {
 }
 
 const pathReplace = ({host, httpType, body}) => {
-    let myRe = new RegExp('href=(["]?)[.]?/([-a-z0-9_]+?)', 'g')
+    let myRe = new RegExp('href=(["]?)[.]?/([-a-z0-9_]*?)', 'g')
     body = body.replace(myRe, `href=$1/${httpType}/${host}/$2`)
 
     myRe = new RegExp(' src=(["\']?)/([-a-z0-9]+?)', 'g')
