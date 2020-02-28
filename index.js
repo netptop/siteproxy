@@ -59,12 +59,18 @@ const regReplaceMap = {
 }
 
 const pathReplace = ({host, httpType, body}) => {
-    let myRe = new RegExp('href=(["]?)[.]?/([-a-z0-9_]*?)', 'g')
+    // href="//127.0.0.1:8011/https/n
+    let myRe = new RegExp(`href=([\"\']?)/([-a-z0-9_]+?)`, 'g')
     body = body.replace(myRe, `href=$1/${httpType}/${host}/$2`)
 
-    myRe = new RegExp(' src=(["\']?)/([-a-z0-9]+?)', 'g')
+    myRe = new RegExp(`href="/"`, 'g')
+    body = body.replace(myRe, `href="/${httpType}/${host}/"`)
+
+    myRe = new RegExp(` src=([\"\']?)/([-a-z0-9_]+?)`, 'g')
     body = body.replace(myRe, ` src=$1/${httpType}/${host}/$2`)
 
+    myRe = new RegExp(` src="/"`, 'g')
+    body = body.replace(myRe, ` src="/${httpType}/${host}/"`)
     /*
     myRe = new RegExp(' src=(["\'])//([-a-z0-9]+?)', 'g')
     body = body.replace(myRe, ` src=$1//${serverName}:${port}/${httpType}/${host}/$2`)
@@ -108,6 +114,9 @@ const siteSpecificReplace = {
         'quot;https://[.:-a-z0-9A-Z]+?/https/accounts.google.com/ManageAccount': `quot;`,
     },
     'www.youtube.com': {
+        'b."get_video_info"': `"${httpprefix}://${serverName}:${port}/https/www.youtube.com/get_video_info"`,
+        'c<a.C.length': `c<a.C.length&&a.C[c].style`,
+        // 'a.C.c..style.display=0==b': `a.C[c].style&&a.C[c].style.display=0==b`,
         // '/manifest.json': `/https/www.youtube.com/manifest.json`,
         // '("url":")/([-a-z0-9]+?)': `$1/https/www.youtube.com/$2`,
         // ';this...logo.hidden=!0;': ';',
