@@ -120,10 +120,14 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
           body = iconv.encode(body, 'gbk')
         }
         body = zlib.gzipSync(body)
-        res.setHeader('content-encoding', 'gzip');
-        logSave(`handleRespond: res.headers:${JSON.stringify(res.getHeaders())}`)
-        // console.log(`1=================${logGet()}`)
-        res.end(body);
+        try {
+            res.setHeader('content-encoding', 'gzip');
+            logSave(`handleRespond: res.headers:${JSON.stringify(res.getHeaders())}`)
+            // console.log(`1=================${logGet()}`)
+            res.end(body);
+        } catch(e) {
+            logSave(`error: ${e}`)
+        }
     }
     let p = proxy({
       target: `https://www.google.com`,
