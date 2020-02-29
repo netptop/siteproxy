@@ -86,7 +86,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
         let myRe
         let {host, httpType} = getHostFromReq(req)
         let location = res.getHeaders()['location']
-        if (res.statusCode == '301' || res.statusCode == '302' || res.statusCode == '307' || res.statusCode == '308') {
+        if (res.statusCode == '301' || res.statusCode == '302' || res.statusCode == '303' ||res.statusCode == '307' || res.statusCode == '308') {
             location = locationReplaceMap302({location, serverName, httpprefix, host, httpType})
             logSave(`after replacement, location=${location}`)
             res.setHeader('location', location)
@@ -151,7 +151,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
       onError: (err, req, res) => {
         console.log(`onerror: ${err}`)
         try {
-            res.status(404).send(`onError: ${err}`)
+            // res.status(404).send(`onError: ${err}`)
         } catch(e) {
             console.log(`error of sending 404: ${e}`)
         }
@@ -231,8 +231,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
           .map(cookie => {
           logSave(`cookie:${JSON.stringify(cookie)}`)
           if (cookie.path && cookie.path[0] === '/') {
-            cookie.domain = `127.0.0.1`
-            cookie.path = `${req.url}`
+            cookie.domain = `${serverName}`
           }
           cookie.secure = false
           return cookie
