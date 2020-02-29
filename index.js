@@ -1,5 +1,4 @@
 var express = require('express')
-const https = require('https')
 const zlib = require("zlib")
 const fs = require("fs")
 const cookiejar = require('cookiejar')

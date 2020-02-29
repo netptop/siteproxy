@@ -1,13 +1,16 @@
 {
     "version": 2,
     "builds": [{ "src": "index.js", "use": "@now/node-server"}],
+    "env": {
+        "NODE_OPTIONS": "--tls-min-v1.0"
+    },
     "routes": [{
-		"headers": {
-			"Access-Control-Allow-Origin": "*",
-			"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-			"Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
-		},
-		"src": "/(.*)",
-		"dest": "/index.js"
+        "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
+        },
+        "src": "/(.*)",
+        "dest": "/index.js"
     }]
 }
