@@ -50,6 +50,8 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 8. done
 ```
 
+## Telegram群: @siteproxy
+
 ## issues
 - 部分网站加载有问题;
 - 暂时无法看视频网站;
