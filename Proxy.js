@@ -183,6 +183,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
             }
             if (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
                 proxyRes.headers["content-type"].indexOf('javascript') !== -1 ||
+                proxyRes.headers["content-type"].indexOf('urlencoded') !== -1 ||
                 proxyRes.headers["content-type"].indexOf('json') !== -1) {
                 if (!gunzipped) {
                     res.status(404).send()
@@ -201,6 +202,11 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
                 handleRespond({req, res, body, gbFlag})
             } else {
                 // console.log(`2========>${logGet()}`)
+                let key = "content-encoding"
+                if(key in proxyRes.headers) {
+                    res.setHeader(key, proxyRes.headers[key]);
+                }
+                logSave(`2: res.headers:${JSON.stringify(res.getHeaders())}`)
                 res.end(body)
             }
 

@@ -134,7 +134,7 @@ test('pingcong href="/" issue.', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  console.log(`${response.data}`)
+  // console.log(`${response.data}`)
   expect(response.data.indexOf(`href="/"`)).toBe(-1)
 }, 30000);
 
@@ -150,4 +150,33 @@ test('yorkbbs issue', async () => {
   // console.log(`${JSON.stringify(response.headers)}`)
   // console.log(`${response.data}`)
   expect(response.data.indexOf(`ca//http`)).toBe(-1)
+}, 30000);
+
+test('youtube response url encode issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/get_video_info?html5=1&video_id=taVoseONjxc&cpn=DakN7Kk_Y_8rKsWf&eurl&el=embedded&hl=en_US&sts=18319&lact=30&c=WEB_EMBEDDED_PLAYER&cver=20200228&cplayer=UNIPLAYER&cbr=Chrome&cbrver=80.0.3987.87&cos=X11&autoplay=1&width=798&height=1048&ei=OgNcXrLJJMWItQeklqqgCw&iframe=1&embed_config=%7B%7D`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${response.data}`)
+  expect(response.data.indexOf(`vss_host`)).not.toBe(-1)
+}, 30000);
+
+
+test('youtube url check issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/yts/jsbin/player_ias-vflsFV4r3/en_US/base.js`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  console.log(`${response.data}`)
+  expect(response.data.indexOf(`Ls(Ns(a.`)).toBe(-1)
 }, 30000);

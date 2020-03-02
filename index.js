@@ -54,6 +54,8 @@ const regReplaceMap = {
     'http://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/http/$1`,
     'https%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttps%2f$1`,
     'http%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttp%2f$1`,
+    'https%3A%2F%2F([-a-z0-9A-Z]+?)': `${httpprefix}%3A%2F%2F${serverName}%3A${port}%2Fhttps%2F$1`,
+    'http%3A%2F%2F([-a-z0-9A-Z]+?)': `${httpprefix}%3A%2F%2F${serverName}%3A${port}%2Fhttp%2F$1`,
     ' integrity=".+?"': '', // remove integrity
 }
 
@@ -114,7 +116,8 @@ const siteSpecificReplace = {
     },
     'www.youtube.com': {
         'b."get_video_info"': `"${httpprefix}://${serverName}:${port}/https/www.youtube.com/get_video_info"`,
-        'c<a.C.length': `c<a.C.length&&a.C[c].style`,
+        'c<a.C.length': `c<a.C.length&&a.C[c].style`, // fixed the exception.
+        'Ls.Ns.a.+?;': 'true};', // remove url check in base.js
         // 'a.C.c..style.display=0==b': `a.C[c].style&&a.C[c].style.display=0==b`,
         // '/manifest.json': `/https/www.youtube.com/manifest.json`,
         // '("url":")/([-a-z0-9]+?)': `$1/https/www.youtube.com/$2`,
