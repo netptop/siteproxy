@@ -117,12 +117,11 @@ const siteSpecificReplace = {
     'www.youtube.com': {
         'b."get_video_info"': `"${httpprefix}://${serverName}:${port}/https/www.youtube.com/get_video_info"`,
         'c<a.C.length': `c<a.C.length&&a.C[c].style`, // fixed the exception.
-        'Ls.Ns.a.+?;': 'true};', // remove url check in base.js
-        // 'a.C.c..style.display=0==b': `a.C[c].style&&a.C[c].style.display=0==b`,
-        // '/manifest.json': `/https/www.youtube.com/manifest.json`,
-        // '("url":")/([-a-z0-9]+?)': `$1/https/www.youtube.com/$2`,
-        // ';this...logo.hidden=!0;': ';',
-        // '&&this...': '&&this.$&&this.$.',
+        ' .......*?"Captions URL".': ' true', // Ms(Os(a, jfa, null), a, b, "Captions URL")
+        'throw Error."Untrusted URL.+?;': ';',
+        // '&&[a-zA-Z.]+?.Error."Player URL validator detects invalid url.*?;': `&&a=true;`,
+        '"//"(.this\..\...\...."/api/stats/qoe")': `"//${serverName}:${port}/"$1`,
+        //;b=g.$g("//"+this.o.ab.Ff+"/api/stats/qoe",a);
     },
     'search.yahoo.com': {
         '"./ra./click"': `"\\/https\\/search.yahoo.com\\/ra\\/click"`,

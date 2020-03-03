@@ -178,5 +178,6 @@ test('youtube url check issue', async () => {
   })
   // console.log(`${JSON.stringify(response.headers)}`)
   console.log(`${response.data}`)
-  expect(response.data.indexOf(`Ls(Ns(a.`)).toBe(-1)
+  expect(response.data.indexOf(`"Captions URL"`)).toBe(-1)
+  expect(response.data.indexOf(`("//${serverName}:${port}/"+this.`)).not.toBe(-1)
 }, 30000);
