@@ -112,7 +112,7 @@ const siteSpecificReplace = {
         'Yba=/.+?/http/': `Yba=/^http:\\/\\/`, // recover Ybs regular expression
         'continue%3Dhttps.+?ManageAccount': 'continue%3D', // fix the gmail login issue.
         '"signin/v2': '"https/accounts.google.com/signin/v2',
-        'quot;https://[.:-a-z0-9A-Z]+?/https/accounts.google.com/ManageAccount': `quot;`,
+        'quot;https://[:-a-z0-9A-Z.]+?/https/accounts.google.com/ManageAccount': `quot;`,
     },
     'www.youtube.com': {
         'b."get_video_info"': `"${httpprefix}://${serverName}:${port}/https/www.youtube.com/get_video_info"`,
@@ -120,8 +120,14 @@ const siteSpecificReplace = {
         ' .......*?"Captions URL".': ' true', // Ms(Os(a, jfa, null), a, b, "Captions URL")
         'throw Error."Untrusted URL.+?;': ';',
         // '&&[a-zA-Z.]+?.Error."Player URL validator detects invalid url.*?;': `&&a=true;`,
-        '"//"(.this\..\...\...."/api/stats/qoe")': `"//${serverName}:${port}/"$1`,
+        '"//"(.this\..\...\...."/api/stats/qoe")': `"//${serverName}:${port}/https/"$1`,
         //;b=g.$g("//"+this.o.ab.Ff+"/api/stats/qoe",a);
+        'return .\.protocol."://(i1.ytimg.com/vi/)"': `return "${httpprefix}://${serverName}:${port}/https/$1"`,
+        // {return a.protocol+"://i1.ytimg.com/vi/"+b+"/"+(c||"hqdefault.jpg")};
+        '(rl%22%3A%22%2F%2F)([-a-z0-9A-Z.]+?)': `$1${serverName}%3A${port}%2Fhttps%2F$2`, // rl%22%3A%22%2F%2Fwww.youtube.com
+        '(.\..."ptracking",)': `"${httpprefix}://${serverName}:${port}/https/www.youtube.com/ptracking",`,//(d.C+"ptracking",    in base.js
+        ':"//"[+].\...[+]"/api/stats/"': `:"//${serverName}:${port}/https/www.youtube.com/api/stats/"`, // his.sa=this.O?"/api/stats/"+c:"//"+b.If+"/api/stats/"+c;d&&(t
+        // 'this\..\.logo\.hidden=.[01][,;]': ``, // this.$.logo.hidden = !1,
     },
     'search.yahoo.com': {
         '"./ra./click"': `"\\/https\\/search.yahoo.com\\/ra\\/click"`,

@@ -177,7 +177,22 @@ test('youtube url check issue', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  console.log(`${response.data}`)
+  // console.log(`${response.data}`)
   expect(response.data.indexOf(`"Captions URL"`)).toBe(-1)
-  expect(response.data.indexOf(`("//${serverName}:${port}/"+this.`)).not.toBe(-1)
+  expect(response.data.indexOf(`("//${serverName}:${port}/https/"+this.`)).not.toBe(-1)
+  expect(response.data.indexOf(`://i1.ytimg.com/vi`)).toBe(-1)
+  expect(response.data.indexOf(`"ptracking"`)).toBe(-1)
+  expect(response.data.indexOf(`+"/api/stats/"`)).toBe(-1)
 }, 30000);
+
+/*
+test('youtube desktop_polymer_v2.js issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/yts/jsbin/desktop_polymer_v2-vflUBXo7B/desktop_polymer_v2.js`
+  const response = await axios({
+    method: 'get',
+    url,
+  })
+  console.log(`${response.data}`)
+  expect(response.data.indexOf(`this.$.logo.hidden=`)).toBe(-1)
+}, 30000);
+*/
