@@ -182,17 +182,38 @@ test('youtube url check issue', async () => {
   expect(response.data.indexOf(`("//${serverName}:${port}/https/"+this.`)).not.toBe(-1)
   expect(response.data.indexOf(`://i1.ytimg.com/vi`)).toBe(-1)
   expect(response.data.indexOf(`"ptracking"`)).toBe(-1)
-  expect(response.data.indexOf(`+"/api/stats/"`)).toBe(-1)
+  expect(response.data.indexOf(`"/api/stats/"`)).toBe(-1)
 }, 30000);
 
-/*
 test('youtube desktop_polymer_v2.js issue', async () => {
-  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/yts/jsbin/desktop_polymer_v2-vflUBXo7B/desktop_polymer_v2.js`
+  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/yts/jsbin/desktop_polymer_v2-vflv5mvtW/desktop_polymer_v2.js`
   const response = await axios({
     method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
     url,
   })
+  // console.log(`${JSON.stringify(response.headers)}`)
   console.log(`${response.data}`)
-  expect(response.data.indexOf(`this.$.logo.hidden=`)).toBe(-1)
+  expect(response.data.indexOf(`iconChanged_:function(a,b,c){},`)).not.toBe(-1)
+  expect(response.data.indexOf(`g+("/youtubei/"`)).toBe(-1)
+  expect(response.data.indexOf(`"/service_ajax"`)).toBe(-1)
 }, 30000);
-*/
+
+
+
+test('youtube url conversion', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/watch?v=I9K4MbvlDss&frags=pl%2Cwn`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+        'Cookie': `VISITOR_INFO1_LIVE=WxtnB8UaTM4; YSC=QPym_D-ojR0`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${response.data}`)
+  expect(response.data.indexOf(`"\\/service_ajax\\",`)).toBe(-1)
+}, 30000);

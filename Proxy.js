@@ -151,7 +151,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
       onError: (err, req, res) => {
         console.log(`onerror: ${err}`)
         try {
-            // res.status(404).send(`onError: ${err}`)
+            // res.status(404).send(`{"error": "${err}"}`)
         } catch(e) {
             console.log(`error of sending 404: ${e}`)
         }
@@ -178,7 +178,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
                     logSave(`zlib.gunzip...`)
                 }
             } catch(e) {
-                res.status(404).send(`error:${e}`)
+                res.status(404).send(`{"error": "${e}"}`)
                 return
             }
             if (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
@@ -186,7 +186,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
                 proxyRes.headers["content-type"].indexOf('urlencoded') !== -1 ||
                 proxyRes.headers["content-type"].indexOf('json') !== -1) {
                 if (!gunzipped) {
-                    res.status(404).send()
+                    res.status(404).send(`{"error":"failed unzip"}`)
                     return
                 }
                 logSave(`utf-8 text...`)
@@ -264,7 +264,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
       onProxyReq: (proxyReq, req, res) => {
         let {host, httpType} = getHostFromReq(req)
         if (host == '' || host.indexOf('.') === -1) {
-            res.status(404).send()
+            res.status(404).send("{}")
             return
         }
         logClear()
@@ -284,7 +284,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
         logSave(`req host:${host}, req.url:${req.url}, proxyReq.path:${proxyReq.path}, proxyReq.url:${proxyReq.url} proxyReq headers:${JSON.stringify(proxyReq.getHeaders())}`)
         if(host === '' || !host) {
             logSave(`------------------ sending status 404`)
-            res.status(404).send()
+            res.status(404).send("{}")
             res.end()
         }
 

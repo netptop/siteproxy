@@ -1,5 +1,5 @@
 # siteproxy
-pure web page proxy, zero configuration from client side. Reverse proxy to all internet. 一键部署，翻墙利器。
+pure web page proxy to google, zero configuration from client side. Reverse proxy to all internet. 一键部署，翻墙利器。
 
 ```
                                                  +----> google
@@ -31,8 +31,8 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 
 ## supported websites
 ```
-1. www.google.com, and search action
-2. zh.wikipedia.org, and search action
+1. www.google.com, and search action.
+2. zh.wikipedia.org, and search action.
 3. facebook, login is not verified.
 4. other websites.
 ```
@@ -54,6 +54,4 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 
 ## issues
 - 部分网站加载有问题;
-- 暂时无法看视频网站;
 - twitter访问有问题;
-- recaptcha验证码有问题;

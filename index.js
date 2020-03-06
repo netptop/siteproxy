@@ -80,8 +80,14 @@ const pathReplace = ({host, httpType, body}) => {
     myRe = new RegExp('([:, ]url[(]["\']?)/([-a-z0-9]+?)', 'g')
     body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
 
-    myRe = new RegExp('("url":")/([-a-z0-9_]+?)', 'g')
+    myRe = new RegExp('("url":[ ]?")/([-a-z0-9_]+?)', 'g')
     body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
+
+    myRe = new RegExp('(url:[ ]?")/([-a-z0-9_]+?)', 'g')
+    body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
+
+    myRe = new RegExp('(rl.":.")./([-a-z0-9_]+?)', 'g')
+    body = body.replace(myRe, `$1\\/${httpType}\\/${host}\\/$2`)
 
     myRe = new RegExp('("path":")/([-a-z0-9_]+?)', 'g')
     body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
@@ -119,15 +125,15 @@ const siteSpecificReplace = {
         'c<a.C.length': `c<a.C.length&&a.C[c].style`, // fixed the exception.
         ' .......*?"Captions URL".': ' true', // Ms(Os(a, jfa, null), a, b, "Captions URL")
         'throw Error."Untrusted URL.+?;': ';',
-        // '&&[a-zA-Z.]+?.Error."Player URL validator detects invalid url.*?;': `&&a=true;`,
-        '"//"(.this\..\...\...."/api/stats/qoe")': `"//${serverName}:${port}/https/"$1`,
-        //;b=g.$g("//"+this.o.ab.Ff+"/api/stats/qoe",a);
-        'return .\.protocol."://(i1.ytimg.com/vi/)"': `return "${httpprefix}://${serverName}:${port}/https/$1"`,
-        // {return a.protocol+"://i1.ytimg.com/vi/"+b+"/"+(c||"hqdefault.jpg")};
+        '"//"(.this\..\...\...."/api/stats/qoe")': `"//${serverName}:${port}/https/"$1`, //;b=g.$g("//"+this.o.ab.Ff+"/api/stats/qoe",a);
+        'return .\.protocol."://(i1.ytimg.com/vi/)"': `return "${httpprefix}://${serverName}:${port}/https/$1"`, // {return a.protocol+"://i1.ytimg.com/vi/"+b+"/"+(c||"hqdefault.jpg")};
         '(rl%22%3A%22%2F%2F)([-a-z0-9A-Z.]+?)': `$1${serverName}%3A${port}%2Fhttps%2F$2`, // rl%22%3A%22%2F%2Fwww.youtube.com
         '(.\..."ptracking",)': `"${httpprefix}://${serverName}:${port}/https/www.youtube.com/ptracking",`,//(d.C+"ptracking",    in base.js
         ':"//"[+].\...[+]"/api/stats/"': `:"//${serverName}:${port}/https/www.youtube.com/api/stats/"`, // his.sa=this.O?"/api/stats/"+c:"//"+b.If+"/api/stats/"+c;d&&(t
-        // 'this\..\.logo\.hidden=.[01][,;]': ``, // this.$.logo.hidden = !1,
+        'iconChanged_:function.[a-z],[a-z],[a-z]...*\},': `iconChanged_:function(a,b,c){},`, // iconChanged_:function(a,b,c){
+        '"/youtubei': `"/https/www.youtube.com/youtubei`,
+        '"/api/stats/"': `"/https/www.youtube.com/api/stats/"`,
+        '"/service_ajax"': `"/https/www.youtube.com/service_ajax"`,
     },
     'search.yahoo.com': {
         '"./ra./click"': `"\\/https\\/search.yahoo.com\\/ra\\/click"`,
