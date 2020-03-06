@@ -149,11 +149,13 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
       changeOrigin: true,
       debug:true,
       onError: (err, req, res) => {
-        console.log(`onerror: ${err}`)
+        logSave(`onerror: ${JSON.stringify(err)}`)
         try {
-            // res.status(404).send(`{"error": "${err}"}`)
+            if (err.reason.indexOf('Expected') === -1) {
+                res.status(404).send(`{"error": "${err}"}`)
+            }
         } catch(e) {
-            console.log(`error of sending 404: ${e}`)
+            logSave(`error of sending 404: ${e}`)
         }
       },
       selfHandleResponse: true, // so that the onProxyRes takes care of sending the response
@@ -178,7 +180,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
                     logSave(`zlib.gunzip...`)
                 }
             } catch(e) {
-                res.status(404).send(`{"error": "${e}"}`)
+                // res.status(404).send(`{"error": "${e}"}`)
                 return
             }
             if (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||

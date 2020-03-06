@@ -134,6 +134,8 @@ const siteSpecificReplace = {
         '"/youtubei': `"/https/www.youtube.com/youtubei`,
         '"/api/stats/"': `"/https/www.youtube.com/api/stats/"`,
         '"/service_ajax"': `"/https/www.youtube.com/service_ajax"`,
+        // '(this\..\.logo\.hidden.*?[,;])': ``,
+        // '(&&this\..\.content\.insertBefore.*?;)': `;`, //  && this.$.content.insertBefore(this.$.guide, this.$["page-manager"]);
     },
     'search.yahoo.com': {
         '"./ra./click"': `"\\/https\\/search.yahoo.com\\/ra\\/click"`,
