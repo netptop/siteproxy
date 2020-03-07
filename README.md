@@ -1,8 +1,8 @@
 # siteproxy
-pure web page proxy to google, zero configuration from client side. Reverse proxy to all internet. 一键部署，翻墙利器。
+pure web page proxy to google/youtube, zero configuration from client side. Reverse proxy to all internet. 一键部署，翻墙利器。
 
 ```
-                                                 +----> google
+                                                 +----> google/youtube
                              +----------------+  |
                              |                |  |
 user browser +-------------->+ siteproxy      +-------> wikipedia
@@ -32,9 +32,10 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 ## supported websites
 ```
 1. www.google.com, and search action.
-2. zh.wikipedia.org, and search action.
-3. facebook, login is not verified.
-4. other websites.
+2. www.youtube.com, only firefox browser is supported.
+3. zh.wikipedia.org, and search action.
+4. facebook, login is not verified.
+5. other websites.
 ```
 
 ## installation/deployment
