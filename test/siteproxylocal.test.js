@@ -199,6 +199,7 @@ test('youtube desktop_polymer_v2.js issue', async () => {
   expect(response.data.indexOf(`iconChanged_:function(a,b,c){},`)).not.toBe(-1)
   expect(response.data.indexOf(`g+("/youtubei/"`)).toBe(-1)
   expect(response.data.indexOf(`"/service_ajax"`)).toBe(-1)
+  expect(response.data.indexOf(`&&this.connectedCallback()):`)).toBe(-1)
 }, 30000);
 
 

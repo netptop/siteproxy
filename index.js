@@ -136,6 +136,7 @@ const siteSpecificReplace = {
         '"/service_ajax"': `"/https/www.youtube.com/service_ajax"`,
         // '(this\..\.logo\.hidden.*?[,;])': ``,
         // '(&&this\..\.content\.insertBefore.*?;)': `;`, //  && this.$.content.insertBefore(this.$.guide, this.$["page-manager"]);
+        '[&]{2}this\.connectedCallback[(][)][)]:': `):`, // &&this.connectedCallback()):
     },
     'search.yahoo.com': {
         '"./ra./click"': `"\\/https\\/search.yahoo.com\\/ra\\/click"`,
