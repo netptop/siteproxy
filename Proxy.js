@@ -1,6 +1,7 @@
 var express = require('express');
 var proxy = require('http-proxy-middleware');
 const zlib = require("zlib")
+const parse = require('url-parse')
 const cookiejar = require('cookiejar')
 const iconv = require('iconv-lite')
 const {logSave, logGet, logClear} = require('./logger')
@@ -72,15 +73,21 @@ let getHostFromReq = (req) => { //return target
       httpType = 'http'
       logSave(`============= host:${host}, req referer:${req.headers['referer']}`)
   } else if (req.headers['referer']) { // 'zh.wikipedia.org'
-      host = req.headers['referer']
-      httpType = 'https'
+      var parsed = parse(req.headers['referer'])
+      if(parsed.hostname) {
+        host = parsed.hostname
+        httpType = parsed.protocol.replace(':', '')
+      } else {
+        host = req.headers['referer']
+        httpType = 'https'
+      }
   }
   logSave(`getHostFromReq, req.url:${req.url}, referer:${req.headers['referer']}, host:${host}, httpType:${httpType}`)
   return {host, httpType}
 }
 
 
-let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace}) => {
+let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace}) => {
     let handleRespond = ({req, res, body, gbFlag}) => {
         // logSave("res from proxied server:", body);
         let myRe
@@ -151,7 +158,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
       onError: (err, req, res) => {
         logSave(`onerror: ${JSON.stringify(err)}`)
         try {
-            if (err.reason.indexOf('Expected') === -1) {
+            if (err.reason && err.reason.indexOf('Expected') === -1) {
                 res.status(404).send(`{"error": "${err}"}`)
             }
         } catch(e) {
@@ -275,6 +282,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
         if ('origin' in req.headers) {
           req.headers['origin'] = host
         }
+        proxyReq.path = proxyReq.url = urlModify({httpType, host, url:req.url})
         let newpath = req.url.replace(`/${httpType}/${host}`, '') || '/'
         logSave(`httpType:${httpType}, host:${host}, req.url:${req.url}, req.headers:${JSON.stringify(req.headers)}`)
         Object.keys(req.headers).forEach(function (key) {
@@ -282,8 +290,7 @@ let Proxy = ({httpprefix, serverName, port, cookieDomainRewrite, locationReplace
         });
         proxyReq.setHeader('Accept-Encoding', 'gzip')
         proxyReq.setHeader('referer', host)
-        proxyReq.path = newpath
-        logSave(`req host:${host}, req.url:${req.url}, proxyReq.path:${proxyReq.path}, proxyReq.url:${proxyReq.url} proxyReq headers:${JSON.stringify(proxyReq.getHeaders())}`)
+        logSave(`req host:${host}, req.url:${req.url}, proxyReq.query:${proxyReq.query} proxyReq.path:${proxyReq.path}, proxyReq.url:${proxyReq.url} proxyReq headers:${JSON.stringify(proxyReq.getHeaders())}`)
         if(host === '' || !host) {
             logSave(`------------------ sending status 404`)
             res.status(404).send("{}")

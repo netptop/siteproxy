@@ -16,7 +16,9 @@
     "cookiejar": "^2.1.2",
     "express": "^4.17.1",
     "http-proxy-middleware": "^0.20.0",
-    "iconv-lite": "^0.5.1"
+    "iconv-lite": "^0.5.1",
+    "query-string": "^6.11.1",
+    "url-parse": "^1.4.7"
   },
   "devDependencies": {
     "axios": "^0.19.2",

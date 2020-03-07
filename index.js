@@ -1,6 +1,9 @@
 var express = require('express')
 const zlib = require("zlib")
 const fs = require("fs")
+const queryString = require('query-string')
+const parse = require('url-parse')
+
 const cookiejar = require('cookiejar')
 const {CookieAccessInfo, CookieJar, Cookie} = cookiejar
 const path = require('path')
@@ -22,6 +25,19 @@ if (process.env.localFlag === 'true') {
 }
 
 let {httpprefix, serverName, port, accessCode} = config
+
+const urlModify = ({httpType, host, url}) => {
+    // this url is actually a partial url, without https://${host}:${port}
+    let newpath = url.replace(`/${httpType}/${host}`, '') || '/'
+    var parsed = parse(newpath)
+    const parsedQuery = queryString.parse(parsed.query)
+    if (host.indexOf('www.google.com') !== -1) {
+        // delete parsedQuery['ved']
+    }
+    parsed.set('query', queryString.stringify(parsedQuery))
+    console.log(`after change: ${parsed.href}`)
+    return parsed.href
+}
 
 const locationReplaceMap302 = ({location, serverName, httpprefix, host, httpType}) => {
     let myRe
@@ -110,6 +126,8 @@ const siteSpecificReplace = {
         'continue=.+?"': 'continue="', // fix the gmail login issue.
         's_mda=/.https:(././).+?/http/': `s_mda=/^http:$1`, // recover Ybs regular expression
         'href="/https/www.google.com/g(.;)': 'href="/g$1',
+        '[\(]"/url': `\("/https/www.google.com/url`, //s_Gj("/url?sa=t&source=web&rct=j");s_Nj
+        '"/url"': `"/https/www.google.com/url"`,
     },
     'www.gstatic.com': {
         'href="/https/www.gstatic.com/g(.;)': 'href="/g$1',
@@ -180,7 +198,7 @@ const siteSpecificReplace = {
 let app = express()
 let cookieDomainRewrite = serverName
 
-let proxy = Proxy({httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace})
+let proxy = Proxy({urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace})
 
 app.use((req, res, next) => {
   console.log(`req.url:${req.url}`)
