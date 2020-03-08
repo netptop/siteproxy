@@ -28,14 +28,6 @@ var enableCors = function(req, res) {
   }
 };
 
-// only support https for now.
-let router = (req) => { //return target
-  let {host, httpType} = getHostFromReq(req)
-  let target = `${httpType}://${host}`
-  logSave(`router, target:${target}, req.url:${req.url}`)
-  return target
-}
-
 let getHostFromReq = (req) => { //return target
   // url: http://127.0.0.1:8011/https/www.youtube.com/xxx/xxx/...
   let https_prefix = '/https/'
@@ -109,8 +101,8 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
             body = pathReplace({host, httpType, body})
         }
         // remove duplicate /https/siteproxylocal.now.sh:443
-        myRe = new RegExp(`/${httpprefix}/${serverName}:${port}`, 'g') // match group
-        body = body.replace(myRe, '')
+        myRe = new RegExp(`/${httpprefix}/${serverName}.*?/`, 'g') // match group
+        body = body.replace(myRe, '/')
 
         // put siteSpecificReplace at end
         Object.keys(siteSpecificReplace).forEach( (site) => {
@@ -136,6 +128,17 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
             logSave(`error: ${e}`)
         }
     }
+    // only support https for now.
+    const router = (req) => { //return target
+    let myRe = new RegExp(`/${httpprefix}/${serverName}.*?/`, 'g') // match group
+    req.url = req.url.replace(myRe, '/')
+
+    let {host, httpType} = getHostFromReq(req)
+    let target = `${httpType}://${host}`
+    logSave(`router, target:${target}, req.url:${req.url}`)
+    return target
+    }
+
     let p = proxy({
       target: `https://www.google.com`,
       router,
@@ -271,6 +274,9 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
         logSave(`res.status:${res.statusCode} res.url:${res.url}, res.headers:${JSON.stringify(res.getHeaders())}`)
       },
       onProxyReq: (proxyReq, req, res) => {
+        let myRe = new RegExp(`/${httpprefix}/${serverName}.*?/`, 'g') // match group
+        req.url = req.url.replace(myRe, '/')
+
         let {host, httpType} = getHostFromReq(req)
         if (host == '' || host.indexOf('.') === -1) {
             res.status(404).send("{}")

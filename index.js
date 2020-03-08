@@ -31,8 +31,11 @@ const urlModify = ({httpType, host, url}) => {
     let newpath = url.replace(`/${httpType}/${host}`, '') || '/'
     var parsed = parse(newpath)
     const parsedQuery = queryString.parse(parsed.query)
-    if (host.indexOf('www.google.com') !== -1) {
-        // delete parsedQuery['ved']
+    if (host.indexOf('googlevideo.com') !== -1) {
+        console.log(`mime = ${parsedQuery['mime']}`)
+        if (parsedQuery['mime'] === 'audio/mp4') {
+            // parsedQuery['mime'] = 'audio%2Fwebm'
+        }
     }
     parsed.set('query', queryString.stringify(parsedQuery))
     console.log(`after change: ${parsed.href}`)

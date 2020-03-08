@@ -177,7 +177,7 @@ test('youtube url check issue', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  // console.log(`${response.data}`)
+  console.log(`${response.data}`)
   expect(response.data.indexOf(`"Captions URL"`)).toBe(-1)
   expect(response.data.indexOf(`("//${serverName}:${port}/https/"+this.`)).not.toBe(-1)
   expect(response.data.indexOf(`://i1.ytimg.com/vi`)).toBe(-1)
@@ -195,7 +195,7 @@ test('youtube desktop_polymer_v2.js issue', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  console.log(`${response.data}`)
+  // console.log(`${response.data}`)
   expect(response.data.indexOf(`iconChanged_:function(a,b,c){},`)).not.toBe(-1)
   expect(response.data.indexOf(`g+("/youtubei/"`)).toBe(-1)
   expect(response.data.indexOf(`"/service_ajax"`)).toBe(-1)
