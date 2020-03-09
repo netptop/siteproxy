@@ -118,11 +118,22 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
         if (gbFlag) {
           body = iconv.encode(body, 'gbk')
         }
+        // googlevideo.com manual redirection
+        if (typeof(body) === 'string' && body.startsWith(`${httpprefix}://${serverName}`) && body.indexOf('googlevideo.com') !== -1) {
+            // need to manually redirect it for youtube workaround.
+            console.log(`============== redirect googlevideo.com`)
+            res.setHeader('location', body)
+            res.statusCode = '302'
+        }
         body = zlib.gzipSync(body)
         try {
             res.setHeader('content-encoding', 'gzip');
-            logSave(`handleRespond: res.headers:${JSON.stringify(res.getHeaders())}`)
-            // console.log(`1=================${logGet()}`)
+            logSave(`handleRespond: res.statusCode:${res.statusCode}, res.headers:${JSON.stringify(res.getHeaders())}`)
+            if (req.headers['debugflag']==='true') {
+                res.removeHeader('content-encoding')
+                res.setHeader('content-type','text/plain')
+                body=logGet()
+            }
             res.end(body);
         } catch(e) {
             logSave(`error: ${e}`)
@@ -172,7 +183,7 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
       onProxyRes: (proxyRes, req, res) => {
         let {host, httpType} = getHostFromReq(req)
         logSave(`proxyRes.status:${proxyRes.statusCode} proxyRes.headers:${JSON.stringify(proxyRes.headers)}`)
-        var body = Buffer.from('');
+        let body = Buffer.from('');
         proxyRes.on('data', function(data) {
           body = Buffer.concat([body, data]);
         })
@@ -219,6 +230,11 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
                     res.setHeader(key, proxyRes.headers[key]);
                 }
                 logSave(`2: res.headers:${JSON.stringify(res.getHeaders())}`)
+                if (req.headers['debugflag']==='true') {
+                    res.removeHeader('content-encoding')
+                    res.setHeader('content-type','text/plain')
+                    body=logGet()
+                }
                 res.end(body)
             }
 
@@ -239,7 +255,12 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
             }
             handleRespond({req, res, body, gbFlag})
           } else {
-            // console.log(`3========>${logGet()}`)
+            logSave(`3========>${logGet()}`)
+            if (req.headers['debugflag']==='true') {
+                res.removeHeader('content-encoding')
+                res.setHeader('content-type','text/plain')
+                body=logGet()
+            }
             res.end(body)
           }
         })
@@ -292,8 +313,13 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
         let newpath = req.url.replace(`/${httpType}/${host}`, '') || '/'
         logSave(`httpType:${httpType}, host:${host}, req.url:${req.url}, req.headers:${JSON.stringify(req.headers)}`)
         Object.keys(req.headers).forEach(function (key) {
-          proxyReq.setHeader(key, req.headers[key]);
-        });
+          if (key.indexOf('x-') === 0) {
+              logSave(`remove key=${key},`)
+              proxyReq.removeHeader(key)
+          }
+          logSave(`set key=${key},`)
+          proxyReq.setHeader(key, req.headers[key])
+        })
         proxyReq.setHeader('Accept-Encoding', 'gzip')
         proxyReq.setHeader('referer', host)
         logSave(`req host:${host}, req.url:${req.url}, proxyReq.query:${proxyReq.query} proxyReq.path:${proxyReq.path}, proxyReq.url:${proxyReq.url} proxyReq headers:${JSON.stringify(proxyReq.getHeaders())}`)

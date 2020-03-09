@@ -11,7 +11,7 @@ var Proxy = require('./Proxy')
 
 let config = {
     httpprefix: 'https', port: 443,
-    serverName: 'siteproxy.now.sh',
+    serverName: 'siteproxylocal.now.sh',
 }
 if (process.env.herokuAddr) {
     config.serverName = process.env.herokuAddr
@@ -38,7 +38,7 @@ const urlModify = ({httpType, host, url}) => {
         }
     }
     parsed.set('query', queryString.stringify(parsedQuery))
-    console.log(`after change: ${parsed.href}`)
+    // console.log(`after change: ${parsed.href}`)
     return parsed.href
 }
 
@@ -158,6 +158,7 @@ const siteSpecificReplace = {
         // '(this\..\.logo\.hidden.*?[,;])': ``,
         // '(&&this\..\.content\.insertBefore.*?;)': `;`, //  && this.$.content.insertBefore(this.$.guide, this.$["page-manager"]);
         '[&]{2}this\.connectedCallback[(][)][)]:': `):`, // &&this.connectedCallback()):
+        '="/sw.js"': `="/https/www.youtube.com/sw.js"`,
     },
     'search.yahoo.com': {
         '"./ra./click"': `"\\/https\\/search.yahoo.com\\/ra\\/click"`,
@@ -205,21 +206,15 @@ let proxy = Proxy({urlModify, httpprefix, serverName, port, cookieDomainRewrite,
 
 app.use((req, res, next) => {
   console.log(`req.url:${req.url}`)
-
-  if (req.url === `/bg-gr-v.png`) {
-    body = fs.readFileSync(path.join(__dirname, './bg-gr-v.png'))
-    res.status(200).send(body)
-    return
-  } else
-  if (req.url === `/style.css`) {
-    body = fs.readFileSync(path.join(__dirname, './style.css'), encoding='utf-8')
-    res.status(200).send(body)
-    return
-  } else
+  const dirPath = path.join(__dirname, req.url)
   if (req.url === '/' || req.url === '/index.html') {
     body = fs.readFileSync(path.join(__dirname, './index.html'), encoding='utf-8')
     res.status(200).send(body)
     return
+  } else
+  if(fs.existsSync(dirPath) && !fs.lstatSync(dirPath).isDirectory()) {
+    body = fs.readFileSync(dirPath)
+    return res.status(200).send(body)
   }
   next()
 })

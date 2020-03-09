@@ -54,16 +54,6 @@ test('mitbbs home page img src issue', async () => {
   expect(response.data.indexOf(`img src="../img`)).toBe(-1)
 }, 30000);
 
-test('boxun /hero issue', async () => {
-  const url = `${httpprefix}://${serverName}:${port}/https/blog.boxun.com`
-  const response = await axios({
-    method: 'get',
-    url,
-  })
-  // console.log(`${response.data}`)
-  expect(response.data.indexOf(`href=/hero`)).toBe(-1)
-}, 30000);
-
 test('google next click issue', async () => {
   const url = `${httpprefix}://${serverName}:${port}/https/www.google.com/search?q=%E6%B5%B7%E5%A4%96%E8%AE%BA%E5%9D%9B&oq=%E6%B5%B7%E5%A4%96%E8%AE%BA%E5%9D%9B`
   const response = await axios({
@@ -177,7 +167,7 @@ test('youtube url check issue', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  console.log(`${response.data}`)
+  // console.log(`${response.data}`)
   expect(response.data.indexOf(`"Captions URL"`)).toBe(-1)
   expect(response.data.indexOf(`("//${serverName}:${port}/https/"+this.`)).not.toBe(-1)
   expect(response.data.indexOf(`://i1.ytimg.com/vi`)).toBe(-1)
@@ -200,6 +190,7 @@ test('youtube desktop_polymer_v2.js issue', async () => {
   expect(response.data.indexOf(`g+("/youtubei/"`)).toBe(-1)
   expect(response.data.indexOf(`"/service_ajax"`)).toBe(-1)
   expect(response.data.indexOf(`&&this.connectedCallback()):`)).toBe(-1)
+  expect(response.data.indexOf(`="/sw.js"`)).toBe(-1)
 }, 30000);
 
 
@@ -217,4 +208,21 @@ test('youtube url conversion', async () => {
   // console.log(`${JSON.stringify(response.headers)}`)
   // console.log(`${response.data}`)
   expect(response.data.indexOf(`"\\/service_ajax\\",`)).toBe(-1)
+}, 30000);
+
+test('googlevideo.com issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/r1---sn-n4v7sn7l.googlevideo.com/videoplayback?expire=1583814270&ei=HsJmXur9K4aikgamvbfABQ&ip=18.144.99.15&id=o-AIaKnNqqplhX9b0RsF0Kh1zyrCsOl-JkWPmg5f_y2Qr5&itag=243&aitags=133%2C134%2C135%2C136%2C137%2C160%2C242%2C243%2C244%2C247%2C248%2C278&source=youtube&requiressl=yes&mm=31%2C26&mn=sn-n4v7sn7l%2Csn-a5mekn7k&ms=au%2Conr&mv=u&mvi=0&pl=23&vprv=1&mime=video%2Fwebm&gir=yes&clen=63524647&dur=1299.598&lmt=1582963684900655&mt=1583792083&fvip=1&keepalive=yes&fexp=23842630&c=WEB&txp=5431432&sparams=expire%2Cei%2Cip%2Cid%2Caitags%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cdur%2Clmt&sig=ADKhkGMwRAIgRS5K8gl7Lo2QwK2z00wSbdPS36IrpaTo2OcEMd5h8j4CIDUtLjxXZAClS1mVDGEKH8nwtOz_aQRL72KhkGsEcx1_&lsparams=mm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl&lsig=ABSNjpQwRAIgX9FV_e-Uoi-euNxsIjfX0Azwgv9N4pThqdLAyUtvTMoCIEgSdyw6mI2gY3ryLd9pkGH7pXcaXlVjpvuH6yAlGibq&alr=yes&cpn=hwivuvx84GVZ6T0m&cver=2.20200304.01.00&range=113485-231845&rn=8&rbuf=2176`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+        'debugflag': 'true',
+        // maxRedirects: 0,
+        // validateStatus: null, // important for status 302
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  console.log(`${response.data}`)
+  expect(response.data.indexOf(`desktop_polymer_v2`)).toBe(-1)
 }, 30000);
