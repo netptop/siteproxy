@@ -45,7 +45,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 3. git clone https://github.com/netptop/siteproxy.git
 4. cd siteproxy
 5. now
-6. find your domain name from now cli, then replace serverName in 'index.js', like:
+6. find your domain name from now cli, then replace serverName in 'config.js', like:
    serverName: 'siteproxy.now.sh' ====> 'your-domain-name.now.sh'
 7. now --prod
 8. done

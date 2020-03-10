@@ -2,7 +2,8 @@ let logStr = ''
 
 let logSave = (addStr) => {
     if (process.env.localFlag === 'true') {
-        console.log(`${addStr}`)
+        let timestr = new Date().toISOString()
+        console.log(`${timestr}: ${addStr}`)
     }
     logStr += `${addStr}\n`
 }

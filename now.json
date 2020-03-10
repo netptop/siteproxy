@@ -1,8 +1,13 @@
 {
     "version": 2,
-    "builds": [{ "src": "index.js", "use": "@now/node-server"}],
     "env": {
         "NODE_OPTIONS": "--tls-min-v1.0"
+    },
+    "functions": {
+        "api/main.js": {
+            "memory": 512,
+            "includeFiles": "*(*.css|*.png)"
+        }
     },
     "routes": [{
         "headers": {
@@ -11,6 +16,6 @@
             "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
         },
         "src": "/(.*)",
-        "dest": "/index.js"
+        "dest": "api/main.js"
     }]
 }
