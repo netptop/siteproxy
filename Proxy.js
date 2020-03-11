@@ -298,8 +298,10 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
         let myRe = new RegExp(`/${httpprefix}/${serverName}.*?/`, 'g') // match group
         req.url = req.url.replace(myRe, '/')
 
+        let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for']
+
         let {host, httpType} = getHostFromReq(req)
-        if (host == '' || host.indexOf('.') === -1) {
+        if (host == '' || host.indexOf('.') === -1 || (fwdStr && fwdStr.split(',').length > 3)) { // too many forwardings
             res.status(404).send("{}")
             return
         }
