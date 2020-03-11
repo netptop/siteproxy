@@ -157,6 +157,21 @@ test('youtube response url encode issue', async () => {
 }, 30000);
 
 
+test('youtube mobile url issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/m.youtube.com/yts/jsbin/player-plasma-ias-phone-en_US-vflrryPzY/base.js`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  console.log(`${response.data}`)
+  // expect(response.data.indexOf(`"Captions URL"`)).toBe(-1)
+  expect(response.data.indexOf(`Untrusted URL:`)).toBe(-1)
+}, 30000);
+
 test('youtube url check issue', async () => {
   const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/yts/jsbin/player_ias-vflsFV4r3/en_US/base.js`
   const response = await axios({
@@ -222,6 +237,6 @@ test('youtube homepage issue', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  console.log(`${response.data}`)
+  // console.log(`${response.data}`)
   expect(response.data.indexOf(`"\\/service_ajax\\",`)).toBe(-1)
 }, 3000); // should be done within 3 seconds.

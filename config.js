@@ -9,7 +9,7 @@ const {CookieAccessInfo, CookieJar, Cookie} = cookiejar
 
 let config = {
     httpprefix: 'https', port: 443,
-    serverName: 'siteproxy.now.sh',
+    serverName: 'siteproxylocal.now.sh',
 }
 if (process.env.herokuAddr) {
     config.serverName = process.env.herokuAddr
@@ -139,7 +139,7 @@ const siteSpecificReplace = {
         '"signin/v2': '"https/accounts.google.com/signin/v2',
         'quot;https://[:-a-z0-9A-Z.]+?/https/accounts.google.com/ManageAccount': `quot;`,
     },
-    'www.youtube.com': {
+    'youtube.com': {
         'b."get_video_info"': `"${httpprefix}://${serverName}:${port}/https/www.youtube.com/get_video_info"`,
         'c<a.C.length': `c<a.C.length&&a.C[c].style`, // fixed the exception.
         // ' .......*?"Captions URL".': ' true', // Ms(Os(a, jfa, null), a, b, "Captions URL") // time costy
