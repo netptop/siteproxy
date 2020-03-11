@@ -288,8 +288,12 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
             logSave(`skip header:${key}`)
             return
           }
-          // res.append(key, proxyRes.headers[key]);
-          res.setHeader(key, proxyRes.headers[key]);
+          try {
+            res.setHeader(key, proxyRes.headers[key]);
+          } catch(e) {
+              logSave(`error:${e}`)
+              return
+          }
         });
         res.statusCode = proxyRes.statusCode
         logSave(`res.status:${res.statusCode} res.url:${res.url}, res.headers:${JSON.stringify(res.getHeaders())}`)
