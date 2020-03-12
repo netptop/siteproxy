@@ -167,7 +167,7 @@ test('youtube mobile url issue', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  console.log(`${response.data}`)
+  // console.log(`${response.data}`)
   // expect(response.data.indexOf(`"Captions URL"`)).toBe(-1)
   expect(response.data.indexOf(`Untrusted URL:`)).toBe(-1)
 }, 30000);

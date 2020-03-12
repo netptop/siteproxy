@@ -5,7 +5,7 @@
     },
     "functions": {
         "api/main.js": {
-            "memory": 512,
+            "memory": 384,
             "includeFiles": "*(*.css|*.png)"
         }
     },

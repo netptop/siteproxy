@@ -88,7 +88,12 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
         if (res.statusCode == '301' || res.statusCode == '302' || res.statusCode == '303' ||res.statusCode == '307' || res.statusCode == '308') {
             location = locationReplaceMap302({location, serverName, httpprefix, host, httpType})
             logSave(`after replacement, location=${location}`)
-            res.setHeader('location', location)
+            try {
+                res.setHeader('location', location)
+            } catch(e) {
+                logSave(`error: ${e}`)
+                return
+            }
             // return
         }
         // logSave(`HandleRespond(), req.url:${req.url}, req.headers:${JSON.stringify(req.headers)}`)
@@ -122,7 +127,12 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
         if (typeof(body) === 'string' && body.startsWith(`${httpprefix}://${serverName}`) && body.indexOf('googlevideo.com') !== -1) {
             // need to manually redirect it for youtube workaround.
             console.log(`============== redirect googlevideo.com`)
-            res.setHeader('location', body)
+            try {
+                res.setHeader('location', body)
+            } catch(e) {
+                logSave(`error: ${e}`)
+                return
+            }
             res.statusCode = '302'
         }
         body = zlib.gzipSync(body)
