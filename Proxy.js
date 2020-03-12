@@ -305,7 +305,8 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
         let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for']
 
         let {host, httpType} = getHostFromReq(req)
-        if (host == '' || host.indexOf('.') === -1 || (fwdStr && fwdStr.split(',').length > 3)) { // too many forwardings
+        if (host.indexOf(serverName) !== -1 || // we cannot request resource from proxy itself
+            host == '' || host.indexOf('.') === -1 || (fwdStr && fwdStr.split(',').length > 3)) { // too many forwardings
             res.status(404).send("{}")
             return
         }
