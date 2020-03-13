@@ -9,7 +9,7 @@ let cookieDomainRewrite = serverName
 let proxy = Proxy({ urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace })
 export default (req, res) => {
   const dirPath = path.join(__dirname + '/..', req.url)
-  console.log(`req.url:${req.url}, dirPath=${dirPath}`)
+  console.log(`x-forward-for:${req.headers['x-forwarded-for']}, req.url:${req.url}`)
   if (req.url === '/' || req.url === '/index.html') {
       let body = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf-8')
       res.status(200).send(body)

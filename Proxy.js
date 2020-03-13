@@ -182,7 +182,8 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
       onError: (err, req, res) => {
         logSave(`onerror: ${JSON.stringify(err)}`)
         try {
-            if (err.reason && err.reason.indexOf('Expected') === -1) {
+            if ((err.code && err.code === 'ECONNREFUSED') ||
+                (err.reason && err.reason.indexOf('Expected') === -1)) {
                 res.status(404).send(`{"error": "${err}"}`)
             }
         } catch(e) {
