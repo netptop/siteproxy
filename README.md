@@ -38,7 +38,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 5. other websites.
 ```
 
-## installation/deployment
+## 部署到now.sh服务器/deployment
 ```
 1. register one now.sh account from https://zeit.co/home
 2. npm install -g now
@@ -50,8 +50,8 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 7. now --prod
 8. done
 ```
-
 ## Telegram群: @siteproxy
+## email: netptop@gmail.com
 
 ## issues
 - 部分网站加载有问题;
