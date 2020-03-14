@@ -240,3 +240,14 @@ test('youtube homepage issue', async () => {
   // console.log(`${response.data}`)
   expect(response.data.indexOf(`"\\/service_ajax\\",`)).toBe(-1)
 }, 3000); // should be done within 3 seconds.
+
+// heroku headers:
+// h==== req.url:/https/id.google.com/verify/ALoz5hxFM5vKCyL4RFaFnt6WR_AuQbx7abPPVMjTqOcXGhuzO-IkSXVdsRZsYnmhe8kQSMl9uvqudUdIQBA07Fg_guEQ7c0GP6qrAPVQrScGetd8fAZfMhk, req
+// hheaders:{"host":"siteproxy.herokuapp.com","connection":"close","sec-fetch-dest":"image","dpr":"1","user-agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/5
+// h37.36","accept":"image/webp,image/apng,image/*,*/*;q=0.8","sec-fetch-site":"same-origin","sec-fetch-mode":"no-cors","referer":"https://siteproxy.herokuapp.com/","accept-encoding":"gzip, deflate, br","accept-lang
+// huage":"en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7","cookie":"NID=200=oRA6eiHr-AVq3TYpu1hAYlFFTt4FE3NTwVGhDTjs1L16VjJEuuyKW33tdEvz9ibbZNBplYLxm53p0O5AxgwyqCO1dzXie7NB_Mjq9B4AJyaZPMHKVaF0dqES1qtvyz7pRj5BqA6EKb7QB3FzLmj96
+// hR4aggHdBTbu6yZWnZmvc10; 1P_JAR=2020-03-13-23","x-request-id":"d2e7fa06-ed41-4a49-b92d-7a5f87e5feb3","x-forwarded-for":"135.0.54.232","x-forwarded-proto":"https","x-forwarded-port":"443","via":"1.1 vegur","connec
+// ht-time":"0","x-request-start":"1584141848398","total-route-time":"0"}
+// h2020-03-13T23:24:08.403097+00:00 app[web.1]: httpType:https, host:id.google.com
+
+
