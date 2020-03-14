@@ -216,7 +216,8 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
                 // res.status(404).send(`{"error": "${e}"}`)
                 return
             }
-            if (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
+            if (!proxyRes.headers["content-type"] ||
+                proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
                 proxyRes.headers["content-type"].indexOf('javascript') !== -1 ||
                 proxyRes.headers["content-type"].indexOf('urlencoded') !== -1 ||
                 proxyRes.headers["content-type"].indexOf('json') !== -1) {
