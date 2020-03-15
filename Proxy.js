@@ -310,6 +310,10 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
         });
         res.statusCode = proxyRes.statusCode
         logSave(`res.status:${res.statusCode} res.url:${res.url}, res.headers:${JSON.stringify(res.getHeaders())}`)
+        if (res.statusCode >= 400) {
+            res.status(res.statusCode).send("")
+            return
+        }
       },
       onProxyReq: (proxyReq, req, res) => {
         let myRe = new RegExp(`/${httpprefix}/${serverName}.*?/`, 'g') // match group
