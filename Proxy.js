@@ -182,8 +182,8 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
       onError: (err, req, res) => {
         console.log(`onerror: ${JSON.stringify(err)}`)
         try {
-            if ((err.code && err.code === 'ECONNREFUSED') ||
-                (err.code && err.code === 'ENOTFOUND') ||
+            if ((err.code && (err.code === 'ECONNREFUSED'|| err.code === 'EHOSTUNREACH'|| err.code === 'EPROTO'||
+                              err.code === 'ECONNRESET'|| err.code === 'ENOTFOUND')) ||
                 (err.reason && err.reason.indexOf('Expected') === -1)) {
                 res.status(404).send(`{"error": "${err}"}`)
             }
