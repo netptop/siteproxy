@@ -312,6 +312,7 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
         logSave(`res.status:${res.statusCode} res.url:${res.url}, res.headers:${JSON.stringify(res.getHeaders())}`)
         if (res.statusCode === 404) {
             try {
+                delete res.headers['content-length'] //remove content-length field
                 res.status(404).send("")
             } catch(e) {
                 logSave(`error: ${e}`)

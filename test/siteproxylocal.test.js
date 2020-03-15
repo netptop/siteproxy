@@ -114,20 +114,6 @@ test('google.com regex match issue.', async () => {
   expect(response.data.indexOf(`href="/https/www.google.com/g);`)).toBe(-1)
 }, 30000);
 
-test('pingcong href="/" issue.', async () => {
-  const url = `${httpprefix}://${serverName}:${port}/https/pincong.rocks/search/`
-  const response = await axios({
-    method: 'get',
-    headers: {
-        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
-    },
-    url,
-  })
-  // console.log(`${JSON.stringify(response.headers)}`)
-  // console.log(`${response.data}`)
-  expect(response.data.indexOf(`href="/"`)).toBe(-1)
-}, 30000);
-
 test('yorkbbs issue', async () => {
   const url = `${httpprefix}://${serverName}:${port}/http/www.yorkbbs.ca/`
   const response = await axios({
