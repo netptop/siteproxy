@@ -262,7 +262,7 @@ test('doubi issue', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  // console.log(`${response.data}`)
+  console.log(`${response.data}`)
   expect(response.data.indexOf(`href="3x8ussyf.html"`)).toBe(-1)
 }, 15000); // should be done within 3 seconds.
 
@@ -291,6 +291,21 @@ test('web.telegram.com href/src issues', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  console.log(`${response.data}`)
+  // console.log(`${response.data}`)
   expect(response.data.indexOf(`href=/https/web.telegram.org/e.value`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+
+test('web.telegram.com href/src issues', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/www.google.com/search?ei=pJ5yXtfwHOPP0PEPwaGzqAk&q=%E7%BB%B4%E5%9F%BA%E7%99%BE%E7%A7%91`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${response.data}`)
+  expect(response.data.indexOf(`/${httpprefix}://${serverName}:${port}/ht`)).toBe(-1)
 }, 15000); // should be done within 3 seconds.
