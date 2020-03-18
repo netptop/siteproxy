@@ -6,7 +6,7 @@
     "functions": {
         "api/main.js": {
             "memory": 384,
-            "maxDuration": 4,
+            "maxDuration": 8,
             "includeFiles": "*(*.css|*.png)"
         }
     },

@@ -81,6 +81,9 @@ const pathReplace = ({host, httpType, body}) => {
     let myRe = new RegExp(`href=([\"\']?)/([-a-z0-9_]+?)`, 'g')
     body = body.replace(myRe, `href=$1/${httpType}/${host}/$2`)
 
+    myRe = new RegExp(` href=([\"\']?)([-a-z0-9_]+?)`, 'g')
+    body = body.replace(myRe, ` href=$1/${httpType}/${host}/$2`)
+
     myRe = new RegExp(`href="/"`, 'g')
     body = body.replace(myRe, `href="/${httpType}/${host}/"`)
 
@@ -194,6 +197,9 @@ const siteSpecificReplace = {
         'alt="img/': `alt="/https/www.mitbbs.com/img/`,
         'src="[.]/img/': `src="/https/www.mitbbs.com/img/`,
         'src="[.]{2}/img/': `src="/https/www.mitbbs.com/img/`,
+    },
+    'web.telegram.org': {
+        ' src=([-a-z0-9_]+?)': ` src=/https/web.telegram.org/$1`,
     }
 }
 

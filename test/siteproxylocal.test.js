@@ -251,3 +251,46 @@ test('no content-type field situation', async () => {
   // console.log(`${response.data}`)
   expect(typeof(response.data)).toBe('object')
 }, 15000); // should be done within 3 seconds.
+
+test('doubi issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/doubibackup.com`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${response.data}`)
+  expect(response.data.indexOf(`href="3x8ussyf.html"`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+test('web.telegram.com href/src issues', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/web.telegram.org`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${response.data}`)
+  expect(response.data.indexOf(`href=css/app.css`)).toBe(-1)
+  expect(response.data.indexOf(`src=js/app.js`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+test('web.telegram.com href/src issues', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/web.telegram.org/js/app.js`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  console.log(`${response.data}`)
+  expect(response.data.indexOf(`href=/https/web.telegram.org/e.value`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
