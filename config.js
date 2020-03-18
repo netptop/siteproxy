@@ -200,6 +200,7 @@ const siteSpecificReplace = {
     },
     'web.telegram.org': {
         ' src=([-a-z0-9_]+?)': ` src=/https/web.telegram.org/$1`,
+        '(getJSON.")(js/locales/)': `$1/https/web.telegram.org/js/locales/`,
     }
 }
 
