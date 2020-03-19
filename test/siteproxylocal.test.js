@@ -264,6 +264,7 @@ test('doubi issue', async () => {
   // console.log(`${JSON.stringify(response.headers)}`)
   console.log(`${response.data}`)
   expect(response.data.indexOf(`href="3x8ussyf.html"`)).toBe(-1)
+  expect(response.data.indexOf(` src="5ny9g1s2.gif" `)).toBe(-1)
 }, 15000); // should be done within 3 seconds.
 
 test('web.telegram.com href/src issues', async () => {

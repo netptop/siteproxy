@@ -202,6 +202,7 @@ const siteSpecificReplace = {
     },
     'doubibackup.com': {
         ' href=([\"\']?)([-a-z0-9_]+?)': ` href=$1/https/doubibackup.com/$2`,
+        ' src=("[-a-z0-9_]+?)': ` src=/https/doubibackup.com/$1`,
     }
 }
 
