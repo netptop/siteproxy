@@ -111,6 +111,9 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
 
         // put siteSpecificReplace at end
         Object.keys(siteSpecificReplace).forEach( (site) => {
+            if (!req.url) {
+                return
+            }
             if (req.url.indexOf(site) !== -1 || req.headers['referer'].indexOf(site) !== -1) {
                 keys = Object.keys(siteSpecificReplace[site])
                 keys.forEach( key => {

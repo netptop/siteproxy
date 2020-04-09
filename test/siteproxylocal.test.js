@@ -100,20 +100,6 @@ test('remove integrity', async () => {
   expect(response.data.indexOf(` integrity="`)).toBe(-1)
 }, 30000);
 
-test('google.com regex match issue.', async () => {
-  const url = `${httpprefix}://${serverName}:${port}/https/www.google.com/xjs/_/js/k=xjs.s.en_US.WX2ru19zjfM.O/ck=xjs.s.6ta1yGmmv4s.L.W.O/am=AAAAAEsAdt0BAv43QQAAsMcAAIAAN8HGAmGQUBDEqglAIA/d=1/exm=Fkg7bd,HcFEGb,IvlUe,MC8mtf,OF7gzc,RMhBfe,T4BAC,TJw5qb,TbaHGc,Y33vzc,cdos,csi,d,hsm,iDPoPb,jsa,mvYTse,tg8oTe,uz938c,vWNDde,ws9Tlc,yQ43ff/ed=1/dg=2/br=1/ct=zgms/rs=ACT90oFic3J6EOqrrX-rohmG1E0OJYTO1g/m=RqxLvf,aa,abd,async,dvl,fEVMic,foot,ifl,lu,m,mUpTid,mu,sb_wiz,sf,sonic,spch,wft,xz7cCd?xjs=s1`
-  const response = await axios({
-    method: 'get',
-    headers: {
-        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
-    },
-    url,
-  })
-  // console.log(`${JSON.stringify(response.headers)}`)
-  // console.log(`${response.data}`)
-  expect(response.data.indexOf(`href="/https/www.google.com/g);`)).toBe(-1)
-}, 30000);
-
 test('yorkbbs issue', async () => {
   const url = `${httpprefix}://${serverName}:${port}/http/www.yorkbbs.ca/`
   const response = await axios({
@@ -225,7 +211,7 @@ test('youtube homepage issue', async () => {
   // console.log(`${JSON.stringify(response.headers)}`)
   // console.log(`${response.data}`)
   expect(response.data.indexOf(`"\\/service_ajax\\",`)).toBe(-1)
-}, 3000); // should be done within 3 seconds.
+}, 8000); // should be done within 3 seconds.
 
 // heroku headers:
 // h==== req.url:/https/id.google.com/verify/ALoz5hxFM5vKCyL4RFaFnt6WR_AuQbx7abPPVMjTqOcXGhuzO-IkSXVdsRZsYnmhe8kQSMl9uvqudUdIQBA07Fg_guEQ7c0GP6qrAPVQrScGetd8fAZfMhk, req
@@ -262,7 +248,7 @@ test('doubi issue', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  console.log(`${response.data}`)
+  // console.log(`${response.data}`)
   expect(response.data.indexOf(`href="3x8ussyf.html"`)).toBe(-1)
   expect(response.data.indexOf(` src="5ny9g1s2.gif" `)).toBe(-1)
 }, 15000); // should be done within 3 seconds.
@@ -282,7 +268,7 @@ test('web.telegram.com href/src issues', async () => {
   expect(response.data.indexOf(`src=js/app.js`)).toBe(-1)
 }, 15000); // should be done within 3 seconds.
 
-test('web.telegram.com href/src issues', async () => {
+test('web.telegram.com href regular expression issue', async () => {
   const url = `${httpprefix}://${serverName}:${port}/https/web.telegram.org/js/app.js`
   const response = await axios({
     method: 'get',
@@ -297,7 +283,7 @@ test('web.telegram.com href/src issues', async () => {
 }, 15000); // should be done within 3 seconds.
 
 
-test('web.telegram.com href/src issues', async () => {
+test('google search issue', async () => {
   const url = `${httpprefix}://${serverName}:${port}/https/www.google.com/search?ei=pJ5yXtfwHOPP0PEPwaGzqAk&q=%E7%BB%B4%E5%9F%BA%E7%99%BE%E7%A7%91`
   const response = await axios({
     method: 'get',
@@ -309,4 +295,19 @@ test('web.telegram.com href/src issues', async () => {
   // console.log(`${JSON.stringify(response.headers)}`)
   // console.log(`${response.data}`)
   expect(response.data.indexOf(`/${httpprefix}://${serverName}:${port}/ht`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+
+test('m.youtube.com search issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/m.youtube.com/yts/jsbin/mobile-c3-vflPfniwW/mobile-c3.js`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  console.log(`${response.data}`)
+  expect(response.data.indexOf(`"/results?search_query="`)).toBe(-1)
 }, 15000); // should be done within 3 seconds.

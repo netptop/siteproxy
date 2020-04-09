@@ -158,6 +158,9 @@ const siteSpecificReplace = {
         '[&]{2}this\.connectedCallback[(][)][)]:': `):`, // &&this.connectedCallback()):
         '="/sw.js"': `="/https/www.youtube.com/sw.js"`,
     },
+    'm.youtube.com': {
+        '"/(results.search_query=)"': `"/https/m.youtube.com/$1"`,
+	},
     'search.yahoo.com': {
         '"./ra./click"': `"\\/https\\/search.yahoo.com\\/ra\\/click"`,
         '(["\']).?/beacon': `$1${serverName}:${port}\\/https\\/search.yahoo.com\\/beacon`,
