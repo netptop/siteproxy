@@ -11,6 +11,8 @@ let config = {
     httpprefix: 'https', port: 443,
     serverName: 'siteproxy.herokuapp.com',
 }
+let blockedSites = ['www.youtube.com', 'm.youtube.com', 'merlinblog.xyz']
+
 if (process.env.herokuAddr) {
     config.serverName = process.env.herokuAddr
 }
@@ -209,4 +211,4 @@ const siteSpecificReplace = {
     }
 }
 
-module.exports = { urlModify, httpprefix, serverName, port, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace }
+module.exports = { blockedSites, urlModify, httpprefix, serverName, port, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace }

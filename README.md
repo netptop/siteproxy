@@ -47,8 +47,9 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 5. now
 6. find your domain name from now cli, then replace serverName in 'config.js', like:
    serverName: 'siteproxy.herokuapp.com' ====> 'your-domain-name.now.sh'
-7. now --prod
-8. done
+7. change "blockedSites = ['www.youtube.com', 'm.youtube.com']" ====> "blockedSites = []" if you want to support youtube
+8. now --prod
+9. done
 ```
 ## Telegram群: @siteproxy
 ## email: netptop@gmail.com

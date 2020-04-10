@@ -3,10 +3,10 @@ const path = require('path')
 const fs = require('fs')
 let app = express()
 var Proxy = require('./Proxy')
-let { urlModify, httpprefix, serverName, port, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace } = require('./config')
+let { blockedSites, urlModify, httpprefix, serverName, port, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace } = require('./config')
 
 let cookieDomainRewrite = serverName
-let proxy = Proxy({ urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace})
+let proxy = Proxy({ blockedSites, urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace})
 
 const middle1 = (req, res, next) => {
     console.log(`req.url:${req.url}`)

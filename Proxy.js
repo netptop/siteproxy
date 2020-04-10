@@ -79,7 +79,7 @@ let getHostFromReq = (req) => { //return target
 }
 
 
-let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace}) => {
+let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace}) => {
     let handleRespond = ({req, res, body, gbFlag}) => {
         // logSave("res from proxied server:", body);
         let myRe
@@ -330,6 +330,13 @@ let Proxy = ({urlModify, httpprefix, serverName, port, cookieDomainRewrite, loca
         let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for']
 
         let {host, httpType} = getHostFromReq(req)
+        for (let i=0; i<blockedSites.length; i++) {
+			let site = blockedSites[i]
+            if (site === host) {
+                res.status(404).send(`{"blockedSite":true}`)
+                return
+            }
+        }
         console.log(`httpType:${httpType}, host:${host}`)
         if (host.indexOf(serverName) !== -1 || // we cannot request resource from proxy itself
             host == '' || host.indexOf('.') === -1 || (fwdStr && fwdStr.split(',').length > 3)) { // too many forwardings
