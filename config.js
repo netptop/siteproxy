@@ -9,7 +9,7 @@ const {CookieAccessInfo, CookieJar, Cookie} = cookiejar
 
 let config = {
     httpprefix: 'https', port: 443,
-    serverName: 'siteproxy.now.sh',
+    serverName: 'siteproxy.herokuapp.com',
 }
 if (process.env.herokuAddr) {
     config.serverName = process.env.herokuAddr

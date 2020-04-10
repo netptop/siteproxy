@@ -19,12 +19,12 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 
 ## Mechanism
 ```
- 1. user browser url: https://siteproxy.now.sh/https/www.google.com
- 2. siteproxy.now.sh received the url and request www.google.com, and get response from www.google.com
+ 1. user browser url: https://siteproxy.herokuapp.com/https/www.google.com
+ 2. siteproxy.herokuapp.com received the url and request www.google.com, and get response from www.google.com
  3. siteproxy replace all returned strings in javascript/html:
-    https://www.google.com => https://siteproxy.now.sh/https/www.google.com
+    https://www.google.com => https://siteproxy.herokuapp.com/https/www.google.com
     url(/xxx) => url(/https/www.google.com/xxx)
-    https://xxx => https://siteproxy.now.sh/https/xxx
+    https://xxx => https://siteproxy.herokuapp.com/https/xxx
     etc.
  4. send back the modified html/javascript to user browser.
 ```
@@ -46,7 +46,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 4. cd siteproxy
 5. now
 6. find your domain name from now cli, then replace serverName in 'config.js', like:
-   serverName: 'siteproxy.now.sh' ====> 'your-domain-name.now.sh'
+   serverName: 'siteproxy.herokuapp.com' ====> 'your-domain-name.now.sh'
 7. now --prod
 8. done
 ```
