@@ -38,7 +38,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 5. other websites.
 ```
 
-## 部署到now.sh服务器/deployment
+## 部署到now.sh服务器/now.sh deployment
 ```
 1. register one now.sh account from https://zeit.co/home
 2. npm install -g now
@@ -51,6 +51,30 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 8. now --prod
 9. done
 ```
+## 部署到vps服务器/vps deployment
+```
+1. create ssl website(using certbot and nginx), and configure nginx as follow:
+   vi /etc/nginx/sites-available/default:
+   ...
+   server {
+      server_name siteproxy.your.domain.name
+      location / {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass       http://127.0.0.1:8011;
+      }
+   }
+2. systecmctl start nginx
+3. npm install -g forever
+4. cd siteproxy
+5. find your domain name from now cli, then replace serverName in 'config.js', like:
+   serverName: 'siteproxy.herokuapp.com' ====> 'siteproxy.your.domain.name'
+6. change "blockedSites = ['www.youtube.com', 'm.youtube.com']" ====> "blockedSites = []" if you want to support youtube
+7. forever start -c 'node --tls-min-v1.0' index.js
+8. done
+```
+1. register one now.sh account from https://zeit.co/home
 ## Telegram群: @siteproxy
 ## email: netptop@gmail.com
 
