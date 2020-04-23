@@ -9,7 +9,8 @@ let cookieDomainRewrite = serverName
 let proxy = Proxy({ blockedSites, urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace})
 
 const middle1 = (req, res, next) => {
-    console.log(`req.url:${req.url}`)
+	let timestr = new Date().toISOString()
+	console.log(`${timestr}: req.url:${req.url}`)
     const dirPath = path.join(__dirname, req.url)
     let fwdStr = req.headers['x-forwarded-for']
     if (fwdStr && fwdStr.split(',').length > 3) { // too many forwardings

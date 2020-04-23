@@ -28,6 +28,16 @@ var enableCors = function(req, res) {
   }
 };
 
+var redirect2HomePage = function({res, httpprefix, serverName,} ) {
+    try {
+        res.setHeader('location',`${httpprefix}://${serverName}`)
+    } catch(e) {
+        logSave(`error: ${e}`)
+        return
+    }
+    res.status(302).send(``)
+}
+
 let getHostFromReq = (req) => { //return target
   // url: http://127.0.0.1:8011/https/www.youtube.com/xxx/xxx/...
   let https_prefix = '/https/'
@@ -114,7 +124,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
             if (!req.url) {
                 return
             }
-            if (req.url.indexOf(site) !== -1 || req.headers['referer'].indexOf(site) !== -1) {
+            if (req.url.indexOf(site) !== -1 || (req.headers['referer'] && req.headers['referer'].indexOf(site) !== -1)) {
                 keys = Object.keys(siteSpecificReplace[site])
                 keys.forEach( key => {
                     myRe = new RegExp(key, 'g') // match group
@@ -188,7 +198,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
             if ((err.code && (err.code === 'ECONNREFUSED'|| err.code === 'EHOSTUNREACH'|| err.code === 'EPROTO'||
                               err.code === 'ECONNRESET'|| err.code === 'ENOTFOUND')) ||
                 (err.reason && err.reason.indexOf('Expected') === -1)) {
-                res.status(404).send(`{"error": "${err}"}`)
+                redirect2HomePage({res, httpprefix, serverName,})
             }
         } catch(e) {
             logSave(`error of sending 404: ${e}`)
@@ -225,7 +235,8 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
                 proxyRes.headers["content-type"].indexOf('urlencoded') !== -1 ||
                 proxyRes.headers["content-type"].indexOf('json') !== -1) {
                 if (!gunzipped) {
-                    res.status(404).send(`{"error":"failed unzip"}`)
+                    // res.status(404).send(`{"error":"failed unzip"}`)
+                    redirect2HomePage({res, httpprefix, serverName,})
                     return
                 }
                 logSave(`utf-8 text...`)
@@ -316,7 +327,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
         if (res.statusCode === 404) {
             try {
                 delete res.headers['content-length'] //remove content-length field
-                res.status(404).send("")
+                redirect2HomePage({res, httpprefix, serverName,})
             } catch(e) {
                 logSave(`error: ${e}`)
             }
@@ -331,15 +342,16 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
 
         let {host, httpType} = getHostFromReq(req)
         for (let i=0; i<blockedSites.length; i++) {
-			let site = blockedSites[i]
+            let site = blockedSites[i]
             if (site === host) {
-                res.status(404).send(`{"blockedSite":true}`)
+                redirect2HomePage({res, httpprefix, serverName,})
                 return
             }
         }
-        console.log(`httpType:${httpType}, host:${host}`)
+        let timestr = new Date().toISOString()
+        console.log(`[${timestr}] route:${fwdStr}, httpType:${httpType}, host:${host}`)
         if (host.indexOf(serverName) !== -1 || // we cannot request resource from proxy itself
-            host == '' || host.indexOf('.') === -1 || (fwdStr && fwdStr.split(',').length > 3)) { // too many forwardings
+            host == '' || host.indexOf('.') === -1 || (fwdStr && fwdStr.split(',').length > 1)) { // too many forwardings
             res.status(404).send("{}")
             return
         }
@@ -365,7 +377,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
         logSave(`req host:${host}, req.url:${req.url}, proxyReq.query:${proxyReq.query} proxyReq.path:${proxyReq.path}, proxyReq.url:${proxyReq.url} proxyReq headers:${JSON.stringify(proxyReq.getHeaders())}`)
         if(host === '' || !host) {
             logSave(`------------------ sending status 404`)
-            res.status(404).send("{}")
+            redirect2HomePage({res, httpprefix, serverName,})
             res.end()
         }
 

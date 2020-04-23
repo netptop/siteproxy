@@ -9,9 +9,9 @@ const {CookieAccessInfo, CookieJar, Cookie} = cookiejar
 
 let config = {
     httpprefix: 'https', port: 443,
-    serverName: 'siteproxy.herokuapp.com',
+    serverName: 'siteproxy.netptop.com',
 }
-let blockedSites = ['www.youtube.com', 'm.youtube.com', 'merlinblog.xyz']
+let blockedSites = ['merlinblog.xyz']
 
 if (process.env.herokuAddr) {
     config.serverName = process.env.herokuAddr
@@ -161,8 +161,15 @@ const siteSpecificReplace = {
         '="/sw.js"': `="/https/www.youtube.com/sw.js"`,
     },
     'm.youtube.com': {
-        '"/(results.search_query=)"': `"/https/m.youtube.com/$1"`,
-	},
+        '"/(results.search_query=)': `"/https/m.youtube.com/$1`,
+        '"./(results.search_query=)': `"\\/https\\/m.youtube.com\\/$1`,
+        'mobile-topbar-header-content search-mode"': `mobile-topbar-header-content non-search-mode"`, // enable search on youtube.
+        ' non-search-mode cbox"': ` search-mode cbox"`
+    },
+    'www.youtube.com': {
+        '"/(results.search_query=)': `"/https/m.youtube.com/$1`,
+        '"./(results.search_query=)': `"\\/https\\/www.youtube.com\\/$1`,
+    },
     'search.yahoo.com': {
         '"./ra./click"': `"\\/https\\/search.yahoo.com\\/ra\\/click"`,
         '(["\']).?/beacon': `$1${serverName}:${port}\\/https\\/search.yahoo.com\\/beacon`,

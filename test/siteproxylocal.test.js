@@ -308,6 +308,48 @@ test('m.youtube.com search issue', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  console.log(`${response.data}`)
+  //console.log(`${response.data}`)
   expect(response.data.indexOf(`"/results?search_query="`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+test('www.youtube.com search issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/results?search_query=%E4%B8%AD%E5%9B%BD`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${response.data}`)
+  expect(response.data.indexOf(`"/results?search_query=`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+test('twitter pathname issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/abs.twimg.com/responsive-web/web/loader.Typeahead.3477b654.js`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${response.data}`)
+  expect(response.data.indexOf(`pathname:"/"`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+test('youtube non-search-box issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/m.youtube.com/yts/jsbin/mobile-c3-vflxm_8Y5/mobile-c3.js`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  console.log(`${response.data}`)
+  expect(response.data.indexOf(`non-search-box`)).toBe(-1)
 }, 15000); // should be done within 3 seconds.
