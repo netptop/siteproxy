@@ -326,19 +326,19 @@ test('www.youtube.com search issue', async () => {
   expect(response.data.indexOf(`"/results?search_query=`)).toBe(-1)
 }, 15000); // should be done within 3 seconds.
 
-test('twitter pathname issue', async () => {
-  const url = `${httpprefix}://${serverName}:${port}/https/abs.twimg.com/responsive-web/web/loader.Typeahead.3477b654.js`
-  const response = await axios({
-    method: 'get',
-    headers: {
-        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
-    },
-    url,
-  })
+// test('twitter pathname issue', async () => {
+//  const url = `${httpprefix}://${serverName}:${port}/https/abs.twimg.com/responsive-web/web/loader.Typeahead.3477b654.js`
+//  const response = await axios({
+//    method: 'get',
+//    headers: {
+//        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+//    },
+//    url,
+//  })
   // console.log(`${JSON.stringify(response.headers)}`)
   // console.log(`${response.data}`)
-  expect(response.data.indexOf(`pathname:"/"`)).toBe(-1)
-}, 15000); // should be done within 3 seconds.
+//  expect(response.data.indexOf(`pathname:"/"`)).toBe(-1)
+//}, 15000); // should be done within 3 seconds.
 
 test('youtube non-search-box issue', async () => {
   const url = `${httpprefix}://${serverName}:${port}/https/m.youtube.com/yts/jsbin/mobile-c3-vflxm_8Y5/mobile-c3.js`

@@ -102,6 +102,9 @@ const pathReplace = ({host, httpType, body}) => {
     myRe = new RegExp('("url":[ ]?")/([-a-z0-9_]+?)', 'g')
     body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
 
+    myRe = new RegExp('(sUrl":[ ]?")/([-a-z0-9_]+?)', 'g')
+    body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
+
     myRe = new RegExp('(url:[ ]?")/([-a-z0-9_]+?)', 'g')
     body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
 
@@ -122,7 +125,6 @@ const siteSpecificReplace = {
         '(s=.)/images/': `$1/https/www.google.com/images/`,
         '(/xjs/_)':`/https/www.google.com$1`,
         'srcset="/images/branding/googlelogo': `srcset="/https/www.google.com/images/branding/googlelogo`,
-   //      '/search\?"': `/https/www.google.com/search?"`,
         '"(/gen_204\?)': `"/https/www.google.com$1`,
         '"(www.gstatic.com)"': `"${serverName}:${port}/https/$1"`,
         'J+"://"': `J+"://${serverName}:${port}/https/"`,
@@ -131,6 +133,7 @@ const siteSpecificReplace = {
         'href="/https/www.google.com/g(.;)': 'href="/g$1',
         '[\(]"/url': `\("/https/www.google.com/url`, //s_Gj("/url?sa=t&source=web&rct=j");s_Nj
         '"/url"': `"/https/www.google.com/url"`,
+        // 'f="/"[+]f': `f="/https/www.google.com/"\+f`,
     },
     'www.gstatic.com': {
         'href="/https/www.gstatic.com/g(.;)': 'href="/g$1',
@@ -169,6 +172,11 @@ const siteSpecificReplace = {
     'www.youtube.com': {
         '"/(results.search_query=)': `"/https/m.youtube.com/$1`,
         '"./(results.search_query=)': `"\\/https\\/www.youtube.com\\/$1`,
+       // 'PLAYER_JS_URL":"': `PLAYER_JS_URL":"\\/https\\/www.youtube.com`,
+       // 'PLAYER_CSS_URL":"': `PLAYER_CSS_URL":"\\/https\\/www.youtube.com`,
+       // '(action=.")/results': `$1/https/www.youtube.com/results`,
+       // '"/channel': `"/https/www.youtube.com/channel`,
+        '"(./channel)': `"\\/https\\/www.youtube.com$1`,
     },
     'search.yahoo.com': {
         '"./ra./click"': `"\\/https\\/search.yahoo.com\\/ra\\/click"`,
