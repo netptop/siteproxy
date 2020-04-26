@@ -350,6 +350,36 @@ test('youtube non-search-box issue', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  console.log(`${response.data}`)
+  // console.log(`${response.data}`)
   expect(response.data.indexOf(`non-search-box`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+
+test('m.youtube.com show more on list page issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/m.youtube.com/yts/jsbin/mobile-c3-vfl0qWxpM/mobile-c3.js`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${response.data}`)
+  expect(response.data.indexOf(`if(!a||(a.isMutedByMutedAutoplay&&a.isMutedByMutedAutoplay()))`)).not.toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+test('web.telegram.org login', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/web.telegram.org/js/app.js`
+
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  console.log(`${response.data}`)
+  expect(response.data.indexOf(`"venus"`)).toBe(-1)
 }, 15000); // should be done within 3 seconds.

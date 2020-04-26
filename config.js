@@ -167,7 +167,10 @@ const siteSpecificReplace = {
         '"/(results.search_query=)': `"/https/m.youtube.com/$1`,
         '"./(results.search_query=)': `"\\/https\\/m.youtube.com\\/$1`,
         'mobile-topbar-header-content search-mode"': `mobile-topbar-header-content non-search-mode"`, // enable search on youtube.
-        ' non-search-mode cbox"': ` search-mode cbox"`
+        ' non-search-mode cbox"': ` search-mode cbox"`,
+        'PLAYER_JS_URL":"': `PLAYER_JS_URL":"\\/https\\/m.youtube.com`,
+        'PLAYER_CSS_URL":"': `PLAYER_CSS_URL":"\\/https\\/m.youtube.com`,
+        '(if...[|][|])(.\.isMutedByMutedAutoplay)..': `$1($2&&$2())`, // if(!a||a.isMutedByMutedAutoplay())
     },
     'www.youtube.com': {
         '"/(results.search_query=)': `"/https/m.youtube.com/$1`,
@@ -195,13 +198,6 @@ const siteSpecificReplace = {
         '"/login/check"': '"/https/twitter.com/login/check"',
         '"/login"': '"/https/twitter.com/login"',
     },
-    'web.telegram.org': {
-        '"pluto"': `"${serverName}:${port}/https/pluto"`,
-        '"venus"': `"${serverName}:${port}/https/venus"`,
-        '"aurora"': `"${serverName}:${port}/https/aurora"`,
-        '"vesta"': `"${serverName}:${port}/https/vesta"`,
-        '"flora"': `"${serverName}:${port}/https/flora"`,
-    },
     'zh-cn.facebook.com': {
         '"/ajax/bz"': `"/https/zh-cn.facebook.com/ajax/bz"`,
     },
@@ -216,6 +212,11 @@ const siteSpecificReplace = {
         'src="[.]{2}/img/': `src="/https/www.mitbbs.com/img/`,
     },
     'web.telegram.org': {
+        '"pluto"': `"${serverName}:${port}/https/pluto"`,
+        '"venus"': `"${serverName}:${port}/https/venus"`,
+        '"aurora"': `"${serverName}:${port}/https/aurora"`,
+        '"vesta"': `"${serverName}:${port}/https/vesta"`,
+        '"flora"': `"${serverName}:${port}/https/flora"`,
         ' href=([\"\']?)([-a-z0-9_]+?)': ` href=$1/https/web.telegram.org/$2`,
         ' src=([-a-z0-9_]+?)': ` src=/https/web.telegram.org/$1`,
         '(getJSON.")(js/locales/)': `$1/https/web.telegram.org/js/locales/`,
