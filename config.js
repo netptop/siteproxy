@@ -172,9 +172,9 @@ const siteSpecificReplace = {
     'www.youtube.com': {
         '"/(results.search_query=)': `"/https/m.youtube.com/$1`,
         '"./(results.search_query=)': `"\\/https\\/www.youtube.com\\/$1`,
-       // 'PLAYER_JS_URL":"': `PLAYER_JS_URL":"\\/https\\/www.youtube.com`,
-       // 'PLAYER_CSS_URL":"': `PLAYER_CSS_URL":"\\/https\\/www.youtube.com`,
-       // '(action=.")/results': `$1/https/www.youtube.com/results`,
+        'PLAYER_JS_URL":"': `PLAYER_JS_URL":"\\/https\\/www.youtube.com`,
+        'PLAYER_CSS_URL":"': `PLAYER_CSS_URL":"\\/https\\/www.youtube.com`,
+        '(action=.")/results': `$1/https/www.youtube.com/results`,
        // '"/channel': `"/https/www.youtube.com/channel`,
         '"(./channel)': `"\\/https\\/www.youtube.com$1`,
     },
