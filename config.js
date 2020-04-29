@@ -9,7 +9,7 @@ const {CookieAccessInfo, CookieJar, Cookie} = cookiejar
 
 let config = {
     httpprefix: 'https', port: 443,
-    serverName: 'siteproxy.netptop.com',
+    serverName: 'yaju.gundami.net',
 }
 let blockedSites = ['merlinblog.xyz']
 
