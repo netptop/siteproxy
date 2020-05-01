@@ -83,14 +83,18 @@ const pathReplace = ({host, httpType, body}) => {
     let myRe = new RegExp(`href=([\"\']?)/([-a-z0-9_]+?)`, 'g')
     body = body.replace(myRe, `href=$1/${httpType}/${host}/$2`)
 
-    myRe = new RegExp(`href="/"`, 'g')
-    body = body.replace(myRe, `href="/${httpType}/${host}/"`)
+    myRe = new RegExp(`href[ ]?=[ ]?"/`, 'g')
+    body = body.replace(myRe, `href="/${httpType}/${host}/`)
 
     myRe = new RegExp(` src=([\"\']?)/([-a-z0-9_]+?)`, 'g')
     body = body.replace(myRe, ` src=$1/${httpType}/${host}/$2`)
 
     myRe = new RegExp(` src="/"`, 'g')
     body = body.replace(myRe, ` src="/${httpType}/${host}/"`)
+
+    myRe = new RegExp(` src=(."././)([a-z])`, 'g')
+    body = body.replace(myRe, ` src=$1${serverName}:${port}\\/${httpType}\\/$2`)  // src=\"\/\/s.ytimg.com\/yts\/img\/avatar_48-
+
     /*
     myRe = new RegExp(' src=(["\'])//([-a-z0-9]+?)', 'g')
     body = body.replace(myRe, ` src=$1//${serverName}:${port}/${httpType}/${host}/$2`)
@@ -110,6 +114,9 @@ const pathReplace = ({host, httpType, body}) => {
 
     myRe = new RegExp('(rl.":.")./([-a-z0-9_]+?)', 'g')
     body = body.replace(myRe, `$1\\/${httpType}\\/${host}\\/$2`)
+
+    myRe = new RegExp('(rl.":.")././([-a-z0-9_]+?)', 'g') // interpreterUrl\":\"\/\/www.google.com\/js\/bg\/jeQSBy52GP_vj-aLADK6D_RsHFfZXrt-vZElH-uv2ok.js\"`)).toBe(-1)
+    body = body.replace(myRe, `$1\\/\\/${serverName}:${port}\\/${httpType}\\/$2`)
 
     myRe = new RegExp('("path":")/([-a-z0-9_]+?)', 'g')
     body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
@@ -149,10 +156,10 @@ const siteSpecificReplace = {
         'c<a.C.length': `c<a.C.length&&a.C[c].style`, // fixed the exception.
         // ' .......*?"Captions URL".': ' true', // Ms(Os(a, jfa, null), a, b, "Captions URL") // time costy
         'throw Error."Untrusted URL.+?;': ';',
-        '"//"(.this\..\...\...."/api/stats/qoe")': `"//${serverName}:${port}/https/"$1`, //;b=g.$g("//"+this.o.ab.Ff+"/api/stats/qoe",a);
+        '"//"(.this\.{6,10}"/api/stats/qoe")': `"//${serverName}:${port}/https/"$1`, // b=g.Ad("//"+this.o.o.Sh+"/api/stats/qoe"
         'return .\.protocol."://(i1.ytimg.com/vi/)"': `return "${httpprefix}://${serverName}:${port}/https/$1"`, // {return a.protocol+"://i1.ytimg.com/vi/"+b+"/"+(c||"hqdefault.jpg")};
         '(rl%22%3A%22%2F%2F)([-a-z0-9A-Z.]+?)': `$1${serverName}%3A${port}%2Fhttps%2F$2`, // rl%22%3A%22%2F%2Fwww.youtube.com
-        '(.\..."ptracking",)': `"${httpprefix}://${serverName}:${port}/https/www.youtube.com/ptracking",`,//(d.C+"ptracking",    in base.js
+        // '(.\..."ptracking",)': `"${httpprefix}://${serverName}:${port}/https/www.youtube.com/ptracking",`,//(d.C+"ptracking",    in base.js
         ':"//"[+].\...[+]"/api/stats/"': `:"//${serverName}:${port}/https/www.youtube.com/api/stats/"`, // his.sa=this.O?"/api/stats/"+c:"//"+b.If+"/api/stats/"+c;d&&(t
         'iconChanged_:function.[a-z],[a-z],[a-z]...*\},': `iconChanged_:function(a,b,c){},`, // iconChanged_:function(a,b,c){
         '"/youtubei': `"/https/www.youtube.com/youtubei`,
@@ -162,6 +169,10 @@ const siteSpecificReplace = {
         // '(&&this\..\.content\.insertBefore.*?;)': `;`, //  && this.$.content.insertBefore(this.$.guide, this.$["page-manager"]);
         '[&]{2}this\.connectedCallback[(][)][)]:': `):`, // &&this.connectedCallback()):
         '="/sw.js"': `="/https/www.youtube.com/sw.js"`,
+        '"://"([+])': `"://${serverName}:${port}/https/"$1`,
+        '("././)(www.google.com)': `$1${serverName}:${port}/https/www.google.com`,
+        '"://([a-z]+[.]youtube.com/)"': `"://${serverName}:${port}/https/$1"`,
+        '"(.../).../www.google.com': `"$1$1${serverName}:${port}$1www.google.com`, // tConfig('COMMENTS_BG_IU', \"\\\/\\\/www.google.com
     },
     'm.youtube.com': {
         '"/(results.search_query=)': `"/https/m.youtube.com/$1`,
@@ -180,6 +191,7 @@ const siteSpecificReplace = {
         '(action=.")/results': `$1/https/www.youtube.com/results`,
        // '"/channel': `"/https/www.youtube.com/channel`,
         '"(./channel)': `"\\/https\\/www.youtube.com$1`,
+        '.\.....\.style.display=0===.."none":"";': `;`, // a.A[c].style.display = 0 === b ? "none" : "";
     },
     'search.yahoo.com': {
         '"./ra./click"': `"\\/https\\/search.yahoo.com\\/ra\\/click"`,

@@ -145,7 +145,7 @@ test('youtube mobile url issue', async () => {
 }, 30000);
 
 test('youtube url check issue', async () => {
-  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/yts/jsbin/player_ias-vflsFV4r3/en_US/base.js`
+  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/s/player/64dddad9/player_ias.vflset/en_US/base.js`
   const response = await axios({
     method: 'get',
     headers: {
@@ -154,12 +154,15 @@ test('youtube url check issue', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  // console.log(`${response.data}`)
+  console.log(`${response.data}`)
   // expect(response.data.indexOf(`"Captions URL"`)).toBe(-1)
   expect(response.data.indexOf(`("//${serverName}:${port}/https/"+this.`)).not.toBe(-1)
   expect(response.data.indexOf(`://i1.ytimg.com/vi`)).toBe(-1)
-  expect(response.data.indexOf(`"ptracking"`)).toBe(-1)
+  // expect(response.data.indexOf(`"ptracking"`)).toBe(-1)
   expect(response.data.indexOf(`"/api/stats/"`)).toBe(-1)
+  expect(response.data.indexOf(`"://"+`)).toBe(-1)
+  expect(response.data.indexOf(`"://www.youtube.com/"`)).toBe(-1)
+  expect(response.data.indexOf(`a.A[c].style.display=0===b?"none":"";`)).toBe(-1)
 }, 30000);
 
 test('youtube desktop_polymer_v2.js issue', async () => {
@@ -380,6 +383,37 @@ test('web.telegram.org login', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  console.log(`${response.data}`)
+  //console.log(`${response.data}`)
+  // expect(response.data.indexOf(`pathname:"/"`)).toBe(-1)
   expect(response.data.indexOf(`"venus"`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+test('old youtube page', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/m.youtube.com/watch?v=ayWJGSFgUZA&list=PLPVsJMpVPkCd_OUBs7Aj_dYEbwgO8ZtLY&index=2&t=0s&disable_polymer=true&itct=CCgQxjQYACITCIi9t_W8iOkCFcpCMAod2IYEwTIKcGxwcF92aWRlb1okVkxQTFBWc0pNcFZQa0NkX09VQnM3QWpfZFlFYndnTzhadExZ`
+
+  const response = await axios({
+    method: 'get',
+headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${response.data}`)
+  expect(response.data.indexOf(`"initcwndbps"`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+
+test('youtube Url www.google.com issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/watch?v=ayWJGSFgUZA&list=PLPVsJMpVPkCd_OUBs7Aj_dYEbwgO8ZtLY&index=2&t=0s&frags=pl%2Cwn`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${response.data}`)
+  expect(response.data.indexOf(`\"interpreterUrl\":\"\/\/www.google.com\/js\/bg\/jeQSBy52GP_vj-aLADK6D_RsHFfZXrt-vZElH-uv2ok.js\"`)).toBe(-1)
 }, 15000); // should be done within 3 seconds.

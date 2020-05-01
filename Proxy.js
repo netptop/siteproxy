@@ -119,6 +119,9 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
         myRe = new RegExp(`/${httpprefix}/${serverName}.*?/`, 'g') // match group
         body = body.replace(myRe, '/')
 
+        myRe = new RegExp(`/${httpType}/${host}/${httpType}/${host}/`, 'g') // match group
+        body = body.replace(myRe, `/${httpType}/${host}/`)
+
         // put siteSpecificReplace at end
         Object.keys(siteSpecificReplace).forEach( (site) => {
             if (!req.url) {
@@ -374,6 +377,10 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
         })
         proxyReq.setHeader('Accept-Encoding', 'gzip')
         proxyReq.setHeader('referer', host)
+        if (host.indexOf('youtube.com') !== -1) {
+            proxyReq.setHeader('User-Agent', `Opera/7.50 (Windows XP; U)`)
+            // proxyReq.setHeader('User-Agent', `Opera/9.80 (Android 4.1.2; Linux; Opera Mobi/ADR-1305251841) Presto/2.11.355 Version/12.10`)
+        }
         logSave(`req host:${host}, req.url:${req.url}, proxyReq.query:${proxyReq.query} proxyReq.path:${proxyReq.path}, proxyReq.url:${proxyReq.url} proxyReq headers:${JSON.stringify(proxyReq.getHeaders())}`)
         if(host === '' || !host) {
             logSave(`------------------ sending status 404`)
