@@ -83,8 +83,11 @@ const pathReplace = ({host, httpType, body}) => {
     let myRe = new RegExp(`href=([\"\']?)/([-a-z0-9_]+?)`, 'g')
     body = body.replace(myRe, `href=$1/${httpType}/${host}/$2`)
 
-    myRe = new RegExp(`href[ ]?=[ ]?"/`, 'g')
-    body = body.replace(myRe, `href="/${httpType}/${host}/`)
+    myRe = new RegExp(`href[ ]?=[ ]?"/([-a-z0-9_])`, 'g')
+    body = body.replace(myRe, `href="/${httpType}/${host}/$1`)
+
+    myRe = new RegExp(`(href=\\\\")\\\\/`, 'g')
+    body = body.replace(myRe, `$1\\/${httpType}\\/${host}\\/`)
 
     myRe = new RegExp(` src=([\"\']?)/([-a-z0-9_]+?)`, 'g')
     body = body.replace(myRe, ` src=$1/${httpType}/${host}/$2`)
@@ -105,6 +108,9 @@ const pathReplace = ({host, httpType, body}) => {
 
     myRe = new RegExp('("url":[ ]?")/([-a-z0-9_]+?)', 'g')
     body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
+
+    myRe = new RegExp('("url":[ ]?")(\\\\/)([-a-z0-9_]+?)', 'g')
+    body = body.replace(myRe, `$1$2${httpType}$2${host}/$3`)  // {"url":"\/watch?v=tTzRY7F_1OU",...}
 
     myRe = new RegExp('(sUrl":[ ]?")/([-a-z0-9_]+?)', 'g')
     body = body.replace(myRe, `$1/${httpType}/${host}/$2`)
@@ -170,13 +176,16 @@ const siteSpecificReplace = {
         '[&]{2}this\.connectedCallback[(][)][)]:': `):`, // &&this.connectedCallback()):
         '="/sw.js"': `="/https/www.youtube.com/sw.js"`,
         '"://"([+])': `"://${serverName}:${port}/https/"$1`,
-        '("././)(www.google.com)': `$1${serverName}:${port}/https/www.google.com`,
+        '("\\\\/\\\\/)(www.google.com)': `$1${serverName}:${port}/https/www.google.com`,
         '"://([a-z]+[.]youtube.com/)"': `"://${serverName}:${port}/https/$1"`,
-        '"(.../).../www.google.com': `"$1$1${serverName}:${port}$1www.google.com`, // tConfig('COMMENTS_BG_IU', \"\\\/\\\/www.google.com
+        '"(\\\\\\\\\\\\/).../www.google.com': `"$1$1${serverName}:${port}$1www.google.com`, // tConfig('COMMENTS_BG_IU', \"\\\/\\\/www.google.com
+        // '(.\..=this\.fx[(][)]);return (.)': `$1;$2.bandwidthEstimate=1000.1;return $2`,// a.C=this.fx();return a
+        '[a-zA-Z]\.setSizeStyle[(]..,.[)]': `1`,
+        'a\.....\.style.display=0===.."none":"";': `;`, // a.A[c].style.display = 0 === b ? "none" : "";
     },
     'm.youtube.com': {
         '"/(results.search_query=)': `"/https/m.youtube.com/$1`,
-        '"./(results.search_query=)': `"\\/https\\/m.youtube.com\\/$1`,
+        '"\\\\/(results.search_query=)': `"\\/https\\/m.youtube.com\\/$1`,
         'mobile-topbar-header-content search-mode"': `mobile-topbar-header-content non-search-mode"`, // enable search on youtube.
         ' non-search-mode cbox"': ` search-mode cbox"`,
         'PLAYER_JS_URL":"': `PLAYER_JS_URL":"\\/https\\/m.youtube.com`,
@@ -190,8 +199,7 @@ const siteSpecificReplace = {
         'PLAYER_CSS_URL":"': `PLAYER_CSS_URL":"\\/https\\/www.youtube.com`,
         '(action=.")/results': `$1/https/www.youtube.com/results`,
        // '"/channel': `"/https/www.youtube.com/channel`,
-        '"(./channel)': `"\\/https\\/www.youtube.com$1`,
-        '.\.....\.style.display=0===.."none":"";': `;`, // a.A[c].style.display = 0 === b ? "none" : "";
+        '"(\\\\/channel)': `"\\/https\\/www.youtube.com$1`,
     },
     'search.yahoo.com': {
         '"./ra./click"': `"\\/https\\/search.yahoo.com\\/ra\\/click"`,

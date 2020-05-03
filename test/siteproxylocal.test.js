@@ -154,7 +154,7 @@ test('youtube url check issue', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  console.log(`${response.data}`)
+  // console.log(`${response.data}`)
   // expect(response.data.indexOf(`"Captions URL"`)).toBe(-1)
   expect(response.data.indexOf(`("//${serverName}:${port}/https/"+this.`)).not.toBe(-1)
   expect(response.data.indexOf(`://i1.ytimg.com/vi`)).toBe(-1)
@@ -184,6 +184,21 @@ test('youtube desktop_polymer_v2.js issue', async () => {
 }, 30000);
 
 
+
+test('/watch url conversion', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/watch?v=ii1fTxhD_D0&spf=navigate`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+        'Cookie': `VISITOR_INFO1_LIVE=WxtnB8UaTM4; YSC=QPym_D-ojR0`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${JSON.stringify(response.data)}`)
+  expect(JSON.stringify(response.data).indexOf(`/https/www.youtube.com/watch?v=`)).not.toBe(-1)
+}, 30000);
 
 test('youtube url conversion', async () => {
   const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/watch?v=I9K4MbvlDss&frags=pl%2Cwn`
@@ -414,6 +429,34 @@ test('youtube Url www.google.com issue', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  // console.log(`${response.data}`)
+  //console.log(`${response.data}`)
   expect(response.data.indexOf(`\"interpreterUrl\":\"\/\/www.google.com\/js\/bg\/jeQSBy52GP_vj-aLADK6D_RsHFfZXrt-vZElH-uv2ok.js\"`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+test('youtube href fonts.googleapis.com issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/watch?v=5HHRBe8bskE&list=PLPVsJMpVPkCd_OUBs7Aj_dYEbwgO8ZtLY&index=6&t=0s&frags=pl%2Cwn`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${response.data}`)
+  expect(response.data.indexOf(`href="/https/www.youtube.com//127.0.0.1:8011/https/fonts.googleapis.com/css`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+test('youtube watch address bar issue', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/watch?v=tTzRY7F_1OU&spf=navigate`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  console.log(`${JSON.stringify(response.data)}`)
+  expect(JSON.stringify(response.data).indexOf(`{"url":"/watch?v=tTzRY7F_1OU"`)).toBe(-1)
 }, 15000); // should be done within 3 seconds.
