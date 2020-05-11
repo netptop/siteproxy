@@ -69,7 +69,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 4. 在github上修改你刚fork的repo, 将procfile里的域名修改为你的新域名:
          "web: herokuAddr=siteproxy.herokuapp.com npm run start"
    ====> "web: herokuAddr=your-domain-name.herokuapp.com npm run start"
-5. 现在可以在浏览器里面访问你的新域名了:  https://your-domain-name.now.sh
+5. 现在可以在浏览器里面访问你的新域名了:  https://your-domain-name.herokuapp.com
 ```
 
 ## 部署到vps服务器/vps deployment
