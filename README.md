@@ -88,14 +88,13 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    }
 2. systecmctl start nginx
 3. npm install -g forever
-4. cd siteproxy
+4. git clone https://github.com/netptop/siteproxy.git; cd siteproxy
 5. find your domain name from now cli, then replace serverName in 'config.js', like:
    serverName: 'siteproxy.herokuapp.com' ====> 'siteproxy.your.domain.name'
 6. change "blockedSites = ['www.youtube.com', 'm.youtube.com']" ====> "blockedSites = []" if you want to support youtube
 7. forever start -c 'node --tls-min-v1.0' index.js
 8. done
 ```
-1. register one now.sh account from https://zeit.co/home
 ## Telegram群: @siteproxy
 ## email: netptop@gmail.com
 
