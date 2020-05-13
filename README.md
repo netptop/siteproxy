@@ -38,7 +38,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 5. other websites.
 ```
 
-## 部署到now.sh服务器/now.sh deployment
+## now.sh deployment (local deployment)
 ```
 1. register one now.sh account from https://zeit.co/home
 2. npm install -g now
@@ -50,7 +50,28 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 7. change "blockedSites = ['www.youtube.com', 'm.youtube.com']" ====> "blockedSites = []" if you want to support youtube
 8. now --prod
 9. done
+
 ```
+## 部署到now.sh服务器
+```
+1. 注册一个now账户https://zeit.co/home
+2. 没有github账户的话, 注册一个github账户,fork本repo
+3. 在now的控制台里面创建一个应用, 且绑定到你刚才fork的repo上, 会得到一个域名类似的域名:your-domain-name.now.sh
+4. 在github上修改你刚fork的repo, 将config.js里的serverName修改为你的新域名:
+   serverName: 'siteproxy.netptop.com' ====> 'your-domain-name.now.sh'
+5. 现在可以在浏览器里面访问你的新域名了:  https://your-domain-name.now.sh
+```
+## 部署到heroku服务器
+```
+1. 注册一个heroku账户: https://www.heroku.com/
+2. 没有github账户的话, 注册一个github账户,fork本repo
+3. 在heroku的控制台里面创建一个应用, 且绑定到你刚才fork的repo上, 会得到一个域名类似的域名:your-domain-name.herokuapp.com
+4. 在github上修改你刚fork的repo, 将procfile里的域名修改为你的新域名:
+         "web: herokuAddr=siteproxy.herokuapp.com npm run start"
+   ====> "web: herokuAddr=your-domain-name.herokuapp.com npm run start"
+5. 现在可以在浏览器里面访问你的新域名了:  https://your-domain-name.herokuapp.com
+```
+
 ## 部署到vps服务器/vps deployment
 ```
 1. create ssl website(using certbot and nginx), and configure nginx as follow:
@@ -67,14 +88,13 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    }
 2. systecmctl start nginx
 3. npm install -g forever
-4. cd siteproxy
+4. git clone https://github.com/netptop/siteproxy.git; cd siteproxy
 5. find your domain name from now cli, then replace serverName in 'config.js', like:
    serverName: 'siteproxy.herokuapp.com' ====> 'siteproxy.your.domain.name'
 6. change "blockedSites = ['www.youtube.com', 'm.youtube.com']" ====> "blockedSites = []" if you want to support youtube
 7. forever start -c 'node --tls-min-v1.0' index.js
 8. done
 ```
-1. register one now.sh account from https://zeit.co/home
 ## Telegram群: @siteproxy
 ## email: netptop@gmail.com
 
