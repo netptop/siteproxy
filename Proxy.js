@@ -354,7 +354,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
         let timestr = new Date().toISOString()
         console.log(`[${timestr}] route:${fwdStr}, httpType:${httpType}, host:${host}`)
         if (host.indexOf(serverName) !== -1 || // we cannot request resource from proxy itself
-            host == '' || host.indexOf('.') === -1 || (fwdStr && fwdStr.split(',').length > 1)) { // too many forwardings
+            host == '' || host.indexOf('.') === -1 || (fwdStr && fwdStr.split(',').length > 3)) { // too many forwardings
             res.status(404).send("{}")
             return
         }
