@@ -11,7 +11,7 @@ let config = {
     httpprefix: 'https', port: 443,
     serverName: 'proxy.netptop.com',
 }
-let blockedSites = ['merlinblog.xyz']
+let blockedSites = []
 
 if (process.env.herokuAddr) {
     config.serverName = process.env.herokuAddr
