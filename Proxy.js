@@ -1,6 +1,7 @@
 var express = require('express');
 var proxy = require('http-proxy-middleware');
 const zlib = require("zlib")
+const fs = require("fs")
 const parse = require('url-parse')
 const cookiejar = require('cookiejar')
 const iconv = require('iconv-lite')
@@ -28,6 +29,17 @@ var enableCors = function(req, res) {
   }
 };
 
+var saveRecord = ({stream, fwdStr, req, host, pktLen}) => {
+    if (fwdStr) {
+        let dateStr = new Date().toLocaleString()
+        let ips = fwdStr.split(',')
+        if (ips.length > 0) {
+            let sourceIP = ips[0]
+            stream.write(`${dateStr},${sourceIP},${host},${pktLen},${req.url}\n`)
+        }
+    }
+}
+
 var redirect2HomePage = function({res, httpprefix, serverName,} ) {
     try {
         res.setHeader('location',`${httpprefix}://${serverName}`)
@@ -46,14 +58,12 @@ let getHostFromReq = (req) => { //return target
   let httpType = 'https'
   if (req.url.startsWith(https_prefix)) {
     host = req.url.slice(https_prefix.length, req.url.length)
-    if (host.indexOf('/') !== -1) {
-      host = host.slice(0, host.indexOf('/'))
-    }
+    let hosts = host.match(/[-a-z0-9A-Z]+\.[-a-z0-9A-Z.]+/g);
+    host = hosts.length>0?hosts[0]:''
   } else if (req.url.startsWith(http_prefix)) {
     host = req.url.slice(http_prefix.length, req.url.length)
-    if (host.indexOf('/') !== -1) {
-      host = host.slice(0, host.indexOf('/'))
-    }
+    let hosts = host.match(/[-a-z0-9A-Z]+\.[-a-z0-9A-Z.]+/g);
+    host = hosts.length>0?hosts[0]:''
     httpType = 'http'
   } else if (req.headers['referer'] && req.headers['referer'].indexOf('https/') !== -1) {
       let start = req.headers['referer'].indexOf('https/') + 6
@@ -90,8 +100,8 @@ let getHostFromReq = (req) => { //return target
 
 
 let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace}) => {
+    let stream = fs.createWriteStream("web-records.csv", {flags:'a'})
     let handleRespond = ({req, res, body, gbFlag}) => {
-        // logSave("res from proxied server:", body);
         let myRe
         let {host, httpType} = getHostFromReq(req)
         let location = res.getHeaders()['location']
@@ -113,15 +123,14 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
         }
         logSave(`##### host:${host}`)
         if (host) {
-            body = pathReplace({host, httpType, body})
+            body = pathReplace({host, httpType, body})   //13ms
         }
-        // remove duplicate /https/siteproxylocal.now.sh:443
-        myRe = new RegExp(`/${httpprefix}/${serverName}.*?/`, 'g') // match group
-        body = body.replace(myRe, '/')
-
+        logSave(`2`)
+        logSave(`3`)
         myRe = new RegExp(`/${httpType}/${host}/${httpType}/${host}/`, 'g') // match group
         body = body.replace(myRe, `/${httpType}/${host}/`)
 
+        logSave(`4`) //1ms
         // put siteSpecificReplace at end
         Object.keys(siteSpecificReplace).forEach( (site) => {
             if (!req.url) {
@@ -134,8 +143,9 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
                     body = body.replace(myRe, siteSpecificReplace[site][key])
                 })
             }
-        })
+        }) //17ms
 
+        logSave(`5`)
         if (gbFlag) {
           body = iconv.encode(body, 'gbk')
         }
@@ -144,14 +154,15 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
             // need to manually redirect it for youtube workaround.
             console.log(`============== redirect googlevideo.com`)
             try {
-                res.setHeader('location', body)
+                res.setHeader('location', body) //0ms
             } catch(e) {
                 logSave(`error: ${e}`)
                 return
             }
             res.statusCode = '302'
         }
-        body = zlib.gzipSync(body)
+        logSave(`6`)
+        body = zlib.gzipSync(body) //19ms
         try {
             res.setHeader('content-encoding', 'gzip');
             logSave(`handleRespond: res.statusCode:${res.statusCode}, res.headers:${JSON.stringify(res.getHeaders())}`)
@@ -167,7 +178,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
     }
     // only support https for now.
     const router = (req) => { //return target
-    let myRe = new RegExp(`/${httpprefix}/${serverName}.*?/`, 'g') // match group
+    let myRe = new RegExp(`/http[s]?/${serverName}.*?/`, 'g') // match group
     req.url = req.url.replace(myRe, '/')
 
     let {host, httpType} = getHostFromReq(req)
@@ -189,6 +200,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
       */
       // hostRewrite: true,
       // autoRewrite: true,
+      // proxyTimeout: 15000, // 10 seconds
       protocolRewrite: true,
       // followRedirects: true,
       cookieDomainRewrite,
@@ -211,11 +223,28 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
       onProxyRes: (proxyRes, req, res) => {
         let {host, httpType} = getHostFromReq(req)
         logSave(`proxyRes.status:${proxyRes.statusCode} proxyRes.headers:${JSON.stringify(proxyRes.headers)}`)
-        let body = Buffer.from('');
+        let bodyList = []
+        let bodyLength = 0
+        let endFlag = false
         proxyRes.on('data', function(data) {
-          body = Buffer.concat([body, data]);
+            // body = Buffer.concat([body, data]);
+            if (endFlag === true) {
+              return // don't have to push it to bodyList
+            }
+            bodyLength += data.length
+            bodyList.push(data)
+            if (res.getHeader('content-type') && res.getHeader('content-type').indexOf('video') !== -1) {
+                let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for']
+                if ((host.indexOf('cdn') !== -1 && bodyLength >= 105000000) ||
+                    (host.indexOf('cdn') === -1 && bodyLength >= 2500000)) {
+                }
+            }
         })
         proxyRes.on('end', function() {
+          if (endFlag === true) {
+            return
+          }
+          let body = Buffer.concat(bodyList)
           let gbFlag = false
           if (proxyRes.headers["content-encoding"] === 'gzip' ||
               proxyRes.headers["content-encoding"] === 'br') {
@@ -245,29 +274,42 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
                 logSave(`utf-8 text...`)
                 let originBody = gunzipped
                 body = gunzipped.toString('utf-8');
-                if (body.indexOf('="text/html; charset=gb') !== -1 ||
-                    body.indexOf(' charset="gb') !== -1 ||
-                    body.indexOf('=\'text/html; charset=gb') !== -1) {
+                let searchBody = body.slice(0, 1000)
+                if (searchBody.indexOf('="text/html; charset=gb') !== -1 ||
+                    searchBody.indexOf(' charset="gb') !== -1 ||
+                    searchBody.indexOf('=\'text/html; charset=gb') !== -1) {
                     logSave(`gb2312 found...`)
                     body = iconv.decode(originBody, 'gbk')
                     gbFlag = true
                 }
+                let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for'] || ''
+                if (proxyRes.statusCode === 200 && proxyRes.headers["content-type"] &&
+                    proxyRes.headers["content-type"].indexOf('text/html') !== -1) {
+                    saveRecord({stream, fwdStr, req, host, pktLen:body.length})
+                }
+                if (proxyRes.statusCode === 200 && req.url.indexOf('/sw.js') !== -1) {
+                    // fetching sw.js
+                    res.setHeader('service-worker-allowed','/')
+                }
                 handleRespond({req, res, body, gbFlag})
             } else {
                 // console.log(`2========>${logGet()}`)
-                let key = "content-encoding"
-                if(key in proxyRes.headers) {
-                    res.setHeader(key, proxyRes.headers[key]);
+                try {
+                    let key = "content-encoding"
+                    if(key in proxyRes.headers) {
+                        res.setHeader(key, proxyRes.headers[key]);
+                    }
+                    logSave(`2: res.headers:${JSON.stringify(res.getHeaders())}`)
+                    if (req.headers['debugflag']==='true') {
+                        res.removeHeader('content-encoding')
+                        res.setHeader('content-type','text/plain')
+                        body=logGet()
+                    }
+                    res.end(body)
+                } catch(e) {
+                    console.log(`error:${e}`)
                 }
-                logSave(`2: res.headers:${JSON.stringify(res.getHeaders())}`)
-                if (req.headers['debugflag']==='true') {
-                    res.removeHeader('content-encoding')
-                    res.setHeader('content-type','text/plain')
-                    body=logGet()
-                }
-                res.end(body)
             }
-
           } else if (proxyRes.statusCode === 301 || proxyRes.statusCode === 302 || proxyRes.statusCode === 307 || proxyRes.statusCode === 308 ||
                      (proxyRes.headers["content-type"] &&
                        (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
@@ -291,16 +333,28 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
                 res.setHeader('content-type','text/plain')
                 body=logGet()
             }
+            if (res.getHeader('content-type') && res.getHeader('content-type').indexOf('video') !== -1) {
+                let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for']
+                console.log(`route:${fwdStr}, length:${bodyLength}, ${host}`)
+            }
             res.end(body)
           }
         })
         const setCookieHeaders = proxyRes.headers['set-cookie'] || []
+        let datestr = ''
+        if (setCookieHeaders.length > 0) {
+            let date = new Date
+            date.setDate(date.getDate() + 1) // 一天之后过期
+            datestr = date.toUTCString()
+        }
         const modifiedSetCookieHeaders = setCookieHeaders
           .map(str => new cookiejar.Cookie(str))
           .map(cookie => {
           logSave(`cookie:${JSON.stringify(cookie)}`)
           if (cookie.path && cookie.path[0] === '/') {
             cookie.domain = `${serverName}`
+            cookie.expiration_date = datestr
+            cookie.path = `/${httpType}/${host}${cookie.path}`
           }
           cookie.secure = false
           return cookie
@@ -352,7 +406,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
             }
         }
         let timestr = new Date().toISOString()
-        console.log(`[${timestr}] route:${fwdStr}, httpType:${httpType}, host:${host}`)
+        console.log(`route:${fwdStr}, httpType:${httpType}, host:${host}`)
         if (host.indexOf(serverName) !== -1 || // we cannot request resource from proxy itself
             host == '' || host.indexOf('.') === -1 || (fwdStr && fwdStr.split(',').length > 3)) { // too many forwardings
             res.status(404).send("{}")
@@ -368,9 +422,16 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
         let newpath = req.url.replace(`/${httpType}/${host}`, '') || '/'
         logSave(`httpType:${httpType}, host:${host}, req.url:${req.url}, req.headers:${JSON.stringify(req.headers)}`)
         Object.keys(req.headers).forEach(function (key) {
-          if (key.indexOf('x-') === 0) {
+          // remove nginx/cloudflare/pornhub related headers
+          if ((host.indexOf('twitter.com') === -1 && key.indexOf('x-') === 0) ||
+              key.indexOf('sec-fetch') === 0 ||
+              key.indexOf('cf-') === 0) {
               logSave(`remove key=${key},`)
               proxyReq.removeHeader(key)
+              if (key === 'sec-fetch-mode') {
+                  proxyReq.setHeader('sec-fetch-mode', 'cors')
+              }
+              return
           }
           logSave(`set key=${key},`)
           proxyReq.setHeader(key, req.headers[key])

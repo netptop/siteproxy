@@ -10,6 +10,9 @@ let proxy = Proxy({ blockedSites, urlModify, httpprefix, serverName, port, cooki
 
 const middle1 = (req, res, next) => {
 	let timestr = new Date().toISOString()
+    let myRe = new RegExp(`/http[s]?/${serverName}.*?/`, 'g') // match group // remove duplicate https/${serverName}:${port}/
+	req.url = req.url.replace(myRe, '/')
+
 	console.log(`${timestr}: req.url:${req.url}`)
     const dirPath = path.join(__dirname, req.url)
     let fwdStr = req.headers['x-forwarded-for']

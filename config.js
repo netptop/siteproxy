@@ -9,7 +9,7 @@ const {CookieAccessInfo, CookieJar, Cookie} = cookiejar
 
 let config = {
     httpprefix: 'https', port: 443,
-    serverName: 'siteproxy.netptop.com',
+    serverName: 'proxy.netptop.com',
 }
 let blockedSites = ['merlinblog.xyz']
 
@@ -64,17 +64,12 @@ const locationReplaceMap302 = ({location, serverName, httpprefix, host, httpType
 }
 
 const regReplaceMap = {
-    '"//([-a-z0-9A-Z.]+)': `"//${serverName}:${port}/https/$1`, // default use https
-    '\'//([-a-z0-9A-Z.]+)': `'//${serverName}:${port}/https/$1`,// default use https
+    '(["\'])//([-a-z0-9A-Z.]+)': `$1//${serverName}:${port}/https/$2`, // default use https
     'url[(]//([-a-z0-9A-Z.]+)': `url(//${serverName}:${port}/https/$1`,// default use https
-    'https:(././)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}\\/https\\/$2`,
-    'http:(././)([-a-z0-9A-Z.]+)': `${httpprefix}:$1${serverName}:${port}\\/http\\/$2`,
-    'https://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/https/$1`,
-    'http://([-a-z0-9A-Z.]+)': `${httpprefix}://${serverName}:${port}/http/$1`,
-    'https%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttps%2f$1`,
-    'http%3a%2f%2f([-a-z0-9A-Z]+?)': `${httpprefix}%3a%2f%2f${serverName}%3a${port}%2fhttp%2f$1`,
-    'https%3A%2F%2F([-a-z0-9A-Z]+?)': `${httpprefix}%3A%2F%2F${serverName}%3A${port}%2Fhttps%2F$1`,
-    'http%3A%2F%2F([-a-z0-9A-Z]+?)': `${httpprefix}%3A%2F%2F${serverName}%3A${port}%2Fhttp%2F$1`,
+    '(http[s]?):(\\\\/)\\\\/([-a-z0-9A-Z])': `${httpprefix}:$2$2${serverName}:${port}$2$1$2$3`,
+    '(http[s]?)://([-a-z0-9A-Z])': `${httpprefix}://${serverName}:${port}/$1/$2`,
+    '(http[s]?)(%3[aA])(%2[fF])%2[fF]([-a-z0-9A-Z])': `${httpprefix}$2$3$3${serverName}$2${port}$3$1$3$4`,
+    '"(http[s]?)://"': `"${httpprefix}://${serverName}:${port}/https/"`,
     ' integrity=".+?"': '', // remove integrity
 }
 
@@ -146,7 +141,7 @@ const siteSpecificReplace = {
         'href="/https/www.google.com/g(.;)': 'href="/g$1',
         '[\(]"/url': `\("/https/www.google.com/url`, //s_Gj("/url?sa=t&source=web&rct=j");s_Nj
         '"/url"': `"/https/www.google.com/url"`,
-        // 'f="/"[+]f': `f="/https/www.google.com/"\+f`,
+        'f="/"[+]f': `f="/https/www.google.com/"\+f`, // mobile next page issue.
     },
     'www.gstatic.com': {
         'href="/https/www.gstatic.com/g(.;)': 'href="/g$1',
@@ -234,7 +229,7 @@ const siteSpecificReplace = {
     'web.telegram.org': {
         '"pluto"': `"${serverName}:${port}/https/pluto"`,
         '"venus"': `"${serverName}:${port}/https/venus"`,
-        '"aurora"': `"${serverName}:${port}/https/aurora"`,
+        '"aurora"':`"${serverName}:${port}/https/aurora"`,
         '"vesta"': `"${serverName}:${port}/https/vesta"`,
         '"flora"': `"${serverName}:${port}/https/flora"`,
         ' href=([\"\']?)([-a-z0-9_]+?)': ` href=$1/https/web.telegram.org/$2`,
@@ -244,6 +239,12 @@ const siteSpecificReplace = {
     'doubibackup.com': {
         ' href=([\"\']?)([-a-z0-9_]+?)': ` href=$1/https/doubibackup.com/$2`,
         ' src=("[-a-z0-9_]+?)': ` src=/https/doubibackup.com/$1`,
+    },
+    'pornhub.com': {
+        '"/dv.p"([ ]?[+][ ]?"hn")': `"/https/www.pornhub.com/dv.p"[ ]?[+][ ]?"$1`,
+    },
+    'phncdn.com': {
+        // '("[:]?//)': `$1${serverName}:${port}/https/`, // default to https
     }
 }
 

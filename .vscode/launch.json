@@ -1,0 +1,31 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name":"Python: Current File",
+            "type":"python",
+            "request":"launch",
+            "program":"${file}",
+            "args": ["web-result.txt"],
+            "console":"integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "env": {
+                "PORT":"8011",
+                "localFlag": "true",
+                "runtimeArgs": ["--tls-min-v1.0"],
+                "args": []
+            },
+            "program": "${workspaceFolder}/index.js"
+        }
+    ]
+}

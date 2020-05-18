@@ -240,8 +240,6 @@ test('youtube homepage issue', async () => {
 // ht-time":"0","x-request-start":"1584141848398","total-route-time":"0"}
 // h2020-03-13T23:24:08.403097+00:00 app[web.1]: httpType:https, host:id.google.com
 
-
-
 test('no content-type field situation', async () => {
   const url = `${httpprefix}://${serverName}:${port}/https/onetag-sys.com/usync/?pubId=5927d926323dc2c`
   const response = await axios({
@@ -249,6 +247,8 @@ test('no content-type field situation', async () => {
     headers: {
         'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
     },
+    maxRedirects: 0,
+    validateStatus: null, // important for status 302
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
@@ -438,7 +438,7 @@ test('youtube href fonts.googleapis.com issue', async () => {
   const response = await axios({
     method: 'get',
     headers: {
-        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+        'Accept': `text/html,application/xhtml+xml,applino content-type fieldcation/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
     },
     url,
   })
@@ -457,6 +457,34 @@ test('youtube watch address bar issue', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  console.log(`${JSON.stringify(response.data)}`)
+  // console.log(`${JSON.stringify(response.data)}`)
   expect(JSON.stringify(response.data).indexOf(`{"url":"/watch?v=tTzRY7F_1OU"`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+test('"https://" should be removed', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/di.phncdn.com/www-static/js/ph-tracking.js?cache=2020051402`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${response.data}`)
+  expect((response.data).indexOf(`"https://"`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+test('30.toString() should not be existed', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/s/desktop/751ee0bc/htdocs-ytimg-desktop-kevlar-production/jsbin/desktop_polymer_inlined_html_polymer_flags_legacy_browsers_v2.vflset/desktop_polymer_inlined_html_polymer_flags_legacy_browsers_v2.js`
+  const response = await axios({
+    method: 'get',
+    headers: {
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+    },
+    url,
+  })
+  // console.log(`${JSON.stringify(response.headers)}`)
+  console.log(`${response.data}`)
+  expect((response.data).indexOf(`30.toString()`)).toBe(-1)
 }, 15000); // should be done within 3 seconds.
