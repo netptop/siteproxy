@@ -9,11 +9,14 @@ let cookieDomainRewrite = serverName
 let proxy = Proxy({ blockedSites, urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace})
 
 const middle1 = (req, res, next) => {
-	let timestr = new Date().toISOString()
-    let myRe = new RegExp(`/http[s]?/${serverName}.*?/`, 'g') // match group // remove duplicate https/${serverName}:${port}/
-	req.url = req.url.replace(myRe, '/')
+    let timestr = new Date().toISOString()
+    let myRe = new RegExp(`/http[s]?/${serverName}[0-9:]*?`, 'g') // match group
+    req.url = req.url.replace(myRe, '')
+    if (req.url.length === 0) {
+        req.url = '/'
+    }
 
-	console.log(`${timestr}: req.url:${req.url}`)
+    console.log(`${timestr}: req.url:${req.url}`)
     const dirPath = path.join(__dirname, req.url)
     let fwdStr = req.headers['x-forwarded-for']
     if (fwdStr && fwdStr.split(',').length > 3) { // too many forwardings

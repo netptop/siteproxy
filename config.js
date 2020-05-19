@@ -11,7 +11,7 @@ let config = {
     httpprefix: 'https', port: 443,
     serverName: 'proxy.netptop.com',
 }
-let blockedSites = []
+let blockedSites = ['www.chase.com'] // accessing to chase.com was reported by google
 
 if (process.env.herokuAddr) {
     config.serverName = process.env.herokuAddr
@@ -177,6 +177,7 @@ const siteSpecificReplace = {
         // '(.\..=this\.fx[(][)]);return (.)': `$1;$2.bandwidthEstimate=1000.1;return $2`,// a.C=this.fx();return a
         '[a-zA-Z]\.setSizeStyle[(]..,.[)]': `1`,
         'a\.....\.style.display=0===.."none":"";': `;`, // a.A[c].style.display = 0 === b ? "none" : "";
+        '="/(watch_fragments2_ajax)"': `="/https/www.youtube.com/$1"`,
     },
     'm.youtube.com': {
         '"/(results.search_query=)': `"/https/m.youtube.com/$1`,

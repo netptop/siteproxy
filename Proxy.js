@@ -14,6 +14,18 @@ function countUtf8Bytes(s) {
     return b
 }
 
+var contentTypeIsText = (headers) => {
+    if (!headers["content-type"] ||
+        headers["content-type"].indexOf('text/') !== -1 ||
+        headers["content-type"].indexOf('javascript') !== -1 ||
+        headers["content-type"].indexOf('urlencoded') !== -1 ||
+        headers["content-type"].indexOf('json') !== -1) {
+        return true
+    } else {
+        return false
+    }
+}
+
 var enableCors = function(req, res) {
   if (req.headers['access-control-request-method']) {
     res.setHeader('access-control-allow-methods', req.headers['access-control-request-method']);
@@ -101,7 +113,7 @@ let getHostFromReq = (req) => { //return target
 
 let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace}) => {
     let stream = fs.createWriteStream("web-records.csv", {flags:'a'})
-    let handleRespond = ({req, res, body, gbFlag}) => {
+    let handleRespond = ({req, res, body, gbFlag}) => { // text file
         let myRe
         let {host, httpType} = getHostFromReq(req)
         let location = res.getHeaders()['location']
@@ -233,11 +245,18 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
             }
             bodyLength += data.length
             bodyList.push(data)
-            if (res.getHeader('content-type') && res.getHeader('content-type').indexOf('video') !== -1) {
+            if (bodyLength >= 2500000 && contentTypeIsText(proxyRes.headers) !== true) {
+                let body = Buffer.concat(bodyList)
                 let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for']
-                if ((host.indexOf('cdn') !== -1 && bodyLength >= 105000000) ||
-                    (host.indexOf('cdn') === -1 && bodyLength >= 2500000)) {
+                let contentType = proxyRes.headers['content-type']
+                let contentLen = proxyRes.headers['content-length']
+                if (contentLen >= 155000000 ||
+                    (host.indexOf('googlevideo') !== -1 && contentLen >= 2500000)) {
                 }
+                console.log(`route:${fwdStr}, content-type:${contentType},bulk length:${bodyLength}, content-length:${contentLen}, ${host}`)
+                bodyList = []
+                bodyLength = 0
+                res.write(body)
             }
         })
         proxyRes.on('end', function() {
@@ -247,7 +266,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
           let body = Buffer.concat(bodyList)
           let gbFlag = false
           if (proxyRes.headers["content-encoding"] === 'gzip' ||
-              proxyRes.headers["content-encoding"] === 'br') {
+              proxyRes.headers["content-encoding"] === 'br') { // gzip/br encoding
             let gunzipped
             try {
                 if (proxyRes.headers["content-encoding"] === 'br') {
@@ -261,11 +280,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
                 // res.status(404).send(`{"error": "${e}"}`)
                 return
             }
-            if (!proxyRes.headers["content-type"] ||
-                proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
-                proxyRes.headers["content-type"].indexOf('javascript') !== -1 ||
-                proxyRes.headers["content-type"].indexOf('urlencoded') !== -1 ||
-                proxyRes.headers["content-type"].indexOf('json') !== -1) {
+            if (contentTypeIsText(proxyRes.headers) === true) { //gzip and text
                 if (!gunzipped) {
                     // res.status(404).send(`{"error":"failed unzip"}`)
                     redirect2HomePage({res, httpprefix, serverName,})
@@ -292,29 +307,20 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
                     res.setHeader('service-worker-allowed','/')
                 }
                 handleRespond({req, res, body, gbFlag})
-            } else {
+            } else { // gzip and non-text
                 // console.log(`2========>${logGet()}`)
+                let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for']
+                let contentType = proxyRes.headers['content-type']
+                let contentLen = proxyRes.headers['content-length']
+                console.log(`end,route:${fwdStr}, content-type:${contentType},gzip length:${bodyLength}, content-length:${contentLen}, ${host}`)
                 try {
-                    let key = "content-encoding"
-                    if(key in proxyRes.headers) {
-                        res.setHeader(key, proxyRes.headers[key]);
-                    }
-                    logSave(`2: res.headers:${JSON.stringify(res.getHeaders())}`)
-                    if (req.headers['debugflag']==='true') {
-                        res.removeHeader('content-encoding')
-                        res.setHeader('content-type','text/plain')
-                        body=logGet()
-                    }
                     res.end(body)
                 } catch(e) {
                     console.log(`error:${e}`)
                 }
             }
           } else if (proxyRes.statusCode === 301 || proxyRes.statusCode === 302 || proxyRes.statusCode === 307 || proxyRes.statusCode === 308 ||
-                     (proxyRes.headers["content-type"] &&
-                       (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
-                        proxyRes.headers["content-type"].indexOf('javascript') !== -1 ||
-                        proxyRes.headers["content-type"].indexOf('json') !== -1))) {
+                     contentTypeIsText(proxyRes.headers) === true) { // text with non gzip encoding
             logSave(`utf-8 text...`)
             let originBody = body
             body = body.toString('utf-8');
@@ -326,17 +332,12 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
               gbFlag = true
             }
             handleRespond({req, res, body, gbFlag})
-          } else {
+          } else { // non-gzip and non-text body
             logSave(`3========>${logGet()}`)
-            if (req.headers['debugflag']==='true') {
-                res.removeHeader('content-encoding')
-                res.setHeader('content-type','text/plain')
-                body=logGet()
-            }
-            if (res.getHeader('content-type') && res.getHeader('content-type').indexOf('video') !== -1) {
-                let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for']
-                console.log(`route:${fwdStr}, length:${bodyLength}, ${host}`)
-            }
+            let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for']
+            let contentType = proxyRes.headers['content-type']
+            let contentLen = proxyRes.headers['content-length']
+            console.log(`end,route:${fwdStr}, content-type:${contentType},length:${bodyLength}, content-length:${contentLen}, ${host}`)
             res.end(body)
           }
         })
@@ -362,18 +363,18 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
           .map(cookie => cookie.toString())
         proxyRes.headers['set-cookie'] =  modifiedSetCookieHeaders
         Object.keys(proxyRes.headers).forEach(function (key) {
-          if (key === 'content-encoding' ||
-              key === 'content-security-policy' ||
+          if (key === 'content-security-policy' ||
               key === 'x-frame-options' ||
-              (key === 'content-length' && proxyRes.headers["content-type"] &&
-                (proxyRes.headers["content-type"].indexOf('text/') !== -1 ||
-                 proxyRes.headers["content-type"].indexOf('javascript') !== -1 ||
-                 proxyRes.headers["content-type"].indexOf('json') !== -1))) {
+              (key === 'content-length' && contentTypeIsText(proxyRes.headers) === true)) {
             logSave(`skip header:${key}`)
             return
           }
           try {
-            res.setHeader(key, proxyRes.headers[key]);
+            if (key === 'content-encoding' && contentTypeIsText(proxyRes.headers) === true) {
+                res.setHeader(key, 'gzip') // for text response, we need to set it gzip encoding cuz we will do gzip on it
+            } else {
+                res.setHeader(key, proxyRes.headers[key])
+            }
           } catch(e) {
               logSave(`error:${e}`)
               return
@@ -392,8 +393,11 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
         }
       },
       onProxyReq: (proxyReq, req, res) => {
-        let myRe = new RegExp(`/${httpprefix}/${serverName}.*?/`, 'g') // match group
-        req.url = req.url.replace(myRe, '/')
+        let myRe = new RegExp(`/http[s]?/${serverName}[0-9:]*?`, 'g') // match group
+        req.url = req.url.replace(myRe, '')
+        if (req.url.length === 0) {
+            req.url = '/'
+        }
 
         let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for']
 

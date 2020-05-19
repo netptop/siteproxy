@@ -240,22 +240,6 @@ test('youtube homepage issue', async () => {
 // ht-time":"0","x-request-start":"1584141848398","total-route-time":"0"}
 // h2020-03-13T23:24:08.403097+00:00 app[web.1]: httpType:https, host:id.google.com
 
-test('no content-type field situation', async () => {
-  const url = `${httpprefix}://${serverName}:${port}/https/onetag-sys.com/usync/?pubId=5927d926323dc2c`
-  const response = await axios({
-    method: 'get',
-    headers: {
-        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
-    },
-    maxRedirects: 0,
-    validateStatus: null, // important for status 302
-    url,
-  })
-  // console.log(`${JSON.stringify(response.headers)}`)
-  // console.log(`${response.data}`)
-  expect(typeof(response.data)).toBe('object')
-}, 15000); // should be done within 3 seconds.
-
 test('doubi issue', async () => {
   const url = `${httpprefix}://${serverName}:${port}/https/doubibackup.com`
   const response = await axios({
