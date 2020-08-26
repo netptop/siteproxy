@@ -54,7 +54,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 1. 注册一个heroku账户: https://www.heroku.com/
 2. 没有github账户的话, 注册一个github账户,fork本repo
 3. 在heroku的控制台里面创建一个应用, 且绑定到你刚才fork的repo上, 会得到一个域名类似的域名:your-domain-name.herokuapp.com
-4. 和heroku的'Deloy'页面, 点击'Enable Automatic Deploys'按钮
+4. 在heroku的'Deloy'页面, 点击'Enable Automatic Deploys'按钮
 5. 在github上修改你刚fork的repo, 将procfile里的域名修改为你的新域名(记得不要加https前缀):
          "web: herokuAddr=siteproxy.herokuapp.com npm run start"
    ====> "web: herokuAddr=your-domain-name.herokuapp.com npm run start"
