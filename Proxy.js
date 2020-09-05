@@ -62,7 +62,7 @@ var redirect2HomePage = function({res, httpprefix, serverName,} ) {
     res.status(302).send(``)
 }
 
-let getHostFromReq = (req) => { //return target
+let getHostFromReq = ({req, serverName}) => { //return target
   // url: http://127.0.0.1:8011/https/www.youtube.com/xxx/xxx/...
   let https_prefix = '/https/'
   let http_prefix = '/http/'
@@ -106,6 +106,23 @@ let getHostFromReq = (req) => { //return target
         httpType = 'https'
       }
   }
+  let originalHost = ''
+  if (req.headers['cookie']) {
+    let cookiesList = req.headers['cookie'].split(' ')
+    .map(str => new cookiejar.Cookie(str))
+    .map(cookie => {
+        if (cookie.name === 'ORIGINALHOST') {
+            originalHost = cookie.value
+        }
+    })
+  }
+  if (host === '') {
+    if (originalHost !== '') {
+        httpType = originalHost.split('/')[0]
+        host = originalHost.split('/')[1]
+        logSave(`getHostFromReq, use ORIGINALHOST, ${httpType},${host}`)
+    }
+  }
   logSave(`getHostFromReq, req.url:${req.url}, referer:${req.headers['referer']}, host:${host}, httpType:${httpType}`)
   return {host, httpType}
 }
@@ -115,7 +132,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
     let stream = fs.createWriteStream("web-records.csv", {flags:'a'})
     let handleRespond = ({req, res, body, gbFlag}) => { // text file
         let myRe
-        let {host, httpType} = getHostFromReq(req)
+        let {host, httpType} = getHostFromReq({req, serverName})
         let location = res.getHeaders()['location']
         if (res.statusCode == '301' || res.statusCode == '302' || res.statusCode == '303' ||res.statusCode == '307' || res.statusCode == '308') {
             location = locationReplaceMap302({location, serverName, httpprefix, host, httpType})
@@ -193,7 +210,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
     let myRe = new RegExp(`/http[s]?/${serverName}.*?/`, 'g') // match group
     req.url = req.url.replace(myRe, '/')
 
-    let {host, httpType} = getHostFromReq(req)
+    let {host, httpType} = getHostFromReq({req, serverName})
     let target = `${httpType}://${host}`
     logSave(`router, target:${target}, req.url:${req.url}`)
     return target
@@ -204,7 +221,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
       router,
       /*
       pathRewrite: (path, req) => {
-        let {host, httpType} = getHostFromReq(req)
+        let {host, httpType} = getHostFromReq({req, serverName})
         let newpath = path.replace(`/https/${host}`, '') || '/'
         logSave(`newpath:${newpath}`)
         return newpath
@@ -233,7 +250,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
       },
       selfHandleResponse: true, // so that the onProxyRes takes care of sending the response
       onProxyRes: (proxyRes, req, res) => {
-        let {host, httpType} = getHostFromReq(req)
+        let {host, httpType} = getHostFromReq({req, serverName})
         logSave(`proxyRes.status:${proxyRes.statusCode} proxyRes.headers:${JSON.stringify(proxyRes.headers)}`)
         let bodyList = []
         let bodyLength = 0
@@ -361,6 +378,14 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
           return cookie
           })
           .map(cookie => cookie.toString())
+        let cookie_originalHost= new cookiejar.Cookie()
+        cookie_originalHost.name = 'ORIGINALHOST'
+        cookie_originalHost.value = `${httpType}/${host}`
+        cookie_originalHost.domain = `${serverName}`
+        cookie_originalHost.expiration_date = datestr
+        cookie_originalHost.path = `/`
+        cookie_originalHost.secure = false
+        modifiedSetCookieHeaders.push(cookie_originalHost.toString())
         proxyRes.headers['set-cookie'] =  modifiedSetCookieHeaders
         Object.keys(proxyRes.headers).forEach(function (key) {
           if (key === 'content-security-policy' ||
@@ -384,7 +409,9 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
         logSave(`res.status:${res.statusCode} res.url:${res.url}, res.headers:${JSON.stringify(res.getHeaders())}`)
         if (res.statusCode === 404) {
             try {
-                delete res.headers['content-length'] //remove content-length field
+                if (res.headers && res.headers['content-length']) {
+                    delete res.headers['content-length'] //remove content-length field
+                }
                 redirect2HomePage({res, httpprefix, serverName,})
             } catch(e) {
                 logSave(`error: ${e}`)
@@ -401,7 +428,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
 
         let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for']
 
-        let {host, httpType} = getHostFromReq(req)
+        let {host, httpType} = getHostFromReq({req, serverName})
         for (let i=0; i<blockedSites.length; i++) {
             let site = blockedSites[i]
             if (site === host) {
