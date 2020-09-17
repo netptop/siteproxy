@@ -40,7 +40,15 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 6. telegram web login
 ```
 
-## 部署到now.sh服务器
+## 部署到cloudflare worker
+```
+1. 注册一个cloudflare账户
+2. 在cloudflare上创建一个worker, 记下这个worker的子域名, 比如 abcd123.xxxx.cloudflare.dev
+3. 找到本repo的build/worker.js文件，用文本编辑器打开，搜索siteproxy.netptop.cloudflare.dev，替换成你的子域名
+4. 在cloudflare上编辑刚刚创建的worker， 将worker.js所有内容拷贝粘贴到worker里面，保存
+5. 现在应该可以在浏览器中 访问你的子域名了
+```
+## 部署到now.sh服务器(可能有问题，暂时没有now账户测试)
 ```
 1. 注册一个now账户https://zeit.co/home
 2. 没有github账户的话, 注册一个github账户,fork本repo
