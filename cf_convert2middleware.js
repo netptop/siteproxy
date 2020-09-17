@@ -63,9 +63,10 @@ var middle2res = ({middle_res, readable}) => {
                 console.log(`header key:${key}`)
                 headers.append(key, entry)
             }
+        } else {
+            console.log(`header key:${key}`)
+            headers.append(key, middle_res.headers[key])
         }
-        console.log(`header key:${key}`)
-        headers.append(key, middle_res.headers[key])
     }
     console.log(`before creating Response, middle_res:${JSON.stringify(middle_res)}`)
     let cf_res
