@@ -469,6 +469,19 @@ test('30.toString() should not be existed', async () => {
     url,
   })
   // console.log(`${JSON.stringify(response.headers)}`)
-  console.log(`${response.data}`)
+  // console.log(`${response.data}`)
   expect((response.data).indexOf(`30.toString()`)).toBe(-1)
+}, 15000); // should be done within 3 seconds.
+
+test('no exception for fonts.gstatic.com', async () => {
+  const url = `${httpprefix}://${serverName}:${port}/https/fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxMKTU1Kg.woff`
+  const response = await axios({
+    method: 'get',
+    headers: {
+    },
+    url,
+  })
+  console.log(`${JSON.stringify(response.headers)}`)
+  // console.log(`${response.data}`)
+  // expect((response.data).indexOf(`30.toString()`)).toBe(-1)
 }, 15000); // should be done within 3 seconds.

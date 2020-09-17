@@ -4,8 +4,10 @@
   "description": "site proxy, zero configuration from client side. reverse proxy to all internet",
   "main": "index.js",
   "scripts": {
+    "build": "webpack",
     "test": "jest",
-    "localtest": "localFlag=true jest",
+    "localtest": "localFlag=true jest siteproxylocal.test.js",
+    "cftest": "jest cloudflare.test.js",
     "start": "node --tls-min-v1.0 index.js",
     "localstartNow": "localFlag=true node --tls-min-v1.0 index.js",
     "localstart": "PORT=8011 localFlag=true node --tls-min-v1.0 index.js"
@@ -18,11 +20,15 @@
     "express": "^4.17.1",
     "http-proxy-middleware": "^0.20.0",
     "iconv-lite": "^0.5.1",
+    "pako": "^1.0.11",
     "query-string": "^6.11.1",
     "url-parse": "^1.4.7"
   },
   "devDependencies": {
     "axios": "^0.19.2",
-    "jest": "^25.1.0"
+    "html-loader": "^1.3.0",
+    "jest": "^25.1.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   }
 }

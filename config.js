@@ -1,6 +1,4 @@
-var express = require('express')
 const zlib = require("zlib")
-const fs = require("fs")
 const queryString = require('query-string')
 const parse = require('url-parse')
 
@@ -9,19 +7,27 @@ const {CookieAccessInfo, CookieJar, Cookie} = cookiejar
 
 let config = {
     httpprefix: 'https', port: 443,
-    serverName: 'proxy.netptop.com',
+    serverName: 'siteproxy.netptop.workers.dev',
 }
 let blockedSites = ['www.chase.com'] // accessing to chase.com was reported by google
 
 if (process.env.herokuAddr) {
     config.serverName = process.env.herokuAddr
 }
+config.serverName = config.serverName.replace(/https?:\/\//g, '')
 console.log(`config.serverName:${config.serverName}`)
 if (process.env.localFlag === 'true') {
     config.httpprefix = 'http'
     config.port = '8011'
     process.env.PORT = config.port
     config.serverName = '127.0.0.1'
+}
+if (process.env.wranglerDev === 'true') {
+    console.log('env: wranglerDev=true')
+    process.env.localFlag = 'true'
+    config.httpprefix = 'http'
+    config.serverName = '127.0.0.1'
+    config.port = '8787'
 }
 
 let {httpprefix, serverName, port, accessCode} = config

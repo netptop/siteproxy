@@ -1,12 +1,13 @@
 const fs = require('fs')
 const path = require('path')
+const ProxyMiddleware = require('http-proxy-middleware')
 var Proxy = require('../Proxy')
 
 let { blockedSites, urlModify, httpprefix, serverName, port, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace } = require('../config')
 
 let cookieDomainRewrite = serverName
 
-let proxy = Proxy({ blockedSites, urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace })
+let proxy = Proxy({ ProxyMiddleware, blockedSites, urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace })
 export default (req, res) => {
   const dirPath = path.join(__dirname + '/..', req.url)
   console.log(`x-forward-for:${req.headers['x-forwarded-for']}, req.url:${req.url}`)

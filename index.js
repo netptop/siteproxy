@@ -1,4 +1,5 @@
 var express = require('express')
+var ProxyMiddleware = require('http-proxy-middleware');
 const path = require('path')
 const fs = require('fs')
 let app = express()
@@ -6,7 +7,7 @@ var Proxy = require('./Proxy')
 let { blockedSites, urlModify, httpprefix, serverName, port, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace } = require('./config')
 
 let cookieDomainRewrite = serverName
-let proxy = Proxy({ blockedSites, urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace})
+let proxy = Proxy({ ProxyMiddleware, blockedSites, urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace})
 
 const middle1 = (req, res, next) => {
     let timestr = new Date().toISOString()

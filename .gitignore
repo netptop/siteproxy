@@ -8,3 +8,5 @@ yarn.lock
 .history
 .umirc.local.js
 .now
+bundle.js
+worker/

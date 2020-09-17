@@ -1,17 +1,32 @@
-var express = require('express');
-var proxy = require('http-proxy-middleware');
-const zlib = require("zlib")
-const fs = require("fs")
+const zlib = require('zlib')
 const parse = require('url-parse')
 const cookiejar = require('cookiejar')
 const iconv = require('iconv-lite')
+const pako = require('pako')
 const {logSave, logGet, logClear} = require('./logger')
-const {CookieAccessInfo, CookieJar, Cookie} = cookiejar
+const ProxyMiddleware = require('http-proxy-middleware')
 
 function countUtf8Bytes(s) {
     var b = 0, i = 0, c
     for(;c=s.charCodeAt(i++);b+=c>>11?3:c>>7?2:1);
     return b
+}
+
+function uint8ArrayConcat(arrays) { // for cloudflare
+    // sum of individual array lengths
+    let totalLength = arrays.reduce((acc, value) => acc + value.length, 0);
+    if (!arrays.length) return null;
+
+    let result = new Uint8Array(totalLength);
+    // for each array - copy it over result
+    // next array is copied right after the previous one
+    let length = 0;
+    for(let array of arrays) {
+      result.set(array, length);
+      length += array.length;
+    }
+
+    return result;
 }
 
 var contentTypeIsText = (headers) => {
@@ -62,7 +77,7 @@ var redirect2HomePage = function({res, httpprefix, serverName,} ) {
     res.status(302).send(``)
 }
 
-let getHostFromReq = ({req, serverName}) => { //return target
+let getHostFromReq = ({req, serverName}) => { // return target
   // url: http://127.0.0.1:8011/https/www.youtube.com/xxx/xxx/...
   let https_prefix = '/https/'
   let http_prefix = '/http/'
@@ -116,7 +131,9 @@ let getHostFromReq = ({req, serverName}) => { //return target
         }
     })
   }
-  if (host === '') {
+  let localServeList = ['/index.html', '/', '/favicon.png']
+  if (host === '' ||
+      (host === serverName && !localServeList.includes(req.url))) {
     if (originalHost !== '') {
         httpType = originalHost.split('/')[0]
         host = originalHost.split('/')[1]
@@ -127,12 +144,9 @@ let getHostFromReq = ({req, serverName}) => { //return target
   return {host, httpType}
 }
 
-
-let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace}) => {
-    let stream = fs.createWriteStream("web-records.csv", {flags:'a'})
-    let handleRespond = ({req, res, body, gbFlag}) => { // text file
-        let myRe
-        let {host, httpType} = getHostFromReq({req, serverName})
+let Proxy = ({ProxyMiddleware, blockedSites, urlModify, httpprefix, serverName, port, cookieDomainRewrite, locationReplaceMap302, regReplaceMap, siteSpecificReplace, pathReplace}) => {
+    // let stream = fs.createWriteStream("web-records.csv", {flags:'a'})
+    var locationMod302 = ({res, serverName, httpprefix, host, httpType}) => {
         let location = res.getHeaders()['location']
         if (res.statusCode == '301' || res.statusCode == '302' || res.statusCode == '303' ||res.statusCode == '307' || res.statusCode == '308') {
             location = locationReplaceMap302({location, serverName, httpprefix, host, httpType})
@@ -141,9 +155,16 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
                 res.setHeader('location', location)
             } catch(e) {
                 logSave(`error: ${e}`)
-                return
+                return false
             }
-            // return
+        }
+        return true
+    }
+    let handleRespond = ({req, res, body, gbFlag}) => { // text file
+        let myRe
+        let {host, httpType} = getHostFromReq({req, serverName})
+        if (locationMod302({res, serverName, httpprefix, host, httpType}) === false) {
+            return
         }
         // logSave(`HandleRespond(), req.url:${req.url}, req.headers:${JSON.stringify(req.headers)}`)
         for(let key in regReplaceMap) {
@@ -190,15 +211,23 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
             }
             res.statusCode = '302'
         }
-        logSave(`6`)
-        body = zlib.gzipSync(body) //19ms
+        logSave(`5 after replacment,displayed string, body.length:${body.length}`)
+        // logSave(`5 after replacment,displayed string: ${body}`)
+        if (process.env.cloudflare === 'true') { // in cloudflare environment
+            let enc = new TextEncoder()
+            body = enc.encode(body)
+            logSave(`6 cloudflare, after encoding, uint8array, body.length:${body.length}`) // body is utf-8 uint8Array now
+        } else { //node environment
+            body = zlib.gzipSync(body) //body is Buffer
+        }
+        logSave(`7`)
         try {
             res.setHeader('content-encoding', 'gzip');
             logSave(`handleRespond: res.statusCode:${res.statusCode}, res.headers:${JSON.stringify(res.getHeaders())}`)
             if (req.headers['debugflag']==='true') {
                 res.removeHeader('content-encoding')
                 res.setHeader('content-type','text/plain')
-                body=logGet()
+                body = logGet()
             }
             res.end(body);
         } catch(e) {
@@ -216,7 +245,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
     return target
     }
 
-    let p = proxy({
+    let p = ProxyMiddleware({
       target: `https://www.google.com`,
       router,
       /*
@@ -256,14 +285,18 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
         let bodyLength = 0
         let endFlag = false
         proxyRes.on('data', function(data) {
-            // body = Buffer.concat([body, data]);
             if (endFlag === true) {
               return // don't have to push it to bodyList
             }
-            bodyLength += data.length
+            bodyLength += data.length // data is Uint8Array for cloueflare, and Buffer for node environment
             bodyList.push(data)
             if (bodyLength >= 2500000 && contentTypeIsText(proxyRes.headers) !== true) {
-                let body = Buffer.concat(bodyList)
+                let body
+                if (process.env.cloudflare === 'true') { // in node environment
+                    body = uint8ArrayConcat(bodyList) // body is Uint8Array for cloueflare
+                } else {
+                    body = Buffer.concat(bodyList) // body is Buffer for node environment
+                }
                 let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for']
                 let contentType = proxyRes.headers['content-type']
                 let contentLen = proxyRes.headers['content-length']
@@ -280,32 +313,58 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
           if (endFlag === true) {
             return
           }
-          let body = Buffer.concat(bodyList)
+          console.log(`on end 1, bodyList.length:${bodyList.length}`)
+          let body
+          if (process.env.cloudflare === 'true') {
+            body = uint8ArrayConcat(bodyList) // body is Uint8Array
+            if (!body) { // if body is null, end the stream.
+                locationMod302({res, serverName, httpprefix, host, httpType})
+                res.end(body);
+                return
+            }
+          } else { // in node environment
+            body = Buffer.concat(bodyList) // body is Buffer
+          }
+          console.log(`on end 2, body.length:${body.length}`)
           let gbFlag = false
           if (proxyRes.headers["content-encoding"] === 'gzip' ||
               proxyRes.headers["content-encoding"] === 'br') { // gzip/br encoding
             let gunzipped
             try {
-                if (proxyRes.headers["content-encoding"] === 'br') {
-                    gunzipped = zlib.brotliDecompressSync(body)
-                    logSave(`zlib.brotli...`)
-                } else { //gzip
-                    gunzipped = zlib.gunzipSync(body)
+                if (process.env.cloudflare === 'true') { // in cloudflare environment
+                    console.log('cloudflare environment')
+                    gunzipped = body // in cloudflare, we have gzip
+                } else {
+                    console.log('node environment')
+                    if (proxyRes.headers["content-encoding"] === 'br') {
+                        gunzipped = zlib.brotliDecompressSync(body)
+                        logSave(`zlib.brotli...`)
+                    } else { //gzip
+                        gunzipped = zlib.gunzipSync(body)
                     logSave(`zlib.gunzip...`)
+                    }
                 }
             } catch(e) {
                 // res.status(404).send(`{"error": "${e}"}`)
+                console.log(`error2:${e}`)
                 return
             }
+            console.log(`on end 3`)
             if (contentTypeIsText(proxyRes.headers) === true) { //gzip and text
+                console.log(`on end 4`)
                 if (!gunzipped) {
                     // res.status(404).send(`{"error":"failed unzip"}`)
                     redirect2HomePage({res, httpprefix, serverName,})
                     return
                 }
-                logSave(`utf-8 text...`)
+                logSave(`utf-8 text, gunzipped.length:${gunzipped.length}`)
                 let originBody = gunzipped
-                body = gunzipped.toString('utf-8');
+                if (process.env.cloudflare === 'true') { // in cloudflare environment
+                    body = new TextDecoder().decode(gunzipped) // gunzipped.toString('utf-8');
+                    logSave(`after decode, displayed string, body.length:${body.length}`)
+                } else {
+                    body = gunzipped.toString('utf-8')
+                }
                 let searchBody = body.slice(0, 1000)
                 if (searchBody.indexOf('="text/html; charset=gb') !== -1 ||
                     searchBody.indexOf(' charset="gb') !== -1 ||
@@ -317,15 +376,16 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
                 let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for'] || ''
                 if (proxyRes.statusCode === 200 && proxyRes.headers["content-type"] &&
                     proxyRes.headers["content-type"].indexOf('text/html') !== -1) {
-                    saveRecord({stream, fwdStr, req, host, pktLen:body.length})
+                    // saveRecord({stream, fwdStr, req, host, pktLen:body.length})
                 }
                 if (proxyRes.statusCode === 200 && req.url.indexOf('/sw.js') !== -1) {
                     // fetching sw.js
                     res.setHeader('service-worker-allowed','/')
                 }
-                handleRespond({req, res, body, gbFlag})
+                handleRespond({req, res, body, gbFlag}) // body is a displayed string
             } else { // gzip and non-text
                 // console.log(`2========>${logGet()}`)
+                console.log(`on end 5`)
                 let fwdStr = req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for']
                 let contentType = proxyRes.headers['content-type']
                 let contentLen = proxyRes.headers['content-length']
@@ -340,7 +400,11 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
                      contentTypeIsText(proxyRes.headers) === true) { // text with non gzip encoding
             logSave(`utf-8 text...`)
             let originBody = body
-            body = body.toString('utf-8');
+            if (process.env.cloudflare === 'true') { // in cloudflare environment
+                body = new TextDecoder().decode(body) // Uint8Array(utf-8 arrayBuffer) toString('utf-8')
+            } else { // node environment
+                body = body.toString('utf-8');
+            }
             if (body.indexOf('="text/html; charset=gb') !== -1 ||
                 body.indexOf(' charset="gb') !== -1 ||
                 body.indexOf('=\'text/html; charset=gb') !== -1) {
@@ -355,16 +419,22 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
             let contentType = proxyRes.headers['content-type']
             let contentLen = proxyRes.headers['content-length']
             console.log(`end,route:${fwdStr}, content-type:${contentType},length:${bodyLength}, content-length:${contentLen}, ${host}`)
-            res.end(body)
+            if (process.env.cloudflare === 'true') { // in cloudflare environment
+                res.end(Uint8Array.from(body))
+            } else { // node environment
+                res.end(body)
+            }
           }
         })
         const setCookieHeaders = proxyRes.headers['set-cookie'] || []
+        console.log(`1`)
         let datestr = ''
         if (setCookieHeaders.length > 0) {
             let date = new Date
             date.setDate(date.getDate() + 1) // 一天之后过期
             datestr = date.toUTCString()
         }
+        console.log(`2, setCookieHeaders:${JSON.stringify(setCookieHeaders)}`)
         const modifiedSetCookieHeaders = setCookieHeaders
           .map(str => new cookiejar.Cookie(str))
           .map(cookie => {
@@ -378,6 +448,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
           return cookie
           })
           .map(cookie => cookie.toString())
+        console.log(`3`)
         let cookie_originalHost= new cookiejar.Cookie()
         cookie_originalHost.name = 'ORIGINALHOST'
         cookie_originalHost.value = `${httpType}/${host}`
@@ -386,6 +457,7 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
         cookie_originalHost.path = `/`
         cookie_originalHost.secure = false
         modifiedSetCookieHeaders.push(cookie_originalHost.toString())
+        console.log(`4`)
         proxyRes.headers['set-cookie'] =  modifiedSetCookieHeaders
         Object.keys(proxyRes.headers).forEach(function (key) {
           if (key === 'content-security-policy' ||
@@ -469,9 +541,11 @@ let Proxy = ({blockedSites, urlModify, httpprefix, serverName, port, cookieDomai
         })
         proxyReq.setHeader('Accept-Encoding', 'gzip')
         proxyReq.setHeader('referer', host)
+        console.log(`host=${host}`)
         if (host.indexOf('youtube.com') !== -1) {
-            proxyReq.setHeader('User-Agent', `Opera/7.50 (Windows XP; U)`)
+            // proxyReq.setHeader('User-Agent', `Opera/7.50 (Windows XP; U)`)
             // proxyReq.setHeader('User-Agent', `Opera/9.80 (Android 4.1.2; Linux; Opera Mobi/ADR-1305251841) Presto/2.11.355 Version/12.10`)
+            proxyReq.setHeader('User-Agent', `Mozilla/5.0 (Linux; Android 6.0.1; Lenovo-A6020l36 Build/MMB29M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.93 Mobile Safari/537.36`)
         }
         logSave(`req host:${host}, req.url:${req.url}, proxyReq.query:${proxyReq.query} proxyReq.path:${proxyReq.path}, proxyReq.url:${proxyReq.url} proxyReq headers:${JSON.stringify(proxyReq.getHeaders())}`)
         if(host === '' || !host) {
