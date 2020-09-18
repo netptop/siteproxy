@@ -31,7 +31,7 @@ var handleRequest = (request) => { // resolve a cf_res eventually.
             middle_req.url = middle_req.url.replace(myRe, '')
             console.log(`timestr:${timestr}, serverName:${serverName}, middle_req:${JSON.stringify(middle_req)}`)
             if (middle_req.url === '' || middle_req.url === '/') {
-                middle_req.url = '/https/www.google.ca'
+                middle_req.url = '/https/www.netptop.com'
             }
             console.log(`${timestr}: after modification, middle_req.url:${middle_req.url}`)
             let {readable, writable} = new TransformStream()
