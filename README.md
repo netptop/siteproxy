@@ -17,10 +17,10 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 - [原理](#原理)
 - [支持代理的网站](#支持代理的网站)
 - [部署到cloudflare_worker](#部署到cloudflare_worker)
-- [部署到now.sh服务器](#部署到now.sh服务器)
+- [部署到now服务器](#部署到now服务器)
 - [部署到heroku服务器](#部署到heroku服务器)
 - [部署到vps服务器](#部署到vps服务器)
-- [now.sh_deployment](#now.sh_deployment)
+- [now_deployment](#now_deployment)
 - [vps_deployment](#vps_deployment)
 - [联系方式](#联系方式)
 
@@ -54,7 +54,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 6. telegram web login
 7. 中文论坛等
 ```
-### 部署到cloudflare worker
+### 部署到cloudflare_worker
 ```
 1. 注册一个cloudflare账户
 2. 在cloudflare上创建一个worker, 记下这个worker的子域名, 比如 abcd123.xxxx.workers.dev
@@ -62,7 +62,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 4. 在cloudflare上编辑刚刚创建的worker， 将worker.js所有内容拷贝粘贴到worker里面，保存
 5. 现在应该可以在浏览器中 访问你的子域名了
 ```
-### 部署到now.sh服务器
+### 部署到now服务器
 ```
 (可能有问题，暂时没有now账户测试)
 1. 注册一个now账户https://zeit.co/home
@@ -111,7 +111,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 8. 如果想套CloudFlare加速, 可以参考CloudFlare说明
 ```
 
-### now.sh deployment
+### now_deployment
 ```
 1. register one now.sh account from https://zeit.co/home
 2. npm install -g now
@@ -125,7 +125,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 9. done
 
 ```
-### vps deployment
+### vps_deployment
 ```
 1. create ssl website(using certbot and nginx), and configure nginx as follow:
    vi /etc/nginx/sites-available/default:
