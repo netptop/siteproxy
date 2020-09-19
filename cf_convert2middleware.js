@@ -26,7 +26,7 @@ var req2middleware = (cf_request) => { // modify CF request so that it can be us
     let middle_req = {
         url: cf_request.url || '',
         headers,
-        body: cf_request.body,
+        body: cf_request.body, // Uint8Array
         bodyUsed: cf_request.bodyUsed,
         cf: cf_request.cf,
         method: cf_request.method,

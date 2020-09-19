@@ -481,6 +481,8 @@ let Proxy = ({ProxyMiddleware, blockedSites, urlModify, httpprefix, serverName, 
           }
         });
         res.statusCode = proxyRes.statusCode
+
+        locationMod302({res, serverName, httpprefix, host, httpType})
         logSave(`res.status:${res.statusCode} res.url:${res.url}, res.headers:${JSON.stringify(res.getHeaders())}`)
         if (res.statusCode === 404) {
             try {

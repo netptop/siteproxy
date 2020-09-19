@@ -43,7 +43,7 @@ var handleRequest = (request) => { // resolve a cf_res eventually.
                     console.log(`sending response ...`)
                     middle_res.replied = true
                     let cf_res = middle2res({middle_res, readable})
-                    console.log(`cf_res:${JSON.stringify(cf_res)}`)
+                    console.log(`sent cf_res:${JSON.stringify(cf_res)}`)
                     resolve(cf_res)
                 }
                 if (data) {
@@ -74,7 +74,11 @@ var handleRequest = (request) => { // resolve a cf_res eventually.
             console.log(`proxy called`)
             const target = global_router(middle_req) // get target: `${httpType}://${host}`
             console.log(`target:${target}`)
-            let middle_proxyReq = req2middleware(new Request(target, {redirect: middle2req.redirect, method: middle_req.method}))
+            let middle_proxyReq = req2middleware(new Request(target, {
+                redirect: middle_req.redirect,
+                method: middle_req.method,
+                body: middle_req.body,
+            }))
             console.log(`calling onProxyReq...`)
             global_onProxyReq(middle_proxyReq, middle_req, middle_res)
             console.log(`====> after onProxyReq, middle_proxyReq:${JSON.stringify(middle_proxyReq)}`)
