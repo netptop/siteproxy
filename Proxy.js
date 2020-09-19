@@ -429,10 +429,13 @@ let Proxy = ({ProxyMiddleware, blockedSites, urlModify, httpprefix, serverName, 
         const setCookieHeaders = proxyRes.headers['set-cookie'] || []
         console.log(`1`)
         let datestr = ''
+        let datestrOriginHost = ''
         if (setCookieHeaders.length > 0) {
-            let date = new Date
-            date.setDate(date.getDate() + 1) // 一天之后过期
+            let curDate = new Date()
+            let date = new Date(curDate.getTime() + 7200 * 1000) // 2 hours later
             datestr = date.toUTCString()
+            date = new Date(curDate.getTime() + 600 * 1000) // 10 mins later
+            datestrOriginHost = date.toUTCString()
         }
         console.log(`2, setCookieHeaders:${JSON.stringify(setCookieHeaders)}`)
         const modifiedSetCookieHeaders = setCookieHeaders
@@ -453,7 +456,7 @@ let Proxy = ({ProxyMiddleware, blockedSites, urlModify, httpprefix, serverName, 
         cookie_originalHost.name = 'ORIGINALHOST'
         cookie_originalHost.value = `${httpType}/${host}`
         cookie_originalHost.domain = `${serverName}`
-        cookie_originalHost.expiration_date = datestr
+        cookie_originalHost.expiration_date = datestrOriginHost
         cookie_originalHost.path = `/`
         cookie_originalHost.secure = false
         modifiedSetCookieHeaders.push(cookie_originalHost.toString())
