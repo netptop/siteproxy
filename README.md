@@ -16,12 +16,12 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 - [特点](#特点)
 - [原理](#原理)
 - [支持代理的网站](#支持代理的网站)
-- [部署到cloudflare worker](#部署到cloudflare worker)
+- [部署到cloudflare_worker](#部署到cloudflare_worker)
 - [部署到now.sh服务器](#部署到now.sh服务器)
 - [部署到heroku服务器](#部署到heroku服务器)
 - [部署到vps服务器](#部署到vps服务器)
-- [now.sh deployment](#now.sh deployment)
-- [vps deployment](#vps deployment)
+- [now.sh_deployment](#now.sh_deployment)
+- [vps_deployment](#vps_deployment)
 - [联系方式](#联系方式)
 
 ### 特点
