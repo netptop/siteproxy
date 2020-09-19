@@ -25,7 +25,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 - [联系方式](#联系方式)
 
 ### 特点
-- 代码量只有jsproxy的十分之一左右
+- 代码量只有jsproxy的四分之一左右
 - 不使用service worker，不会和网站本身的service worker冲突
 - enter siteproxy's address, and go surf on internet without censorship
 - no proxy setting from client side is needed. zero configuration from client browser
