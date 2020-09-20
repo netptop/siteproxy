@@ -533,6 +533,7 @@ let Proxy = ({ProxyMiddleware, blockedSites, urlModify, httpprefix, serverName, 
           // remove nginx/cloudflare/pornhub related headers
           if ((host.indexOf('twitter.com') === -1 && key.indexOf('x-') === 0) ||
               key.indexOf('sec-fetch') === 0 ||
+              key.indexOf('only-if-cached') === 0 ||
               key.indexOf('cf-') === 0) {
               logSave(`remove key=${key},`)
               proxyReq.removeHeader(key)
