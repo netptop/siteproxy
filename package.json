@@ -8,6 +8,7 @@
     "test": "jest",
     "localtest": "localFlag=true jest siteproxylocal.test.js",
     "cftest": "jest cloudflare.test.js",
+    "herokutest": "jest herokuapp.test.js",
     "start": "node --tls-min-v1.0 index.js",
     "localstartNow": "localFlag=true node --tls-min-v1.0 index.js",
     "localstart": "PORT=8011 localFlag=true node --tls-min-v1.0 index.js"
@@ -19,7 +20,7 @@
     "cookiejar": "^2.1.2",
     "express": "^4.17.1",
     "http-proxy-middleware": "^0.20.0",
-    "iconv-lite": "^0.5.1",
+    "iconv-lite": "^0.6.2",
     "pako": "^1.0.11",
     "query-string": "^6.11.1",
     "url-parse": "^1.4.7"

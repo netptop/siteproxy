@@ -367,7 +367,8 @@ let Proxy = ({ProxyMiddleware, blockedSites, urlModify, httpprefix, serverName, 
                 }
                 let searchBody = body.slice(0, 1000)
                 if (searchBody.indexOf('="text/html; charset=gb') !== -1 ||
-                    searchBody.indexOf(' charset="gb') !== -1 ||
+                    searchBody.search(/ontent=.*charset="gb/) !== -1 ||
+                    searchBody.search(/ONTENT=.*charset="gb/) !== -1 ||
                     searchBody.indexOf('=\'text/html; charset=gb') !== -1) {
                     logSave(`gb2312 found...`)
                     body = iconv.decode(originBody, 'gbk')
@@ -551,7 +552,7 @@ let Proxy = ({ProxyMiddleware, blockedSites, urlModify, httpprefix, serverName, 
         if (host.indexOf('youtube.com') !== -1) {
             // proxyReq.setHeader('User-Agent', `Opera/7.50 (Windows XP; U)`)
             // proxyReq.setHeader('User-Agent', `Opera/9.80 (Android 4.1.2; Linux; Opera Mobi/ADR-1305251841) Presto/2.11.355 Version/12.10`)
-            proxyReq.setHeader('User-Agent', `Mozilla/5.0 (Linux; Android 6.0.1; Lenovo-A6020l36 Build/MMB29M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.93 Mobile Safari/537.36`)
+            // proxyReq.setHeader('User-Agent', `Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0`)
         }
         logSave(`req host:${host}, req.url:${req.url}, proxyReq.query:${proxyReq.query} proxyReq.path:${proxyReq.path}, proxyReq.url:${proxyReq.url} proxyReq headers:${JSON.stringify(proxyReq.getHeaders())}`)
         if(host === '' || !host) {
