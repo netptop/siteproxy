@@ -33,7 +33,7 @@ test('post operation', async () => {
 }, 15000); // should be done within 3 seconds.
 
 test('youtube redirect 302', async () => {
-  const url = `${httpprefix}://${serverName}:${port}/https/www.youtube.com/channel/UCAq_xQV8pJ2Q_KOszzaYPBg/feed?disable_polymer=1`
+  const url = `${httpprefix}://${serverName}:${port}/http/www.youtube.com/channel/UCAq_xQV8pJ2Q_KOszzaYPBg/feed?disable_polymer=1`
   const response = await axios({
     method: 'get',
     maxRedirects: 0,
@@ -44,5 +44,5 @@ test('youtube redirect 302', async () => {
   })
   // console.log(`${JSON.stringify(response.headers)}`)
   //console.log(`${JSON.stringify(response.data)}`)
-  expect(response.headers['location'].indexOf(`https://m.youtube`)).toBe(-1)
+  expect(response.headers['location'].indexOf(`/https/www.youtube`)).not.toBe(-1)
 }, 15000); // should be done within 3 seconds.
