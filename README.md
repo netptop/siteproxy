@@ -88,7 +88,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 ### 部署到vps服务器
 ```
 1. 创建一个ssl website(使用certbot and nginx, google下用法), 配置nginx,
-   /etc/nginx/conf.d/default.conf 需要包含以下内容:
+   /etc/nginx/sites-enabled/default 需要包含以下内容:
    ...
    server {
       server_name siteproxy.your.domain.name
@@ -105,12 +105,13 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    (2)source ~/.bashrc
    (3)nvm install v12.16.3
 3. 执行:npm install -g forever
-4. 执行:git clone https://github.com/netptop/siteproxy.git; cd siteproxy
-5. 打开config.js文件, 找到serverName定义的地方, 如下修改:
+4. 执行:git clone https://github.com/netptop/siteproxy.git;
+5. 执行:cd siteproxy; npm install;
+6. 打开config.js文件, 找到serverName定义的地方, 如下修改:
    serverName: 'siteproxy.herokuapp.com' ====> '这填你的域名'
-6. 执行:forever start -c 'node --tls-min-v1.0' index.js
-7. 现在就可以在浏览器中访问你的域名了.
-8. 如果想套CloudFlare加速, 可以参考CloudFlare说明
+7. 执行:forever start -c 'node --tls-min-v1.0' index.js
+8. 现在就可以在浏览器中访问你的域名了.
+9. 如果想套CloudFlare加速, 可以参考CloudFlare说明
 ```
 
 ### now_deployment
@@ -130,7 +131,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 ### vps_deployment
 ```
 1. create ssl website(using certbot and nginx), and configure nginx as follow:
-   vi /etc/nginx/sites-available/default:
+   vi /etc/nginx/sites-enabled/default:
    ...
    server {
       server_name siteproxy.your.domain.name
@@ -143,11 +144,12 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    }
 2. systecmctl start nginx
 3. npm install -g forever
-4. git clone https://github.com/netptop/siteproxy.git; cd siteproxy
-5. replace serverName in 'config.js', like:
+4. git clone https://github.com/netptop/siteproxy.git; 
+5. cd siteproxy; npm install;
+6. replace serverName in 'config.js', like:
    serverName: 'siteproxy.herokuapp.com' ====> 'siteproxy.your.domain.name'
-6. forever start -c 'node --tls-min-v1.0' index.js
-7. done, now you can access your domain name from browser.
+7. forever start -c 'node --tls-min-v1.0' index.js
+8. done, now you can access your domain name from browser.
 ```
 ### 联系方式
 Telegram群: @siteproxy
