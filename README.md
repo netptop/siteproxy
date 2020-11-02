@@ -22,6 +22,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 - [部署到now服务器](#部署到now服务器)
 - [部署到heroku服务器](#部署到heroku服务器)
 - [部署到vps服务器](#部署到vps服务器)
+- [cloudflare_worker_deployment](#cloudflare_worker_depolyment)
 - [now_deployment](#now_deployment)
 - [vps_deployment](#vps_deployment)
 - [联系方式](#联系方式)
@@ -112,6 +113,14 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 7. 执行:forever start -c 'node --tls-min-v1.0' index.js
 8. 现在就可以在浏览器中访问你的域名了.
 9. 如果想套CloudFlare加速, 可以参考CloudFlare说明
+```
+### cloudflare_worker_deployment
+```
+1. register a cloudflare account
+2. create a worker in cloudflare, remember worker's sub-domain name, like abcd123.xxxx.workers.dev
+3. search build/worker.js in this repo, open it in a text editor, search and replace 'siteproxy.netptop.workers.dev' with your sub-domain name.
+4. edit the worker just created in cloudflare, replace worker's content with content of build/worker.js, save.
+5. done.
 ```
 
 ### now_deployment
