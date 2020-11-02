@@ -22,7 +22,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 - [部署到now服务器](#部署到now服务器)
 - [部署到heroku服务器](#部署到heroku服务器)
 - [部署到vps服务器](#部署到vps服务器)
-- [cloudflare_worker_deployment](#cloudflare_worker_depolyment)
+- [cloudflare_worker_deployment](#cloudflare_worker_deployment)
 - [now_deployment](#now_deployment)
 - [vps_deployment](#vps_deployment)
 - [联系方式](#联系方式)
