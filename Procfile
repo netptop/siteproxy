@@ -1,1 +1,1 @@
-web: herokuAddr=lenovodns.herokuapp.com npm run start
+web: herokuAddr=webus.herokuapp.com npm run start
