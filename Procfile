@@ -1,1 +1,1 @@
-web: herokuAddr=webproxy--w.herokuapp.com npm run start
+web: herokuAddr=habatakutori.com npm run start
