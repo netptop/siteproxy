@@ -61,7 +61,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 ```
 1. 注册一个cloudflare账户
 2. 在cloudflare上创建一个worker, 记下这个worker的子域名, 比如 abcd123.xxxx.workers.dev
-3. 找到本repo的build/worker.js文件，用文本编辑器打开，搜索siteproxy.netptop.workers.dev，替换成你的子域名
+3. 下载https://raw.githubusercontent.com/netptop/siteproxy/master/build/worker.js文件，用文本编辑器打开，搜索siteproxy.netptop.workers.dev，替换成你的子域名
 4. 在cloudflare上编辑刚刚创建的worker， 将worker.js所有内容拷贝，覆盖粘贴到worker里面，保存
 5. 现在应该可以在浏览器中 访问你的子域名了
 ```
