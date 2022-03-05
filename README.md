@@ -118,7 +118,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 ```
 1. register a cloudflare account
 2. create a worker in cloudflare, remember worker's sub-domain name, like abcd123.xxxx.workers.dev
-3. search build/worker.js in this repo, open it in a text editor, search and replace 'siteproxy.netptop.workers.dev' with your sub-domain name.
+3. download https://raw.githubusercontent.com/netptop/siteproxy/master/build/worker.js, open it in a text editor, search and replace 'siteproxy.netptop.workers.dev' with your sub-domain name.
 4. edit the worker just created in cloudflare, replace worker's content with content of build/worker.js, save.
 5. done.
 ```
