@@ -24,6 +24,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 - [部署到vps服务器](#部署到vps服务器)
 - [cloudflare_worker_deployment](#cloudflare_worker_deployment)
 - [now_deployment](#now_deployment)
+- [heroku_deployment](#heroku_deployment)
 - [vps_deployment](#vps_deployment)
 - [联系方式](#联系方式)
 
@@ -67,6 +68,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 ```
 ### 部署到now服务器
 ```
+注意：大量使用可能被封账户
 (可能有问题，暂时没有now账户测试)
 1. 注册一个now账户https://zeit.co/home
 2. 没有github账户的话, 注册一个github账户,fork本repo
@@ -77,6 +79,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 ```
 ### 部署到heroku服务器
 ```
+注意：大量使用可能被封账户
 1. 注册一个heroku账户: https://www.heroku.com/
 2. 没有github账户的话, 注册一个github账户,fork本repo
 3. 在heroku的控制台里面创建一个应用, 且绑定到你刚才fork的repo上, 会得到一个域名类似的域名:your-domain-name.herokuapp.com
@@ -125,6 +128,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 
 ### now_deployment
 ```
+Note: massive usage might lead to account being blocked
 1. register one now.sh account from https://zeit.co/home
 2. npm install -g now
 3. git clone https://github.com/netptop/siteproxy.git
@@ -136,6 +140,18 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 8. now --prod
 9. done
 
+```
+### heroku_deployment
+```
+Note: massive usage might lead to account being blocked
+1. registration on heroku: https://www.heroku.com/
+2. hook this repo on github(a github account is needed)
+3. create an application in heroku, binding to the github repo which you just forked. you will get an subdomain name: your-domain-name.herokuapp.com
+4. on heroku page 'Deloy', click 'Enable Automatic Deploys' button.
+5. modifiying the github repo, to change domain name to your heroku subdomain name in procfile, without 'https' prefix. like:
+         "web: herokuAddr=siteproxy.herokuapp.com npm run start"
+   ====> "web: herokuAddr=your-domain-name.herokuapp.com npm run start"
+6. now you can access your heroku subdomain name: https://your-domain-name.herokuapp.com
 ```
 ### vps_deployment
 ```
