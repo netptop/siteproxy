@@ -28,7 +28,7 @@ const middle1 = (req, res, next) => {
         res.status(200).send(body)
         return
     } else
-    if (fs.existsSync(dirPath) && !fs.lstatSync(dirPath).isDirectory()) {
+    if (!req.url.includes('..') && fs.existsSync(dirPath) && !fs.lstatSync(dirPath).isDirectory()) {
         body = fs.readFileSync(dirPath)
         return res.status(200).send(body)
     }
