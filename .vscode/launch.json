@@ -1,0 +1,54 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "args": ["web-result.txt"],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Debug tests single run",
+      "type": "node",
+      "request": "launch",
+      "env": {
+        "localFlag": "true"
+      },
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/jest",
+      "args": ["siteproxylocal.test.js"],
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "skipFiles": ["<node_internals>/**"],
+      "env": {
+        "PORT": "8011",
+        "localFlag": "true",
+        "runtimeArgs": ["--tls-min-v1.0"],
+        "args": []
+      },
+      "program": "${workspaceFolder}/index.js"
+    },
+    {
+      "type": "node",
+      "name": "vscode-jest-tests",
+      "request": "launch",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "program": "${workspaceRoot}/node_modules/.bin/jest",
+      "cwd": "${workspaceFolder}",
+      "args": ["siteproxylocal2.test.js", "--runInBand", "--watchAll=false"]
+    }
+  ]
+}
