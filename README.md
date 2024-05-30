@@ -52,7 +52,7 @@ git clone https://your-proxy-domain.name/user-your-password/https/github.com/the
 - 搜索```http://localhost:5006```字符串，将它替换为你的代理服务器的域名，比如```https://your-proxy-domain.name```,注意是https
 - 同时搜索user22334455,将其修改为你自己想设置的密码, 为空时表示不需要密码就可以访问。
 - 创建一个worker，并编辑worker，将上一步编辑过的worker.js拷贝粘贴到worker里面，保存部署。
-- 在Workers & Pages页面，打开刚才保存的worker，点顶部的'触发器', 之后'添加自定义域', 设置为你的代理域名。自定义域名设置成功后，dns页面下面显示对应的dns类型应该是worker。
+- 在Workers & Pages页面，打开刚才保存的worker，点顶部的'设置'->'触发器', 之后'添加自定义域', 设置为你的代理域名。自定义域名设置成功后，dns页面下面显示对应的dns类型应该是worker。
 - 现在可以直接访问```https://your-proxy-domain.name/user-your-password/```, 最后的斜杠不能少。注意这里的域名和密码替换为你自己的域名和密码。
 
 ### 部署到vps或者云服务器
