@@ -56,7 +56,6 @@ git clone https://your-proxy-domain.name/user-your-password/https/github.com/the
 - 现在可以直接访问```https://your-proxy-domain.name/user-your-password/```, 最后的斜杠不能少。注意这里的域名和密码替换为你自己的域名和密码。
 
 ### 部署到vps或者云服务器
-- 注意必须使用node v21或以上版本。 如果出现UND_ERR_INVALID_ARG错误，试试2.2.2版本。
 ```
 1. 创建一个ssl website(使用certbot and nginx, google下用法), 配置nginx,
    /etc/nginx/conf.d/default.conf需要包含以下内容:
@@ -88,7 +87,6 @@ git clone https://your-proxy-domain.name/user-your-password/https/github.com/the
 11. 如果想套CloudFlare加速, 可以参考CloudFlare说明
 ```
 ### docker部署
-- 如果出现UND_ERR_INVALID_ARG错误，试试2.2.2版本。
 ```
 1. 配置域名对应的ssl证书和nginx，指向本地5006端口。
 2. git clone本项目.
