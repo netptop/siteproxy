@@ -48,7 +48,7 @@ git clone https://your-proxy-domain.name/user-your-password/https/github.com/the
 
 ### 部署到cloudflare_worker
 - 假设你的域名已经管理在cloudflare名下;
-- git clone本项目，并使用文本编辑器打开build/worker.js (不用git clone,直接下载文件也可以,这是[链接]https://raw.githubusercontent.com/netptop/siteproxy/master/build/worker.js)
+- git clone本项目，并使用文本编辑器打开build/worker.js, 不用git clone,直接下载文件也可以,这是[链接](https://raw.githubusercontent.com/netptop/siteproxy/master/build/worker.js)
 - 搜索```http://localhost:5006```字符串，将它替换为你的代理服务器的域名，比如```https://your-proxy-domain.name```,注意是https
 - 同时搜索user22334455,将其修改为你自己想设置的密码, 为空时表示不需要密码就可以访问。
 - 创建一个worker，并编辑worker，将上一步编辑过的worker.js拷贝粘贴到worker里面，不要管错误提示，保存部署。
