@@ -4,6 +4,7 @@
 Siteproxy 2.0 使用了service worker, 使得代理更加稳定, 可以代理了的网站更多。
 同时使用hono替代express，速度提高4倍。 支持cloudflare worker部署。
 反向代理, 免翻墙访问youtube/google, 支持github和telegram web登录(请注意不要通过不信任的代理登录)。
+支持duckduckgo AI Chat(可免费使用gpt3.5和claude3)。
 纯web页面的在线代理， 客户端无需任何配置，反向代理到internet。 
 
 ```
@@ -33,6 +34,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 ### 特点
 - 使用hono替代express，速度提高4倍。
 - 支持cloudflare worker部署。
+- 支持duckduckgo AI Chat(可免费使用gpt3.5和claude3)。
 - 支持密码控制代理，知道密码才能访问代理。
 - 不需要客户端的任何配置，访问代理网址即可访问全世界。
 - 支持github和telegram web登录。

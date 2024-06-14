@@ -2,6 +2,8 @@
 <br>
 Siteproxy 2.0 uses a service worker to make the proxy more stable, enabling it to support a wider range of websites. It replaces Express with Hono, which increases the speed by four times. It supports deployment on Cloudflare Workers. This reverse proxy allows for the access to YouTube/Google without the need for a VPN, and supports login for GitHub and Telegram web (please be cautious not to log in through untrusted proxies). It's a purely web-based online proxy that requires no configuration on the client's side, acting as a reverse proxy to the internet.
 <br>
+Supports duckduckgo AI Chat(can access gpt3.5 and claude3 for free).
+<br>
 Please do not use this project for illegal purposes, or you will bear the consequences.
 <br>
 Note: To reduce the risk of phishing, the code of siteproxy 2.0 is obfuscated, and the modification of the default homepage URL is prohibited.
@@ -18,6 +20,7 @@ Note: To reduce the risk of phishing, the code of siteproxy 2.0 is obfuscated, a
 - Replaces Express with Hono, improving speed by four times.
 - Supports deployment on Cloudflare Workers.
 - Supports password-controlled access to the proxy; only those with the password can access the proxy.
+- Supports duckduckgo AI Chat(can access gpt3.5 and claude3 for free).
 - No configuration is required on the client side; simply access the proxy URL to reach the entire world.
 - Supports login for GitHub and Telegram web.
 - Uses RSA+AES encryption to protect user login passwords to reduce the risk of man-in-the-middle attacks.
