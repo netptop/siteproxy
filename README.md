@@ -26,7 +26,8 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 
 - [特点](#特点)
 - [使用技巧](#使用技巧)
-- [部署到cloudflare_worker](#部署到cloudflare_worker)
+- [部署到Cloudflare_Worker](#部署到cloudflare_worker)
+- [部署到Cloudflare_Page](#部署到cloudflare_worker)
 - [部署到vps或者云服务器](#部署到vps或者云服务器)
 - [docker部署](#docker部署)
 - [联系方式](#联系方式)
@@ -48,13 +49,22 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 git clone https://your-proxy-domain.name/user-your-password/https/github.com/the-repo-to-clone
 ```
 
-### 部署到cloudflare_worker
+### 部署到Cloudflare_Worker
 - 假设你的域名已经管理在cloudflare名下;
 - 下载build/worker.js: [链接](https://raw.githubusercontent.com/netptop/siteproxy/master/build/worker.js), 并使用文本编辑器打开.
 - 搜索```http://localhost:5006```字符串，将它替换为你的代理服务器的域名，比如```https://your-proxy-domain.name```,注意修改为https
 - 同时搜索user22334455,将其修改为你自己想设置的密码, 为空时表示不需要密码就可以访问。
 - 创建一个worker，并编辑worker，将上一步编辑过的worker.js拷贝粘贴到worker里面，不要管错误提示，保存部署。
 - 在Workers & Pages页面，打开刚才保存的worker，点顶部的'设置'->'触发器', 之后'添加自定义域', 设置为你的代理域名。自定义域名设置成功后，dns页面下面显示对应的dns类型应该是worker。
+- 现在可以直接访问```https://your-proxy-domain.name/user-your-password/```, 最后的斜杠不能少。注意这里的域名和密码替换为你自己的域名和密码。
+
+### 部署到Cloudflare_Page
+- 假设你的域名已经管理在cloudflare名下;
+- git clone https://github.com/netptop/siteproxy.git
+- 用文本编辑器打开siteproxy/build/cf_page/_worker.js， 搜索```http://localhost:5006```字符串，将它替换为你的代理服务器的域名，比如```https://your-proxy-domain.name```,注意修改为https
+- 同时搜索user22334455,将其修改为你自己想设置的密码, 为空时表示不需要密码就可以访问。保存。
+- 登录cloudflare, 在"Workers和Pages"里面"使用直接上传创建"一个page, 上传 siteproxy/build/cf_page目录部署。
+- 在Workers & Pages页面，打开刚才部署的page，点顶部的'自定义域', 之后'添加自定义域', 设置为你的代理域名。激活域。 
 - 现在可以直接访问```https://your-proxy-domain.name/user-your-password/```, 最后的斜杠不能少。注意这里的域名和密码替换为你自己的域名和密码。
 
 ### 部署到vps或者云服务器

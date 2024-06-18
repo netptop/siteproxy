@@ -12,6 +12,7 @@ Note: To reduce the risk of phishing, the code of siteproxy 2.0 is obfuscated, a
 - [Features](#features)
 - [Usage Tips](#usage-tips)
 - [Deploying to Cloudflare Worker](#deploying-to-cloudflare-worker)
+- [Deploying to Cloudflare Pages](#deploying-to-cloudflare-page)
 - [Deploying to VPS or Cloud Server](#deploying-to-vps-or-cloud-server)
 - [Docker deployment](#docker-deployment)
 - [Contact Information](#contact-information)
@@ -40,6 +41,15 @@ git clone https://your-proxy-domain.name/user-your-password/https/github.com/the
 - Create a worker and edit it by copying and pasting the modified worker.js into the worker, then save and deploy.
 - If you use cloudflare worker domain, skip this step, If you want to use your own domain name, on the Workers & Pages page, open the worker you just saved, click 'Settings'->'Triggers' at the top, then 'Add custom domain', setting it to your proxy domain.
 - Now you can directly access https://your-proxy-domain.name/user-your-password/, don't miss the last '/' please. And please replace the domain and password with your own.
+
+### Deploy to Cloudflare Pages
+- Assume your domain is already managed under Cloudflare.
+- Run `git clone https://github.com/netptop/siteproxy.git`.
+- Open `siteproxy/build/cf_page/_worker.js` with a text editor. Search for the string `http://localhost:5006` and replace it with your proxy server's domain, such as `https://your-proxy-domain.name`. Make sure to switch it to HTTPS.
+- Also, search for `user22334455` and change it to the password you want to set. If left empty, it will allow access without a password. Save the changes.
+- Log in to Cloudflare. In the "Workers & Pages" section, use the "Direct Upload" feature to create a new page by uploading the `siteproxy/build/cf_page` directory.
+- In the Workers & Pages interface, open the page you just deployed, click on 'Custom Domains' at the top, and then 'Add Custom Domain'. Set it to your proxy domain. Activate the domain.
+- Now you can directly access `https://your-proxy-domain.name/user-your-password/`. The trailing slash is required. Make sure to replace the domain and password with your own.
 
 ### Deploying to VPS or Cloud Server
 - node v21 or above version is needed.
