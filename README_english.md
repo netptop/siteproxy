@@ -42,7 +42,7 @@ git clone https://your-proxy-domain.name/user-your-password/https/github.com/the
 - If you use cloudflare worker domain, skip this step, If you want to use your own domain name, on the Workers & Pages page, open the worker you just saved, click 'Settings'->'Triggers' at the top, then 'Add custom domain', setting it to your proxy domain.
 - Now you can directly access https://your-proxy-domain.name/user-your-password/, don't miss the last '/' please. And please replace the domain and password with your own.
 
-### Deploy to Cloudflare Pages
+### Deploying to Cloudflare Pages
 - Assume your domain is already managed under Cloudflare.
 - Run `git clone https://github.com/netptop/siteproxy.git`.
 - Open `siteproxy/build/cf_page/_worker.js` with a text editor. Search for the string `http://localhost:5006` and replace it with your proxy server's domain, such as `https://your-proxy-domain.name`. Make sure to switch it to HTTPS.
