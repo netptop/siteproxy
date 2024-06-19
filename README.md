@@ -57,6 +57,8 @@ git clone https://your-proxy-domain.name/user-your-password/https/github.com/the
 - 创建一个worker，并编辑worker，将上一步编辑过的worker.js拷贝粘贴到worker里面，不要管错误提示，保存部署。
 - 在Workers & Pages页面，打开刚才保存的worker，点顶部的'设置'->'触发器', 之后'添加自定义域', 设置为你的代理域名。自定义域名设置成功后，dns页面下面显示对应的dns类型应该是worker。
 - 现在可以直接访问```https://your-proxy-domain.name/user-your-password/```, 最后的斜杠不能少。注意这里的域名和密码替换为你自己的域名和密码。
+来自telegram网友Lo A的展示优选IP的配置方法:
+![优选IP的配置方法](https://raw.githubusercontent.com/netptop/siteproxy/master/dns_optimization.jpg)
 
 ### 部署到Cloudflare_Page
 - 假设你的域名已经管理在cloudflare名下;
