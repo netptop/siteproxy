@@ -15,6 +15,7 @@ Note: To reduce the risk of phishing, the code of siteproxy 2.0 is obfuscated, a
 - [Deploying to Cloudflare Pages](#deploying-to-cloudflare-page)
 - [Deploying to VPS or Cloud Server](#deploying-to-vps-or-cloud-server)
 - [Docker deployment](#docker-deployment)
+- [Thanks](#Thanks)
 - [Contact Information](#contact-information)
 
 ### Features
@@ -95,6 +96,9 @@ git clone https://your-proxy-domain.name/user-your-password/https/github.com/the
 4. Enter the docker-node subdirectory. sudo docker compose up
 5. Now, you can directly access https://your-proxy-domain.name/user-your-password/, and it should work. Note that you should replace the domain and password with your own.
 ```
+### Thanks
+www.netptop.com default page was designed by telgram user: SenZyo, Thanks for contributions!
+
 ### Contact Information
 Telegram group: @siteproxy
 <br />

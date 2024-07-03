@@ -30,6 +30,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 - [部署到Cloudflare_Page](#部署到cloudflare_worker)
 - [部署到vps或者云服务器](#部署到vps或者云服务器)
 - [docker部署](#docker部署)
+- [感谢](#感谢)
 - [联系方式](#联系方式)
 
 ### 特点
@@ -113,6 +114,10 @@ git clone https://your-proxy-domain.name/user-your-password/https/github.com/the
 4. 进入docker-node子目录。 sudo docker compose up
 5. 现在可以直接访问https://your-proxy-domain.name/user-your-password/, 就可以了。注意这里的域名和密码替换为你自己的域名和密码。
 ```
+<br />
+### 感谢
+www.netptop.com默认主页由telgram网友SenZyo设计, 感谢贡献！
+
 ### 联系方式
 Telegram群: @siteproxy
 <br />
