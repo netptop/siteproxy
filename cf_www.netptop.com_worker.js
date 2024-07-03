@@ -300,14 +300,14 @@ const someHTML = `
 
         function search(query) {
             if (activeEngine === 'google_ipv4') {
-                window.open(\`https://ipv4.google.com/search?q=${encodeURIComponent(query)}\`, '_blank');
+                window.open('https://ipv4.google.com/search?q=' + encodeURIComponent(query), '_blank');
             } else if (activeEngine === 'google_ipv6') {
-                window.open(\`https://ipv6.google.com/search?q=${encodeURIComponent(query)}\`, '_blank');
+                window.open('https://ipv6.google.com/search?q=' + encodeURIComponent(query), '_blank');
             } else if (activeEngine === 'duckduckgo') {
-                window.open(\`https://duckduckgo.com/?kae=c&kp=-2&kz=-1&kav=1&kn=1&k1=-1&kk=-1&kaj=m&kay=b&kak=-1&kax=-1&kap=-1&kaq=-1&kao=-1&kau=-1&ko=1&kpsb=-1&kbg=-1&kbd=-1&kbc=1&kw=w&kt=n&ka=n&k18=1&q=${encodeURIComponent(query)}\`, '_blank');
+                window.open('https://duckduckgo.com/?kae=c&kp=-2&kz=-1&kav=1&kn=1&k1=-1&kk=-1&kaj=m&kay=b&kak=-1&kax=-1&kap=-1&kaq=-1&kao=-1&kau=-1&ko=1&kpsb=-1&kbg=-1&kbd=-1&kbc=1&kw=w&kt=n&ka=n&k18=1&q=' + encodeURIComponent(query), '_blank');
             } else if (activeEngine === 'bing') {
-                window.open(\`https://www.bing.com/search?q=${encodeURIComponent(query)}\`, '_blank');
-            }
+                window.open('https://www.bing.com/search?q=' + encodeURIComponent(query), '_blank');
+                }
         }
     </script>
 </body>
