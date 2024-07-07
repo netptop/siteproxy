@@ -65,32 +65,12 @@ const someHTML = `
             background-color: #333333;
         }
 
-        .engine-tabs {
-            width: 100%;
-        }
-
-        .engine-tab {
-            display: inline-block;
-            padding: 5px 10px;
-            margin: 0 10px 15px 0;
-            text-decoration: none;
-            border: 2px solid #a89e84;
-            background-color: #eee8d5;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-
-        .dark-mode .engine-tab {
+        .dark-mode {
             border-color: #777777;
             background-color: #333333;
         }
 
-        .engine-tab.active {
-            color: #7c786f;
-            background-color: #d9d2c2;
-        }
-
-        .dark-mode .engine-tab.active {
+        .dark-mode {
             color: #ffffff;
             background-color: #555555;
         }
@@ -188,24 +168,26 @@ const someHTML = `
                 </svg>
             </a>
         </div>
-        <div class="engine-tabs">
-            <span class="engine-tab active" data-engine="visit">访问网址</span>
-            <span class="engine-tab" data-engine="google_ipv4">Google IPv4</span>
-            <span class="engine-tab" data-engine="google_ipv6">Google IPv6</span>
-            <span class="engine-tab" data-engine="duckduckgo">DuckDuckGo</span>
-            <span class="engine-tab" data-engine="bing">Bing</span>
+        <div class="websites">
+            <input type="text" class="search-box" placeholder="输入要访问的网址。。。" />
         </div>
-        <input type="text" class="search-box" placeholder="输入要访问的网址..." />
+        <h3>搜索引擎</h3>
+        <hr>
+        <div class="websites">
+            <div><a class="website" href="https://www.google.com" target="_blank">Google IPv4</a></div>
+            <div><a class="website" href="https://ipv6.google.com" target="_blank">Google IPv6</a></div>
+            <div><a class="website" href="https://duckduckgo.com" target="_blank">DuckDuckGo</a></div>
+            <div><a class="website" href="https://www.bing.com" target="_blank">Bing</a></div>
+        </div>
         <h3>常用网站</h3>
         <hr>
         <div class="websites">
             <div><a class="website" href="https://duckduckgo.com/aichat" target="_blank">DuckDuckGo AI Chat</a></div>
             <div><a class="website" href="https://zh.wikipedia.org/" target="_blank">Wikipedia</a></div>
-            <div><a class="website" href="https://www.youtube.com/?gl=US" target="_blank">YouTube</a>
-            </div>
+            <div><a class="website" href="https://www.youtube.com/?gl=US" target="_blank">YouTube</a></div>
             <div><a class="website" href="https://x.com/" target="_blank">X / Twitter</a></div>
             <div><a class="website" href="https://www.apkmirror.com/" target="_blank">APKMirror</a></div>
-            <div><a class="website" href="https://web.telegram.org/" target="_blank">Telegram 网页版</a></div>
+            <div><a class="website" href="https://web.telegram.org/" target="_blank">Web Telegram</a></div>
         </div>
         <h3>新闻网站</h3>
         <hr>
@@ -233,18 +215,13 @@ const someHTML = `
             <p id="copyright"></p>
         </div>
     </div>
-
     <script>
         const currentYear = new Date().getFullYear();
         document.getElementById("copyright").innerHTML = "Copyright 2020-" + currentYear + " <a href='https://github.com/netptop/siteproxy' target='_blank'>siteproxy</a> All Rights Reserved";
     </script>
-
     <script>
         const searchBox = document.querySelector('.search-box');
-        const engineTabs = document.querySelectorAll('.engine-tab');
         const themeToggle = document.querySelector('.theme-toggle');
-        let activeEngine = 'visit';
-
         window.addEventListener('load', () => {
             const theme = localStorage.getItem('theme');
             if (theme === 'dark-mode') {
@@ -268,87 +245,36 @@ const someHTML = `
 
         searchBox.addEventListener('keyup', (event) => {
             if (event.key === 'Enter') {
-                const inputText = searchBox.value;
-                if (activeEngine === 'visit') {
-                    visitWebsite(inputText);
-                } else {
-                    search(inputText);
-                }
+                navigate();
             }
         });
 
-        engineTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                engineTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                activeEngine = tab.dataset.engine;
-                if (activeEngine === 'visit') {
-                    searchBox.placeholder = "输入要访问的网址...";
-                } else {
-                    searchBox.placeholder = "输入搜索内容...";
-                }
-            });
-        });
-
-        function visitWebsite(url) {
-            if (url.startsWith('http://') || url.startsWith('https://')) {
-                window.open(url, '_blank');
-            } else {
-                alert('请输入以 http:// 或 https:// 开头的 URL');
+        function navigate() {
+            let inputText = searchBox.value.trim();
+            if (!inputText.startsWith('http://') && !inputText.startsWith('https://')) {
+                inputText = 'https://' + inputText;
             }
-        }
-
-        function search(query) {
-            if (activeEngine === 'google_ipv4') {
-                window.open('https://ipv4.google.com/search?q=' + encodeURIComponent(query), '_blank');
-            } else if (activeEngine === 'google_ipv6') {
-                window.open('https://ipv6.google.com/search?q=' + encodeURIComponent(query), '_blank');
-            } else if (activeEngine === 'duckduckgo') {
-                window.open('https://duckduckgo.com/?kae=c&kp=-2&kz=-1&kav=1&kn=1&k1=-1&kk=-1&kaj=m&kay=b&kak=-1&kax=-1&kap=-1&kaq=-1&kao=-1&kau=-1&ko=1&kpsb=-1&kbg=-1&kbd=-1&kbc=1&kw=w&kt=n&ka=n&k18=1&q=' + encodeURIComponent(query), '_blank');
-            } else if (activeEngine === 'bing') {
-                window.open('https://www.bing.com/search?q=' + encodeURIComponent(query), '_blank');
-                }
+            window.open(inputText, '_blank');
         }
     </script>
 </body>
-
 </html>
-
 `
-    /**
-     * rawHtmlResponse delievers a response with HTML inputted directly
-     * into the worker script
-     * @param {string} html
-     */
+/**
+ * rawHtmlResponse delievers a response with HTML inputted directly
+ * into the worker script
+ * @param {string} html
+ */
 async function rawHtmlResponse(html) {
     const init = {
         headers: {
             'content-type': 'text/html;charset=UTF-8',
         },
-    }
-
-    return new Response(html, init)
-}
-
-/**
- * rawJsonResponse delievers a response with a Json Object inputted directly
- * into the worker script
- * @param {Object} json
- */
-async function rawJsonResponse(json) {
-    const init = {
-        headers: {
-            'content-type': 'application/json;charset=UTF-8',
-        },
-    }
-
-    return new Response(JSON.stringify(json), init)
+    };
+    return new Response(html, init);
 }
 
 addEventListener('fetch', event => {
-    const { url } = event.request
-
-    /*if (url.endsWith('/index_netptop.html')) {
-    */
-    return event.respondWith(rawHtmlResponse(someHTML))
+    const { url } = event.request;
+    return event.respondWith(rawHtmlResponse(someHTML));
 })
