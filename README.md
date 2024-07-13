@@ -39,8 +39,6 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 来自 Telegram 的网友的展示 Siteproxy 部署后，加上优选IP的速度测试： 
 ![Download Speed test](https://raw.githubusercontent.com/netptop/siteproxy/master/test.png)
 
-## 特点
- 
 
 ## 部署到 Cloudflare Pages
 1. **确保域名管理**：
