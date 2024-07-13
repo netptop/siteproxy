@@ -1,4 +1,5 @@
 # SiteProxy 2.0
+ - [简体中文](README.md)
 
 SiteProxy is a **powerful online proxy tool** that leverages the latest technologies to enhance stability and compatibility. We are committed to providing **simple, efficient, and secure** proxy services to deliver the best internet access experience.
 
