@@ -3,7 +3,7 @@
 
 SiteProxy 是一个**功能强大的在线代理工具**，采用了最新的技术，提升了代理的稳定性和兼容性。我们致力于提供 **简单、高效、安全** 的代理服务，为用户提供最佳的互联网访问体验。
 
-Express 服务器，性能提升 4 倍，带来更流畅的使用体验。
+- **超高速性能**：采用 Hono 替代传统的Express 服务器，性能提升 4 倍，带来更流畅的使用体验。
 - **云端部署**：完美支持 Cloudflare Worker 部署，快速且高效。
 - **AI 智能聊天**：集成 DuckDuckGo AI Chat，免费提供 GPT-3.5 和 Claude 3，让你的代理服务更加智能。
 - **高级安全保护**：支持密码控制代理，只有授权用户才能访问，大幅提升安全性。
@@ -40,7 +40,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 ![Download Speed test](https://raw.githubusercontent.com/netptop/siteproxy/master/test.png)
 
 ## 特点
-- **超高速性能**：采用 Hono 替代传统的 
+ 
 
 ## 部署到 Cloudflare Pages
 1. **确保域名管理**：
