@@ -47,7 +47,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    - 执行命令：`git clone https://github.com/netptop/siteproxy.git`
 3. **编辑配置文件**：
    - 使用文本编辑器打开 `siteproxy/build/cf_page/_worker.js` 文件。
-   - 搜索并替换字符串 `http://localhost:5006` 为你的代理服务器域名，例如 `https://your-proxy-domain.com`（请使用 `https`）。
+   - 搜索并替换字符串 `http://localhost:5006` 为你的代理服务器域名, 必须替换为HTTPS，例如 `https://your-proxy-domain.com`（请使用 `https`）。
    - 搜索并替换字符串 `user22334455` 为你想设置的访问密码。如果密码为空，则表示不需要密码即可访问。保存文件。
 4. **登录 Cloudflare**：
    - 进入 **Workers 和 Pages** 部分，选择 **使用直接上传创建** 一个 Page，上传 `siteproxy/build/cf_page` 目录进行部署。
@@ -62,7 +62,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    - 确保你的域名已经在 Cloudflare 名下进行管理。
 2. **下载并编辑 Worker 文件**：
    - 下载 `build/worker.js` 文件：[链接](https://raw.githubusercontent.com/netptop/siteproxy/master/build/worker.js)，并使用文本编辑器打开。
-   - 搜索并替换字符串 `http://localhost:5006` 为你的代理服务器域名，例如 `https://your-worker-domain.com`（请使用 `https`）。
+   - 搜索并替换字符串 `http://localhost:5006` 为你的代理服务器域名，必须替换为HTTPS，例如 `https://your-worker-domain.com`（请使用 `https`）。
    - 搜索并替换字符串 `user22334455` 为你想设置的访问密码。如果密码为空，则表示不需要密码即可访问。
 3. **创建 Worker**：
    - 登录 Cloudflare，进入 **Workers 和 Pages** 部分，创建一个 Worker。
@@ -80,7 +80,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    - 配置 `nginx`，确保 `/etc/nginx/conf.d/default.conf` 文件包含以下内容：
      ```nginx
      server {
-        server_name your-proxy.domain.name;
+        server_name your-proxy.domain.name; #请替换为你的实际域名
         location / {
           proxy_pass http://localhost:5006;
         }
@@ -106,7 +106,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    - 打开并修改 `config.json` 文件，内容如下：
      ```json
      {
-        "proxy_url": "https://your-proxy.domain.name", // 替换为你的代理服务器域名，确保使用 https
+        "proxy_url": "https://your-proxy.domain.name", // 替换为HTTPS加你的代理服务器域名，确保使用 https
         "token_prefix": "/user-SetYourPasswordHere/",  // 设置网站密码，用于防止非法访问，保留首尾的斜杠。为空表示不设置密码
         "local_listen_port": 5006, // 不要修改，以确保与 nginx 配置一致
         "description": "注意：token_prefix 相当于网站密码，请谨慎设置。 proxy_url 和 token_prefix 合起来就是访问网址。"
