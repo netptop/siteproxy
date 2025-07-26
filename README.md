@@ -55,9 +55,11 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    - 点击顶部的 **自定义域**，然后选择 **添加自定义域**，设置为你的代理域名并激活域名。
 5. **编辑配置文件**：
    - 使用文本编辑器打开 `siteproxy/wrangler.jsonc` 文件,修改如下字段并保存:
+     ```json
       "name": "xxx", // 替换为你的cloudflare page的名字
       "proxy_url": "https://your-proxy-domain.com", // 替换为你的代理服务器域名, 必须替换为HTTPS
       "token_prefix": "/default/" // 替换为你想设置的访问密码。如果密码为空，表示不需要密码也可以访问。
+     ```
 6. **再次部署page**：
    - 进入clone的siteproxy目录，执行:`npm run wrangler-login`
    - 执行:`npm run deploy-cf-page`
@@ -79,9 +81,11 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    - 点击顶部的 **设置 -> 自定义域**，设置为你的代理域名。自定义域名设置并激活。
 5. **编辑配置文件**：
    - 使用文本编辑器打开 `siteproxy/wrangler.worker.jsonc` 文件,修改如下字段并保存:
+     ```json
       "name": "xxx", // 替换为你的cloudflare worker的名字
       "proxy_url": "https://your-proxy-domain.com", // 替换为你的代理服务器域名, 必须替换为HTTPS
       "token_prefix": "/xxx/" // 替换为你想设置的访问密码。如果密码为空，表示不需要密码也可以访问。
+     ```
 6. **再次部署worker**：
    - 进入clone的siteproxy目录，执行:`npm run wrangler-login`
    - 执行:`npm run deploy-cf-worker`
