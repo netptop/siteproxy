@@ -1,6 +1,6 @@
 services:
   siteproxy:
-    image: node:21
+    image: node:22
     container_name: siteproxy-node
     restart: unless-stopped
     ports:
@@ -8,4 +8,4 @@ services:
     volumes:
       - ../:/home/node/siteproxy/
     working_dir: /home/node/siteproxy/
-    entrypoint: ["node","/home/node/siteproxy/bundle.js"]
+    entrypoint: ["node","/home/node/siteproxy/bundle.cjs"]
