@@ -57,7 +57,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    - 使用文本编辑器打开 `siteproxy/wrangler.jsonc` 文件,修改如下字段并保存:
      ```json
       "name": "xxx", // 替换为你的cloudflare page的名字
-      "proxy_url": "https://your-proxy-domain.com", // 替换为你的代理服务器域名, 必须替换为HTTPS
+      "proxy_url": "https://your-proxy-domain.com", // 替换为你的代理服务器域名, 必须为https
       "token_prefix": "/default/" // 替换为你想设置的访问密码。首尾斜杠必须保留，如果密码为空，表示不需要密码也可以访问。
      ```
 6. **再次部署page**：
@@ -83,7 +83,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    - 使用文本编辑器打开 `siteproxy/wrangler.worker.jsonc` 文件,修改如下字段并保存:
      ```json
       "name": "xxx", // 替换为你的cloudflare worker的名字
-      "proxy_url": "https://your-proxy-domain.com", // 替换为你的代理服务器域名, 必须替换为HTTPS
+      "proxy_url": "https://your-proxy-domain.com", // 替换为你的代理服务器域名, 必须为https
       "token_prefix": "/xxx/" // 替换为你想设置的访问密码。首尾斜杠必须保留，如果密码为空，表示不需要密码也可以访问。
      ```
 6. **再次部署worker**：
