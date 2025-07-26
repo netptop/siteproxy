@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "test4", // 替换为你的worker名字
+  "main": "build/worker.js",
+  "compatibility_date": "2025-07-23",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "proxy_url": "https://test4.netptop.workers.dev", // 替换为你的代理服务器域名
+    "token_prefix": "/xxx/"         // 替换为你想设置的密码，注意首尾的斜杠必须保留， 为空时表示不需要密码也能访问
+  }
+}

@@ -43,50 +43,35 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 ## 部署到 Cloudflare Pages
 1. **确保域名管理**：
    - 确保你的域名已经在 Cloudflare 名下进行管理。
-2. **克隆仓库,安装依赖**：
-   - 确保nodejs v22或以上版本已经安装, 确保git已经安装。
+2. **克隆仓库**：
    - 执行命令：`git clone https://github.com/netptop/siteproxy.git`
-   - 执行命令：`cd siteproxy`
-   - 执行命令：`npm install`
-3. **登录 Cloudflare创建page，如果已经创建，这一步可以跳过**：
-   - 进入 **Workers 和 Pages** 部分，选择 **使用直接上传创建** 一个 Page，上传刚刚clone的`siteproxy/build/cf_page` 目录进行部署。
-4. **配置自定义域, 如果已经配置，这一步可以跳过**：
+3. **编辑配置文件**：
+   - 使用文本编辑器打开 `siteproxy/build/cf_page/_worker.js` 文件。
+   - 搜索并替换字符串 `http://localhost:5006` 为你的代理服务器域名, 必须替换为HTTPS，例如 `https://your-proxy-domain.com`（请使用 `https`）。
+   - 搜索并替换字符串 `user22334455` 为你想设置的访问密码。如果密码为空，则表示不需要密码即可访问。保存文件。
+4. **登录 Cloudflare**：
+   - 进入 **Workers 和 Pages** 部分，选择 **使用直接上传创建** 一个 Page，上传 `siteproxy/build/cf_page` 目录进行部署。
+5. **配置自定义域**：
    - 在 **Workers & Pages** 页面，打开刚才部署的 Page。
    - 点击顶部的 **自定义域**，然后选择 **添加自定义域**，设置为你的代理域名并激活域名。
-5. **编辑配置文件**：
-   - 使用文本编辑器打开 `siteproxy/wrangler.jsonc` 文件,修改如下字段并保存:
-      "name": "xxx", // 替换为你的cloudflare page的名字
-      "proxy_url": "https://your-proxy-domain.com", // 替换为你的代理服务器域名, 必须替换为HTTPS
-      "token_prefix": "/default/" // 替换为你想设置的访问密码。如果密码为空，表示不需要密码也可以访问。
-6. **再次部署page**：
-   - 进入clone的siteproxy目录，执行:`npm run wrangler-login`
-   - 执行:`npm run deploy-cf-page`
-7. **访问代理服务**：
+6. **访问代理服务**：
    - 现在可以通过 `https://your-proxy-domain.com/your-password/` 访问代理服务（确保最后的斜杠存在）。注意将域名和密码替换为你自己的。
 
 ## 部署到 Cloudflare Workers
 1. **确保域名管理**：
    - 确保你的域名已经在 Cloudflare 名下进行管理。
-2. **克隆仓库,安装依赖**：
-   - 确保nodejs v22或以上版本已经安装, 确保git已经安装。
-   - 执行命令：`git clone https://github.com/netptop/siteproxy.git`
-   - 执行命令：`cd siteproxy`
-   - 执行命令：`npm install`
-3. **创建 Worker, 如果已经创建，这一步可以跳过**：
-   - 登录 Cloudflare，进入 **Workers 和 Pages** 部分，创建一个 'hello world' Worker, 请自己命名。
-4. **配置自定义域, 如果已经创建，这一步可以跳过**：
+2. **下载并编辑 Worker 文件**：
+   - 下载 `build/worker.js` 文件：[链接](https://raw.githubusercontent.com/netptop/siteproxy/master/build/worker.js)，并使用文本编辑器打开。
+   - 搜索并替换字符串 `http://localhost:5006` 为你的代理服务器域名，必须替换为HTTPS，例如 `https://your-worker-domain.com`（请使用 `https`）。
+   - 搜索并替换字符串 `user22334455` 为你想设置的访问密码。如果密码为空，则表示不需要密码即可访问。
+3. **创建 Worker**：
+   - 登录 Cloudflare，进入 **Workers 和 Pages** 部分，创建一个 Worker。
+   - 编辑刚才创建的 Worker，将编辑过的 `worker.js` 文件内容复制粘贴到 Worker 内部，保存并部署。
+4. **配置自定义域**：
    - 在 **Workers & Pages** 页面，打开刚才保存的 Worker。
-   - 点击顶部的 **设置 -> 自定义域**，设置为你的代理域名。自定义域名设置并激活。
-5. **编辑配置文件**：
-   - 使用文本编辑器打开 `siteproxy/wrangler.worker.jsonc` 文件,修改如下字段并保存:
-      "name": "xxx", // 替换为你的cloudflare worker的名字
-      "proxy_url": "https://your-proxy-domain.com", // 替换为你的代理服务器域名, 必须替换为HTTPS
-      "token_prefix": "/xxx/" // 替换为你想设置的访问密码。如果密码为空，表示不需要密码也可以访问。
-6. **再次部署worker**：
-   - 进入clone的siteproxy目录，执行:`npm run wrangler-login`
-   - 执行:`npm run deploy-cf-worker`
-7. **访问代理服务**：
-   - 现在可以通过 `https://your-proxy-domain.com/your-password/` 访问代理服务（确保最后的斜杠存在）。注意将域名和密码替换为你自己的。
+   - 点击顶部的 **设置 -> 触发器**，然后选择 **添加自定义域**，设置为你的代理域名。自定义域名设置成功后，DNS 页面应显示对应的 DNS 类型为 Worker。
+5. **访问代理服务**：
+   - 现在可以通过 `https://your-worker-domain.com/your-password/` 访问代理服务（确保最后的斜杠存在，并替换为你自己的域名和密码）。
 
 ## 部署到 VPS 或者云服务器
 
@@ -103,26 +88,26 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
      ```
 2. **重启 nginx**：
    - 执行命令：`sudo systemctl restart nginx`
-3. **安装 Node.js v22 或更高版本**：
+3. **安装 Node.js v21 或更高版本**：
    - 执行以下命令：
      ```bash
-     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
      source ~/.bashrc
-     nvm install v22
+     nvm install v21
      ```
 4. **克隆仓库**：
    - 执行命令：`git clone https://github.com/netptop/siteproxy.git`
 5. **进入项目目录**：
    - 执行命令：`cd siteproxy`
 6. **测试运行**：
-   - 执行命令：`node bundle.cjs`
+   - 执行命令：`node bundle.js`
    - 如果没有错误，按 `Ctrl+C` 结束程序。
 7. **配置文件修改**：
    - 打开并修改 `config.json` 文件，内容如下：
      ```json
      {
         "proxy_url": "https://your-proxy.domain.name", // 替换为HTTPS加你的代理服务器域名，确保使用 https
-        "token_prefix": "/user-SetYourPasswordHere/",  // 设置网站密码，用于防止非法访问，首尾的斜杠必须保留。为空表示不设置密码
+        "token_prefix": "/user-SetYourPasswordHere/",  // 设置网站密码，用于防止非法访问，保留首尾的斜杠。为空表示不设置密码
         "local_listen_port": 5006, // 不要修改，以确保与 nginx 配置一致
         "description": "注意：token_prefix 相当于网站密码，请谨慎设置。 proxy_url 和 token_prefix 合起来就是访问网址。"
      }
@@ -130,9 +115,9 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 8. **安装 Forever**：
    - 执行命令：`npm install -g forever`
 9. **启动应用**：
-   - 执行命令：`forever stopall && forever start bundle.cjs`
+   - 执行命令：`forever stopall && forever start bundle.js`
 10. **访问代理服务**：
-   - 现在可以通过 `https://your-proxy-domain.com/user-your-password/` 访问代理服务。请将域名和密码替换为你自己的域名和密码。
+    - 在浏览器中访问你的域名，网址为 `proxy_url` 加 `token_prefix`。
 11. **使用 Cloudflare 加速（可选）**：
     - 参考 Cloudflare 的官方说明进行设置。
 
