@@ -61,7 +61,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
       "token_prefix": "/default/" // 替换为你想设置的访问密码。首尾斜杠必须保留，如果密码为空，表示不需要密码也可以访问。
      ```
 6. **再次部署page**：
-   - 进入clone的siteproxy目录，执行:`npm run wrangler-login`
+   - 进入clone的siteproxy目录，执行:`npm run wrangler-login`, 如果是非GUI的VPS环境，请参考[非GUI环境wrangler login](api_token_setup.md)
    - 执行:`npm run deploy-cf-page`
 7. **访问代理服务**：
    - 现在可以通过 `https://your-proxy-domain.com/your-password/` 访问代理服务（确保最后的斜杠存在）。注意将域名和密码替换为你自己的。
@@ -87,7 +87,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
       "token_prefix": "/xxx/" // 替换为你想设置的访问密码。首尾斜杠必须保留，如果密码为空，表示不需要密码也可以访问。
      ```
 6. **再次部署worker**：
-   - 进入clone的siteproxy目录，执行:`npm run wrangler-login`
+   - 进入clone的siteproxy目录，执行:`npm run wrangler-login`, 如果是非GUI的VPS环境，请参考[非GUI环境wrangler login](api_token_setup.md)
    - 执行:`npm run deploy-cf-worker`
 7. **访问代理服务**：
    - 现在可以通过 `https://your-proxy-domain.com/your-password/` 访问代理服务（确保最后的斜杠存在）。注意将域名和密码替换为你自己的。
