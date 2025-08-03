@@ -1,18 +1,20 @@
 # SiteProxy 2.0
- - [简体中文](README.md)
+- [Chinese ver](README.md)
 
-SiteProxy is a **powerful online proxy tool** that uses the latest technology to improve proxy stability and compatibility. We are committed to providing **simple, efficient, and secure** proxy services to offer users the best internet access experience.
-- **Ultra-high performance**: Replaces traditional Express servers with Hono, improving performance by 4 times for a smoother user experience.
-- **Cloud deployment**: Fully supports deployment on Cloudflare Workers, which is fast and efficient.
-- **AI intelligent chat**: Integrates DuckDuckGo AI Chat, providing free access to GPT-3.5 and Claude 3, making your proxy service smarter.
-- **Advanced security protection**: Supports password control for the proxy, allowing only authorized users to access it, greatly enhancing security.
-- **Zero-configuration usage**: Users do not need any client configuration; simply access the proxy URL to browse the global internet.
-- **Convenient login**: Fully supports GitHub and Telegram Web login, with simple and quick operations.
-- **Strong encryption**: Uses `RSA + AES` dual encryption technology to protect user login passwords and prevent man-in-the-middle attacks.
-- **Privacy protection**: Accesses the global internet through the proxy URL while hiding the user's real IP to protect privacy.
-- **Seamless experience**: No software installation or browser configuration is required; you can use it immediately for ultimate convenience.
+SiteProxy is a **powerful online proxy tool** that leverages the latest technology to enhance proxy stability and compatibility. We are committed to providing a **simple, efficient, and secure** proxy service, delivering the best internet access experience for users.
+
+- **Ultra-High Performance**: Utilizes Hono instead of traditional Express servers, achieving a 4x performance boost for a smoother user experience.
+- **Cloud Deployment**: Seamlessly supports Cloudflare Worker deployment, fast and efficient.
+- **AI-Powered Chat**: Integrates DuckDuckGo AI Chat, offering free access to GPT-3.5 and Claude 3, making your proxy service smarter.
+- **Advanced Security Protection**: Supports password-controlled proxy access, ensuring only authorized users can connect, significantly enhancing security.
+- **Zero Configuration**: No client-side setup required; simply visit the proxy URL to access the global internet.
+- **Convenient Login**: Fully supports GitHub and Telegram Web login, making operations simple and fast.
+- **Robust Encryption**: Employs `RSA + AES` dual encryption to protect user login credentials and prevent man-in-the-middle attacks.
+- **Privacy Protection**: Access the global internet through the proxy URL while hiding your real IP address to safeguard privacy.
+- **Seamless Experience**: No software installation or browser configuration required, providing an exceptionally convenient user experience.
+
 <details>
-  <summary>View Principle</summary>
+  <summary>View Architecture</summary>
 
 ```
                                                  +----> google/youtube
@@ -23,64 +25,76 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
                              +----------------+  |
                                                  +----> chinese forums
 ```
+
 </details>
+
 > [!CAUTION]
-> Strictly prohibited to use this project for any illegal purposes, otherwise bear the consequences yourself.
+> Strictly prohibited to use this project for any illegal purposes; violators bear the consequences.
+
 > [!WARNING]
-> Due to support for login to multiple websites, to reduce phishing risks, SiteProxy has obfuscated the code in version 2.0 and prohibited modification of the default homepage URL.
-## Showcase
-From a Telegram user, showcasing SiteProxy after deployment with optimized IP, speed test results: 
-![Download Speed test](https://raw.githubusercontent.com/netptop/siteproxy/master/test.png)
+> To reduce phishing risks, SiteProxy 2.0 obfuscates its code and prohibits modification of the default homepage URL.
+
+## Notes
+
+- Recommended to deploy using VPS or Docker. Cloudflare deployment may result in some websites being inaccessible due to IP restrictions imposed by certain sites.
+- Recommended to use DuckDuckGo for searches, as Google Search and YouTube have implemented anti-ad and anti-bot mechanisms that may limit access.
+
 ## Deploy to Cloudflare Pages
-1. **Ensure domain management**:
-   - Ensure that your domain is managed under Cloudflare.
-2. **Clone repository and install dependencies**:
-   - Ensure Node.js version 22 or higher is installed, and ensure Git is installed.
-   - Run the command: `git clone https://github.com/netptop/siteproxy.git`
-   - Run the command: `cd siteproxy`
-   - Run the command: `npm install`
-3. **Log in to Cloudflare and create a page, if already created, skip this step**:
-   - Go to the **Workers and Pages** section, select **Create a Page using direct upload**, and upload the `siteproxy/build/cf_page` directory that you just cloned for deployment.
-4. **Configure custom domain, if already configured, skip this step**:
-   - In the **Workers & Pages** page, open the Page you just deployed.
-   - Click on **Custom Domains** at the top, then select **Add a custom domain**, set it to your proxy domain, and activate the domain.
-5. **Edit configuration file**:
-   - Open the `siteproxy/wrangler.jsonc` file with a text editor, modify the following fields and save:
-      "name": "xxx", // Replace with the name of your Cloudflare Page
-      "proxy_url": "https://your-proxy-domain.com", // Replace with your proxy server domain, must be HTTPS
-      "token_prefix": "/default/" // Replace with the access password you want to set. If the password is empty, no password is required for access.
-6. **Re-deploy the page**:
-   - In the cloned siteproxy directory, run: `npm run wrangler-login`
+1. **Ensure Domain Management**:
+   - Confirm your domain is managed under Cloudflare.
+2. **Clone Repository and Install Dependencies**:
+   - Ensure Node.js v22 or higher and Git are installed.
+   - Run: `git clone https://github.com/netptop/siteproxy.git`
+   - Run: `cd siteproxy`
+   - Run: `npm install`
+3. **Create Cloudflare Page (Skip if already created)**:
+   - Go to **Workers and Pages**, select **Create using direct upload**, and upload the `siteproxy/build/cf_page` directory for deployment.
+4. **Configure Custom Domain (Skip if already configured)**:
+   - In **Workers & Pages**, open the deployed Page.
+   - Click **Custom Domains** at the top, select **Add Custom Domain**, set your proxy domain, and activate it.
+5. **Edit Configuration File**:
+   - Open `siteproxy/wrangler.jsonc` with a text editor, modify the following fields, and save:
+     ```json
+     "name": "xxx", // Replace with your Cloudflare Page name
+     "proxy_url": "https://your-proxy-domain.com", // Replace with your proxy server domain, must be HTTPS
+     "token_prefix": "/default/" // Replace with your desired access password. Keep leading/trailing slashes. Empty password means no password is required.
+     ```
+6. **Redeploy Page**:
+   - In the cloned `siteproxy` directory, run: `npm run wrangler-login`. For non-GUI VPS environments, refer to [non-GUI wrangler login](api_token_setup.md).
    - Run: `npm run deploy-cf-page`
-7. **Access the proxy service**:
-   - Now you can access the proxy service via `https://your-proxy-domain.com/your-password/` (ensure the trailing slash exists). Remember to replace the domain and password with your own.
+7. **Access Proxy Service**:
+   - Visit `https://your-proxy-domain.com/your-password/` to access the proxy service (ensure the trailing slash is included). Replace the domain and password with your own.
+
 ## Deploy to Cloudflare Workers
-1. **Ensure domain management**:
-   - Ensure that your domain is managed under Cloudflare.
-2. **Clone repository and install dependencies**:
-   - Ensure Node.js version 22 or higher is installed, and ensure Git is installed.
-   - Run the command: `git clone https://github.com/netptop/siteproxy.git`
-   - Run the command: `cd siteproxy`
-   - Run the command: `npm install`
-3. **Create a Worker, if already created, skip this step**:
-   - Log in to Cloudflare, go to the **Workers and Pages** section, and create a 'hello world' Worker with your own name.
-4. **Configure custom domain, if already configured, skip this step**:
-   - In the **Workers and Pages** page, open the Worker you just saved.
-   - Click on **Settings -> Custom Domains** at the top, set it to your proxy domain, and activate the custom domain.
-5. **Edit configuration file**:
-   - Open the `siteproxy/wrangler.worker.jsonc` file with a text editor, modify the following fields and save:
-      "name": "xxx", // Replace with the name of your Cloudflare Worker
-      "proxy_url": "https://your-proxy-domain.com", // Replace with your proxy server domain, must be HTTPS
-      "token_prefix": "/xxx/" // Replace with the access password you want to set. If the password is empty, no password is required for access.
-6. **Re-deploy the Worker**:
-   - In the cloned siteproxy directory, run: `npm run wrangler-login`
+1. **Ensure Domain Management**:
+   - Confirm your domain is managed under Cloudflare.
+2. **Clone Repository and Install Dependencies**:
+   - Ensure Node.js v22 or higher and Git are installed.
+   - Run: `git clone https://github.com/netptop/siteproxy.git`
+   - Run: `cd siteproxy`
+   - Run: `npm install`
+3. **Create Worker (Skip if already created)**:
+   - Log in to Cloudflare, go to **Workers and Pages**, and create a 'hello world' Worker with your chosen name.
+4. **Configure Custom Domain (Skip if already configured)**:
+   - In **Workers & Pages**, open the saved Worker.
+   - Click **Settings -> Custom Domains**, set your proxy domain, and activate it.
+5. **Edit Configuration File**:
+   - Open `siteproxy/wrangler.worker.jsonc` with a text editor, modify the following fields, and save:
+     ```json
+     "name": "xxx", // Replace with your Cloudflare Worker name
+     "proxy_url": "https://your-proxy-domain.com", // Replace with your proxy server domain, must be HTTPS
+     "token_prefix": "/xxx/" // Replace with your desired access password. Keep leading/trailing slashes. Empty password means no password is required.
+     ```
+6. **Redeploy Worker**:
+   - In the cloned `siteproxy` directory, run: `npm run wrangler-login`. For non-GUI VPS environments, refer to [non-GUI wrangler login](api_token_setup.md).
    - Run: `npm run deploy-cf-worker`
-7. **Access the proxy service**:
-   - Now you can access the proxy service via `https://your-proxy-domain.com/your-password/` (ensure the trailing slash exists). Remember to replace the domain and password with your own.
+7. **Access Proxy Service**:
+   - Visit `https://your-proxy-domain.com/your-password/` to access the proxy service (ensure the trailing slash is included). Replace the domain and password with your own.
+
 ## Deploy to VPS or Cloud Server
-1. **Create an SSL website**:
-   - Use `certbot` and `nginx` to create an SSL website. You can search Google for specific usage.
-   - Configure `nginx` to ensure the `/etc/nginx/conf.d/default.conf` file contains the following:
+1. **Set Up SSL Website**:
+   - Use `certbot` and `nginx` to create an SSL website. Search Google for specific instructions.
+   - Configure `nginx` to include the following in `/etc/nginx/conf.d/default.conf`:
      ```nginx
      server {
         server_name your-proxy.domain.name; # Replace with your actual domain
@@ -89,64 +103,66 @@ From a Telegram user, showcasing SiteProxy after deployment with optimized IP, s
         }
      }
      ```
-2. **Restart nginx**:
-   - Run the command: `sudo systemctl restart nginx`
-3. **Install Node.js version 22 or higher**:
-   - Run the following commands:
+2. **Restart Nginx**:
+   - Run: `sudo systemctl restart nginx`
+3. **Install Node.js v22 or Higher**:
+   - Run:
      ```bash
      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
      source ~/.bashrc
      nvm install v22
      ```
-4. **Clone the repository**:
-   - Run the command: `git clone https://github.com/netptop/siteproxy.git`
-5. **Enter the project directory**:
-   - Run the command: `cd siteproxy`
-6. **Test run**:
-   - Run the command: `node bundle.cjs`
-   - If there are no errors, press `Ctrl+C` to end the program.
-7. **Modify configuration file**:
-   - Open and edit the `config.json` file with the following content:
+4. **Clone Repository**:
+   - Run: `git clone https://github.com/netptop/siteproxy.git`
+5. **Enter Project Directory**:
+   - Run: `cd siteproxy`
+6. **Test Run**:
+   - Run: `node bundle.cjs`
+   - If no errors, press `Ctrl+C` to stop the program.
+7. **Modify Configuration File**:
+   - Open and edit `config.json` with the following content:
      ```json
      {
-        "proxy_url": "https://your-proxy.domain.name", // Replace with HTTPS plus your proxy server domain, ensure it uses https
-        "token_prefix": "/user-SetYourPasswordHere/",  // Set the website password to prevent unauthorized access, keep the leading and trailing slashes. Empty means no password is set
-        "local_listen_port": 5006, // Do not modify to ensure consistency with nginx configuration
-        "description": "Note: token_prefix acts as the website password, set it carefully. proxy_url and token_prefix together form the access URL."
+        "proxy_url": "https://your-proxy.domain.name", // Replace with HTTPS and your proxy server domain
+        "token_prefix": "/user-SetYourPasswordHere/",  // Set website password to prevent unauthorized access; keep leading/trailing slashes. Empty means no password
+        "local_listen_port": 5006, // Do not modify to ensure compatibility with nginx configuration
+        "description": "Note: token_prefix acts as the website password; set it carefully. proxy_url and token_prefix combine to form the access URL."
      }
      ```
 8. **Install Forever**:
-   - Run the command: `npm install -g forever`
-9. **Start the application**:
-   - Run the command: `forever stopall && forever start bundle.cjs`
-10. **Access the proxy service**:
-    - Now you can access the proxy service via `https://your-proxy-domain.com/user-your-password/`. Please replace the domain and password with your own.
-11. **Use Cloudflare for acceleration (optional)**:
-    - Refer to Cloudflare's official documentation for setup.
-Now, your proxy service has been successfully deployed and can be accessed via a browser.
+   - Run: `npm install -g forever`
+9. **Start Application**:
+   - Run: `forever stopall && forever start bundle.cjs`
+10. **Access Proxy Service**:
+    - Visit `https://your-proxy-domain.com/user-your-password/` to access the proxy service. Replace the domain and password with your own.
+11. **Use Cloudflare Acceleration (Optional)**:
+    - Refer to Cloudflare’s official documentation for setup instructions.
+
 ## Docker Deployment
-1. **Configure SSL certificate and Nginx**:
-   - Configure the SSL certificate and Nginx for your domain, pointing to local port 5006.
-2. **Clone the repository**:
-   - Run the command: `git clone https://github.com/netptop/siteproxy.git`
-3. **Edit configuration file**:
-   - Open and modify the `config.json` file with the following content:
+1. **Configure SSL Certificate and Nginx**:
+   - Set up an SSL certificate and Nginx for your domain, pointing to local port 5006.
+2. **Clone Repository**:
+   - Run: `git clone https://github.com/netptop/siteproxy.git`
+3. **Edit Configuration File**:
+   - Open and modify `config.json` with the following content:
      ```json
      {
-        "proxy_url": "https://your-proxy-domain.com", // Replace with the proxy server domain you applied for
-        "token_prefix": "/user-SetYourPasswordHere/",  // Set the website password to prevent unauthorized access, keep the leading and trailing slashes
-        "description": "Note: token_prefix acts as the website password, set it carefully. proxy_url and token_prefix together form the access URL."
+        "proxy_url": "https://your-proxy-domain.com", // Replace with your proxy server domain
+        "token_prefix": "/user-SetYourPasswordHere/",  // Set website password to prevent unauthorized access; keep leading/trailing slashes
+        "description": "Note: token_prefix acts as the website password; set it carefully. proxy_url and token_prefix combine to form the access URL."
      }
      ```
    - Save the file.
-4. **Start the Docker container**:
+4. **Start Docker Container**:
    - Enter the `docker-node` subdirectory.
-   - Run the command: `sudo docker compose up`
-5. **Access the proxy service**:
-   - Now you can access the proxy service via `https://your-proxy-domain.com/user-your-password/`. Please replace the domain and password with your own.
-## Thanks
- - The default homepage of netptop.com was designed by Telegram user SenZyo, thank you for the contribution!
- - The documentation was written by [LAGSNES](https://github.com/SNESNya)
+   - Run: `sudo docker compose up`
+5. **Access Proxy Service**:
+   - Visit `https://your-proxy-domain.com/user-your-password/` to access the proxy service. Replace the domain and password with your own.
+
+## Acknowledgments
+- The default homepage of netptop.com was designed by Telegram user SenZyo. Thank you for your contribution!
+- Documentation written by [LAGSNES](https://github.com/SNESNya).
+
 ## Contact
-Telegram group: https://siteproxy.t.me
+Telegram Group: https://siteproxy.t.me  
 E-mail: [netptop@gmail.com](mailto:netptop@gmail.com)
