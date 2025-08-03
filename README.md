@@ -34,11 +34,10 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 > [!WARNING]
 > 由于支持多个网站的 Login，为了减少钓鱼风险，Siteproxy 在 2.0 版本对代码进行了混淆，同时禁止了默认主页网址的修改。
 
-## 展示
+## 注意事项
 
-来自 Telegram 的网友的展示 Siteproxy 部署后，加上优选IP的速度测试： 
-![Download Speed test](https://raw.githubusercontent.com/netptop/siteproxy/master/test.png)
-
+- 推荐使用vps或者docker部署。 Cloudflare部署可能导致部分网站无法访问，因为CF的IP已经被一些网站限制访问了。
+- 推荐duckduckgo进行搜索，因为Google搜索和youtube网站都增加了防广告和机器人的机制，访问可能受限。
 
 ## 部署到 Cloudflare Pages
 1. **确保域名管理**：
