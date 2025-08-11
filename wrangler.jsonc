@@ -1,7 +1,7 @@
 {
   // for cf pages deployment
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "icy-waterfall-4b03", // 替换为你的cloudflare page的名字
+  "name": "siteproxy", // 替换为你的cloudflare page的名字
   "pages_build_output_dir": "build/cf_page",
   "compatibility_date": "2025-07-23",
   "compatibility_flags": ["nodejs_compat"],
