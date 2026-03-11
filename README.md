@@ -169,5 +169,5 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
  - 文档由 [LAGSNES](https://github.com/SNESNya) 编写
 
 ## 联系方式
-Telegram群: https://siteproxy.t.me
+Telegram群: https://t.me/+U4UmuuL6Gg6avQsQ
 E-mail: [netptop@gmail.com](mailto:netptop@gmail.com)

@@ -165,5 +165,5 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 - Documentation written by [LAGSNES](https://github.com/SNESNya).
 
 ## Contact
-Telegram Group: https://siteproxy.t.me  
+Telegram Group: https://t.me/+U4UmuuL6Gg6avQsQ
 E-mail: [netptop@gmail.com](mailto:netptop@gmail.com)
