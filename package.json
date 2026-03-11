@@ -8,10 +8,10 @@
   "scripts": {
     "wrangler-login": "wrangler login",
     "deploy-cf-worker": "echo 'Deploy to Cloudflare with: wrangler deploy --config wrangler.worker.jsonc' && wrangler deploy --config wrangler.worker.jsonc",
-    "deploy-cf-page": "echo 'Deploy to Cloudflare with: wrangler pages deploy' && wrangler pages deploy"
+    "deploy-cf-page": "echo 'Deploy to Cloudflare with: wrangler pages deploy' && wrangler pages deploy --branch=main"
   },
   "dependencies": { },
   "devDependencies": {
-    "wrangler": "^4.25.1"
+    "wrangler": "^4.72.0"
   }
 }
