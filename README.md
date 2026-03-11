@@ -47,6 +47,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    - 执行命令：`git clone https://github.com/netptop/siteproxy.git`
    - 执行命令：`cd siteproxy`
    - 执行命令：`npm install`
+   - 执行命令：`npm install -g wrangler`
 3. **登录 Cloudflare创建page，如果已经创建，这一步可以跳过**：
    - 进入 **Workers 和 Pages** 部分，选择 **使用直接上传创建** 一个 Page，上传刚刚clone的`siteproxy/build/cf_page` 目录进行部署。
 4. **配置自定义域, 如果已经配置，这一步可以跳过**：
@@ -118,7 +119,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 5. **进入项目目录**：
    - 执行命令：`cd siteproxy`
 6. **测试运行**：
-   - 执行命令：`node bundle.cjs`
+   - 执行命令：`node bundle.mjs`
    - 如果没有错误，按 `Ctrl+C` 结束程序。
 7. **配置文件修改**：
    - 打开并修改 `config.json` 文件，内容如下：
@@ -133,7 +134,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 8. **安装 Forever**：
    - 执行命令：`npm install -g forever`
 9. **启动应用**：
-   - 执行命令：`forever stopall && forever start bundle.cjs`
+   - 执行命令：`forever stopall && forever start bundle.mjs`
 10. **访问代理服务**：
    - 现在可以通过 `https://your-proxy-domain.com/user-your-password/` 访问代理服务。请将域名和密码替换为你自己的域名和密码。
 11. **使用 Cloudflare 加速（可选）**：

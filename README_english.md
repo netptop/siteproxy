@@ -47,6 +47,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    - Run: `git clone https://github.com/netptop/siteproxy.git`
    - Run: `cd siteproxy`
    - Run: `npm install`
+   - Run: `npm install -g wrangler`
 3. **Create Cloudflare Page (Skip if already created)**:
    - Go to **Workers and Pages**, select **Create using direct upload**, and upload the `siteproxy/build/cf_page` directory for deployment.
 4. **Configure Custom Domain (Skip if already configured)**:
@@ -117,7 +118,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 5. **Enter Project Directory**:
    - Run: `cd siteproxy`
 6. **Test Run**:
-   - Run: `node bundle.cjs`
+   - Run: `node bundle.mjs`
    - If no errors, press `Ctrl+C` to stop the program.
 7. **Modify Configuration File**:
    - Open and edit `config.json` with the following content:
@@ -132,7 +133,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 8. **Install Forever**:
    - Run: `npm install -g forever`
 9. **Start Application**:
-   - Run: `forever stopall && forever start bundle.cjs`
+   - Run: `forever stopall && forever start bundle.mjs`
 10. **Access Proxy Service**:
     - Visit `https://your-proxy-domain.com/user-your-password/` to access the proxy service. Replace the domain and password with your own.
 11. **Use Cloudflare Acceleration (Optional)**:

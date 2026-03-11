@@ -8,4 +8,4 @@ services:
     volumes:
       - ../:/home/node/siteproxy/
     working_dir: /home/node/siteproxy/
-    entrypoint: ["node","/home/node/siteproxy/bundle.cjs"]
+    entrypoint: ["node","/home/node/siteproxy/bundle.mjs"]
