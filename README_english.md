@@ -1,11 +1,11 @@
-# SiteProxy 2.0
+# SiteProxy 2.x
 - [Chinese ver](README.md)
 
 SiteProxy is a **powerful online proxy tool** that leverages the latest technology to enhance proxy stability and compatibility. We are committed to providing a **simple, efficient, and secure** proxy service, delivering the best internet access experience for users.
 
 - **Ultra-High Performance**: Utilizes Hono instead of traditional Express servers, achieving a 4x performance boost for a smoother user experience.
 - **Cloud Deployment**: Seamlessly supports Cloudflare Worker deployment, fast and efficient.
-- **AI-Powered Chat**: Integrates DuckDuckGo AI Chat, offering free access to GPT-3.5 and Claude 3, making your proxy service smarter.
+- **AI-Powered Chat**: Integrates Duck.ai (formerly DuckDuckGo AI Chat), offering free access to models like GPT-4o mini, GPT-5 mini, Claude 4.5 Haiku, Llama 4, and Mistral, making your proxy service smarter.
 - **Advanced Security Protection**: Supports password-controlled proxy access, ensuring only authorized users can connect, significantly enhancing security.
 - **Zero Configuration**: No client-side setup required; simply visit the proxy URL to access the global internet.
 - **Convenient Login**: Fully supports GitHub and Telegram Web login, making operations simple and fast.
@@ -32,7 +32,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 > Strictly prohibited to use this project for any illegal purposes; violators bear the consequences.
 
 > [!WARNING]
-> To reduce phishing risks, SiteProxy 2.0 obfuscates its code and prohibits modification of the default homepage URL.
+> To reduce phishing risks, SiteProxy 2.x obfuscates its code and prohibits modification of the default homepage URL.
 
 ## Notes
 
@@ -57,8 +57,10 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    - Open `siteproxy/wrangler.jsonc` with a text editor, modify the following fields, and save:
      ```json
      "name": "xxx", // Replace with your Cloudflare Page name
-     "proxy_url": "https://your-proxy-domain.com", // Replace with your proxy server domain, must be HTTPS
-     "token_prefix": "/default/" // Replace with your desired access password. Keep leading/trailing slashes. Empty password means no password is required.
+     "vars": {
+       "proxy_url": "https://your-proxy-domain.com", // Replace with your proxy server domain, must be HTTPS
+       "token_prefix": "/default/" // Replace with your desired access password. Keep leading/trailing slashes. Empty password means no password is required.
+     }
      ```
 6. **Redeploy Page**:
    - In the cloned `siteproxy` directory, run: `npm run wrangler-login`. For non-GUI VPS environments, refer to [non-GUI wrangler login](api_token_setup.md).
@@ -83,8 +85,10 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    - Open `siteproxy/wrangler.worker.jsonc` with a text editor, modify the following fields, and save:
      ```json
      "name": "xxx", // Replace with your Cloudflare Worker name
-     "proxy_url": "https://your-proxy-domain.com", // Replace with your proxy server domain, must be HTTPS
-     "token_prefix": "/xxx/" // Replace with your desired access password. Keep leading/trailing slashes. Empty password means no password is required.
+     "vars": {
+       "proxy_url": "https://your-proxy-domain.com", // Replace with your proxy server domain, must be HTTPS
+       "token_prefix": "/xxx/" // Replace with your desired access password. Keep leading/trailing slashes. Empty password means no password is required.
+     }
      ```
 6. **Redeploy Worker**:
    - In the cloned `siteproxy` directory, run: `npm run wrangler-login`. For non-GUI VPS environments, refer to [non-GUI wrangler login](api_token_setup.md).

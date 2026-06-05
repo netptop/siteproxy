@@ -1,11 +1,11 @@
-## SiteProxy 2.0
+## SiteProxy 2.x
  - [English ver](README_english.md)
 
 SiteProxy 是一个**功能强大的在线代理工具**，采用了最新的技术，提升了代理的稳定性和兼容性。我们致力于提供 **简单、高效、安全** 的代理服务，为用户提供最佳的互联网访问体验。
 
 - **超高速性能**：采用 Hono 替代传统的Express 服务器，性能提升 4 倍，带来更流畅的使用体验。
 - **云端部署**：完美支持 Cloudflare Worker 部署，快速且高效。
-- **AI 智能聊天**：集成 DuckDuckGo AI Chat，免费提供 GPT-3.5 和 Claude 3，让你的代理服务更加智能。
+- **AI 智能聊天**：集成 Duck.ai（原 DuckDuckGo AI Chat），免费提供 GPT-4o mini、GPT-5 mini、Claude 4.5 Haiku、Llama 4、Mistral 等模型，让你的代理服务更加智能。
 - **高级安全保护**：支持密码控制代理，只有授权用户才能访问，大幅提升安全性。
 - **零配置使用**：用户无需进行任何客户端配置，只需访问代理网址即可畅游全球互联网。
 - **便捷登录**：全面支持 GitHub 和 Telegram Web 登录，操作简单快捷。
@@ -32,7 +32,7 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
 > 严禁将本项目用于任何非法用途，否则后果自负
 
 > [!WARNING]
-> 由于支持多个网站的 Login，为了减少钓鱼风险，Siteproxy 在 2.0 版本对代码进行了混淆，同时禁止了默认主页网址的修改。
+> 由于支持多个网站的 Login，为了减少钓鱼风险，Siteproxy 自 2.x 版本起对代码进行了混淆，同时禁止了默认主页网址的修改。
 
 ## 注意事项
 
@@ -57,8 +57,10 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    - 使用文本编辑器打开 `siteproxy/wrangler.jsonc` 文件,修改如下字段并保存:
      ```json
       "name": "xxx", // 替换为你的cloudflare page的名字
-      "proxy_url": "https://your-proxy-domain.com", // 替换为你的代理服务器域名, 必须为https
-      "token_prefix": "/default/" // 替换为你想设置的访问密码。首尾斜杠必须保留，如果密码为空，表示不需要密码也可以访问。
+      "vars": {
+        "proxy_url": "https://your-proxy-domain.com", // 替换为你的代理服务器域名, 必须为https
+        "token_prefix": "/default/" // 替换为你想设置的访问密码。首尾斜杠必须保留，如果密码为空，表示不需要密码也可以访问。
+      }
      ```
 6. **再次部署page**：
    - 进入clone的siteproxy目录，执行:`npm run wrangler-login`, 如果是非GUI的VPS环境，请参考[非GUI环境wrangler login](api_token_setup.md)
@@ -83,8 +85,10 @@ user browser +-------------->+ siteproxy      +-------> wikipedia
    - 使用文本编辑器打开 `siteproxy/wrangler.worker.jsonc` 文件,修改如下字段并保存:
      ```json
       "name": "xxx", // 替换为你的cloudflare worker的名字
-      "proxy_url": "https://your-proxy-domain.com", // 替换为你的代理服务器域名, 必须为https
-      "token_prefix": "/xxx/" // 替换为你想设置的访问密码。首尾斜杠必须保留，如果密码为空，表示不需要密码也可以访问。
+      "vars": {
+        "proxy_url": "https://your-proxy-domain.com", // 替换为你的代理服务器域名, 必须为https
+        "token_prefix": "/xxx/" // 替换为你想设置的访问密码。首尾斜杠必须保留，如果密码为空，表示不需要密码也可以访问。
+      }
      ```
 6. **再次部署worker**：
    - 进入clone的siteproxy目录，执行:`npm run wrangler-login`, 如果是非GUI的VPS环境，请参考[非GUI环境wrangler login](api_token_setup.md)
